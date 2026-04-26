@@ -101,9 +101,11 @@
             min-height: 100vh;
             position: relative;
             transition: background 0.4s ease, color 0.4s ease;
+            /* GPU compositing layer untuk body scroll */
+            will-change: scroll-position;
         }
 
-        /* === ANIMATED BACKGROUND ORBS === */
+        /* === BACKGROUND ORBS — statis, tanpa animasi agar tidak drain GPU === */
         body::before {
             content: '';
             position: fixed;
@@ -114,7 +116,7 @@
             background: radial-gradient(ellipse, var(--orb1) 0%, transparent 70%);
             z-index: 0;
             pointer-events: none;
-            animation: orb1 12s ease-in-out infinite alternate;
+            /* DIHAPUS: animation orb1 — penyebab repaint terus-menerus */
         }
 
         body::after {
@@ -127,17 +129,7 @@
             background: radial-gradient(ellipse, var(--orb2) 0%, transparent 70%);
             z-index: 0;
             pointer-events: none;
-            animation: orb2 10s ease-in-out infinite alternate;
-        }
-
-        @keyframes orb1 {
-            0% { transform: translate(0,0) scale(1); }
-            100% { transform: translate(8%,8%) scale(1.15); }
-        }
-
-        @keyframes orb2 {
-            0% { transform: translate(0,0) scale(1); }
-            100% { transform: translate(-8%,-8%) scale(1.2); }
+            /* DIHAPUS: animation orb2 */
         }
 
         /* === HEADER === */
@@ -150,6 +142,7 @@
             top: 0;
             z-index: 200;
             background: var(--header-bg);
+            /* Hanya blur pada header — bukan di setiap kartu */
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
             border-bottom: 1px solid var(--border);
@@ -164,26 +157,23 @@
             border-radius: 12px;
             border: 1px solid var(--border);
             background: var(--glass);
-            backdrop-filter: blur(10px);
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             font-size: 17px;
-            transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
             flex-shrink: 0;
-            /* 3D button effect */
             box-shadow:
                 inset 0 1px 0 rgba(255,255,255,0.15),
                 inset 0 -2px 0 rgba(0,0,0,0.15),
-                0 4px 12px rgba(0,0,0,0.3),
-                0 1px 3px rgba(0,0,0,0.2);
-            transform: translateY(0);
+                0 4px 12px rgba(0,0,0,0.3);
+            transform: translateZ(0);
             user-select: none;
         }
 
         .theme-toggle:active {
-            transform: translateY(2px);
+            transform: translateY(2px) translateZ(0);
             box-shadow:
                 inset 0 2px 0 rgba(0,0,0,0.15),
                 0 1px 4px rgba(0,0,0,0.2);
@@ -207,7 +197,6 @@
             flex-shrink: 0;
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(10px);
         }
 
         .logo-icon::before {
@@ -283,12 +272,12 @@
 
         .view-section.active {
             display: block;
-            animation: viewIn 0.35s cubic-bezier(0.16,1,0.3,1);
+            animation: viewIn 0.3s cubic-bezier(0.16,1,0.3,1);
         }
 
         @keyframes viewIn {
-            from { opacity: 0; transform: translateY(12px) scale(0.98); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* === SEARCH === */
@@ -298,17 +287,6 @@
 
         .search-wrap {
             position: relative;
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 16px;
-            height: 16px;
-            fill: var(--text-muted);
-            pointer-events: none;
         }
 
         .search-bar {
@@ -322,12 +300,9 @@
             font-family: 'Outfit', sans-serif;
             font-weight: 500;
             outline: none;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            box-shadow:
-                inset 0 2px 4px rgba(0,0,0,0.15),
-                0 4px 16px rgba(0,0,0,0.1);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            /* Tidak pakai backdrop-filter — berat */
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.15);
         }
 
         .search-bar::placeholder { color: var(--search-placeholder); }
@@ -336,8 +311,7 @@
             border-color: rgba(120,80,220,0.5);
             box-shadow:
                 inset 0 2px 4px rgba(0,0,0,0.1),
-                0 0 0 3px rgba(120,80,220,0.2),
-                0 4px 20px rgba(0,0,0,0.1);
+                0 0 0 3px rgba(120,80,220,0.2);
         }
 
         /* === FILTERS === */
@@ -347,6 +321,8 @@
             padding: 12px 16px;
             overflow-x: auto;
             scrollbar-width: none;
+            /* Smooth scroll filter bar di mobile */
+            -webkit-overflow-scrolling: touch;
         }
 
         .filter-container::-webkit-scrollbar { display: none; }
@@ -362,27 +338,11 @@
             font-family: 'Outfit', sans-serif;
             cursor: pointer;
             white-space: nowrap;
-            transition: all 0.25s ease;
+            transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
             letter-spacing: 0.3px;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-            /* 3D pill button */
             box-shadow:
-                inset 0 1px 0 rgba(255,255,255,0.15),
-                inset 0 -2px 0 rgba(0,0,0,0.1),
-                0 3px 8px rgba(0,0,0,0.15),
-                0 1px 2px rgba(0,0,0,0.1);
-        }
-
-        .filter-btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 50%;
-            background: linear-gradient(to bottom, rgba(255,255,255,0.12) 0%, transparent 100%);
-            border-radius: 30px 30px 0 0;
-            pointer-events: none;
+                inset 0 1px 0 rgba(255,255,255,0.12),
+                0 2px 6px rgba(0,0,0,0.12);
         }
 
         .filter-btn.active {
@@ -390,10 +350,9 @@
             border-color: rgba(180,130,255,0.4);
             color: #fff;
             box-shadow:
-                inset 0 1px 0 rgba(255,255,255,0.25),
-                inset 0 -2px 0 rgba(0,0,0,0.2),
-                0 0 20px rgba(120,70,230,0.4),
-                0 4px 12px rgba(80,40,180,0.3);
+                inset 0 1px 0 rgba(255,255,255,0.2),
+                0 0 16px rgba(120,70,230,0.35),
+                0 3px 10px rgba(80,40,180,0.25);
         }
 
         /* === HERO BANNER === */
@@ -404,19 +363,17 @@
             position: relative;
             height: 220px;
             cursor: pointer;
-            border: none;
             box-shadow:
-                0 2px 0 rgba(255,255,255,0.08),
                 0 8px 24px rgba(0,0,0,0.4),
-                0 20px 48px rgba(0,0,0,0.25),
-                0 0 60px rgba(100,50,200,0.15);
+                0 20px 48px rgba(0,0,0,0.2);
+            /* Promote ke compositing layer agar tidak ganggu scroll */
             transform: translateZ(0);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
 
         .hero-banner:active {
             transform: scale(0.97) translateZ(0);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
         }
 
         .hero-banner img {
@@ -424,10 +381,7 @@
             height: 100%;
             object-fit: cover;
             display: block;
-            transition: transform 0.5s ease;
         }
-
-        .hero-banner:active img { transform: scale(1.02); }
 
         .hero-overlay {
             position: absolute;
@@ -445,20 +399,8 @@
             pointer-events: none;
         }
 
-        /* Hapus ::before border frame — tidak perlu */
         .hero-banner::before { display: none; }
-
-        .hero-banner::after {
-            content: '';
-            position: absolute;
-            bottom: -14px;
-            left: 10%;
-            right: 10%;
-            height: 28px;
-            background: radial-gradient(ellipse, rgba(80,40,200,0.45) 0%, transparent 70%);
-            filter: blur(10px);
-            z-index: -1;
-        }
+        .hero-banner::after { display: none; }
 
         .hero-content { z-index: 2; pointer-events: auto; }
 
@@ -473,8 +415,7 @@
             margin-bottom: 8px;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            box-shadow: 0 0 16px rgba(229,9,20,0.5), inset 0 1px 0 rgba(255,255,255,0.25);
-            backdrop-filter: blur(10px);
+            box-shadow: 0 0 12px rgba(229,9,20,0.4);
         }
 
         .hero-title {
@@ -495,9 +436,11 @@
             grid-template-columns: repeat(2, 1fr);
             gap: 16px;
             padding: 0 16px 30px;
+            /* Penting: contain layout untuk performa scroll */
+            contain: layout style;
         }
 
-        /* === MOVIE CARD — CLEAN SHADOW, NO HARSH BORDERS === */
+        /* === MOVIE CARD — TANPA ANIMASI FLOAT (penyebab utama jank) === */
         .movie-card {
             border-radius: var(--radius);
             overflow: visible;
@@ -505,72 +448,55 @@
             position: relative;
             display: flex;
             flex-direction: column;
-            transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), filter 0.3s ease;
+            /* DIHAPUS: animation cardFloat — penyebab utama GPU drain & jank */
+            /* Promote ke own compositing layer */
             transform: translateZ(0);
-            animation: cardFloat 4s ease-in-out infinite;
-        }
-
-        /* Stagger float animation per card */
-        .movie-card:nth-child(odd)  { animation-delay: 0s; }
-        .movie-card:nth-child(even) { animation-delay: 0.6s; }
-        .movie-card:nth-child(3n)   { animation-delay: 1.2s; }
-        .movie-card:nth-child(4n)   { animation-delay: 0.3s; }
-
-        @keyframes cardFloat {
-            0%, 100% { transform: translateY(0px) translateZ(0); }
-            50%       { transform: translateY(-4px) translateZ(0); }
+            transition: transform 0.2s ease;
         }
 
         .movie-card:active {
-            animation: none;
             transform: scale(0.95) translateZ(0);
         }
 
         .card-inner {
             border-radius: var(--radius);
-            overflow: hidden;
+            overflow: visible;
             background: var(--card);
-            /* TANPA border — pakai shadow saja agar bersih */
-            border: none;
             position: relative;
             display: flex;
             flex-direction: column;
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            /* Shadow berlapis: depth atas, glow bawah, ambient */
+            /* DIHAPUS: backdrop-filter blur per kartu — sangat berat di mobile */
             box-shadow:
-                0 1px 0 rgba(255,255,255,0.12),
-                0 4px 16px rgba(0,0,0,0.35),
-                0 12px 32px rgba(0,0,0,0.25),
-                0 24px 48px rgba(0,0,0,0.15);
-            transition: box-shadow 0.35s ease, background 0.4s ease;
+                0 2px 8px rgba(0,0,0,0.3),
+                0 8px 24px rgba(0,0,0,0.2);
+            transition: box-shadow 0.2s ease, background 0.4s ease;
         }
 
-        /* Layer kedalaman 3D — shadow saja, tanpa border */
+        /* Layer kedalaman — bayangan statis saja */
         .movie-card::before {
             content: '';
             position: absolute;
-            bottom: -6px;
-            left: 6px;
-            right: 6px;
+            bottom: -5px;
+            left: 5px;
+            right: 5px;
             height: 100%;
-            background: rgba(0,0,0,0.25);
+            background: rgba(0,0,0,0.18);
             border-radius: var(--radius);
             z-index: -1;
-            filter: blur(2px);
+            filter: blur(3px);
         }
 
         .movie-card::after {
             content: '';
             position: absolute;
-            bottom: -12px;
-            left: 12px;
-            right: 12px;
+            bottom: -10px;
+            left: 10px;
+            right: 10px;
             height: 100%;
-            background: rgba(0,0,0,0.15);
+            background: rgba(0,0,0,0.1);
             border-radius: var(--radius);
             z-index: -2;
-            filter: blur(4px);
+            filter: blur(5px);
         }
 
         .movie-poster-container {
@@ -603,14 +529,13 @@
             height: 100%;
             object-fit: cover;
             opacity: 0;
-            transition: opacity 0.5s ease, transform 0.4s ease;
+            /* transition hanya opacity — tidak ada transform scale */
+            transition: opacity 0.4s ease;
         }
 
         .movie-poster-container img.loaded { opacity: 1; }
 
-        .movie-poster-container:hover img { transform: scale(1.04); }
-
-        /* Play overlay on hover */
+        /* Play overlay */
         .play-overlay {
             position: absolute;
             inset: 0;
@@ -618,7 +543,7 @@
             align-items: center;
             justify-content: center;
             background: rgba(0,0,0,0);
-            transition: background 0.25s ease;
+            transition: background 0.2s ease;
             z-index: 3;
         }
 
@@ -632,8 +557,8 @@
             justify-content: center;
             opacity: 0;
             transform: scale(0.7);
-            transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
-            box-shadow: 0 0 24px rgba(229,9,20,0.8);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            box-shadow: 0 0 20px rgba(229,9,20,0.7);
         }
 
         .play-overlay-icon svg {
@@ -656,8 +581,8 @@
             flex-direction: column;
             justify-content: space-between;
             background: var(--card-info-bg);
-            /* Tidak ada border — seamless dengan poster */
-            border-top: none;
+            border-radius: 0 0 var(--radius) var(--radius);
+            overflow: hidden;
             transition: background 0.4s ease;
         }
 
@@ -680,6 +605,7 @@
             flex-grow: 1;
             letter-spacing: -0.2px;
             color: var(--text);
+            min-height: calc(12.5px * 1.35 * 2);
         }
 
         .fav-btn {
@@ -690,7 +616,7 @@
             font-size: 18px;
             line-height: 1;
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1);
+            transition: color 0.15s ease, transform 0.15s ease;
             outline: none;
             flex-shrink: 0;
         }
@@ -698,7 +624,7 @@
         .fav-btn.active {
             color: #00e5c8;
             transform: scale(1.2);
-            filter: drop-shadow(0 0 6px rgba(0,229,200,0.8));
+            filter: drop-shadow(0 0 5px rgba(0,229,200,0.7));
         }
 
         .movie-tags {
@@ -717,7 +643,6 @@
             background: rgba(255,215,0,0.1);
             letter-spacing: 0.3px;
             text-transform: uppercase;
-            box-shadow: inset 0 1px 0 rgba(255,215,0,0.1);
         }
 
         .tag-free {
@@ -735,30 +660,21 @@
         /* === BADGE BARU RILIS === */
         .badge-new {
             position: absolute;
-            top: 10px;
-            left: 10px;
-            z-index: 10;
+            top: 8px;
+            left: 8px;
+            z-index: 20;
             background: linear-gradient(135deg, #ff6b35, #ff0080);
             color: #fff;
-            font-size: 8.5px;
+            font-size: 8px;
             font-weight: 900;
             padding: 3px 8px;
             border-radius: 6px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            /* 3D inset highlight */
-            box-shadow:
-                inset 0 1px 0 rgba(255,255,255,0.35),
-                inset 0 -1px 0 rgba(0,0,0,0.2),
-                0 2px 8px rgba(255,0,128,0.5),
-                0 1px 3px rgba(0,0,0,0.3);
-            animation: badgePulse 2s ease-in-out infinite;
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(255,0,128,0.4);
+            /* DIHAPUS: animasi badgePulse — tidak perlu */
             pointer-events: none;
-        }
-
-        @keyframes badgePulse {
-            0%, 100% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.35), inset 0 -1px 0 rgba(0,0,0,0.2), 0 2px 8px rgba(255,0,128,0.5), 0 1px 3px rgba(0,0,0,0.3); }
-            50% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.35), inset 0 -1px 0 rgba(0,0,0,0.2), 0 2px 16px rgba(255,0,128,0.8), 0 1px 3px rgba(0,0,0,0.3); }
         }
 
         .play-indicator {
@@ -770,9 +686,9 @@
             gap: 3px;
         }
 
-        /* === SHIMMER === */
+        /* === SHIMMER — hanya saat loading === */
         .shimmer {
-            animation: shimmer 1.8s infinite linear;
+            animation: shimmer 1.6s infinite linear;
             background: linear-gradient(90deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.1) 30%, rgba(255,255,255,0.04) 60%);
             background-size: 600px 100%;
         }
@@ -800,7 +716,7 @@
             opacity: 0.5;
         }
 
-        /* === BOTTOM NAV TRUE 3D GLASS === */
+        /* === BOTTOM NAV === */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -808,8 +724,8 @@
             right: 0;
             height: var(--nav-h);
             background: var(--nav-bg);
-            backdrop-filter: blur(40px);
-            -webkit-backdrop-filter: blur(40px);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
             display: flex;
             justify-content: space-around;
             align-items: center;
@@ -817,8 +733,7 @@
             border-top: 1px solid var(--border);
             box-shadow:
                 0 -1px 0 rgba(255,255,255,0.06),
-                0 -12px 40px rgba(0,0,0,0.3),
-                inset 0 1px 0 rgba(255,255,255,0.1);
+                0 -8px 24px rgba(0,0,0,0.2);
             transition: background 0.4s ease;
         }
 
@@ -834,7 +749,7 @@
             font-weight: 700;
             text-transform: uppercase;
             cursor: pointer;
-            transition: all 0.25s ease;
+            transition: color 0.2s ease;
             letter-spacing: 0.5px;
             position: relative;
             font-family: 'Outfit', sans-serif;
@@ -845,7 +760,7 @@
             height: 22px;
             margin-bottom: 4px;
             fill: currentColor;
-            transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+            transition: fill 0.2s ease, transform 0.2s ease, filter 0.2s ease;
         }
 
         .nav-item.active {
@@ -854,11 +769,10 @@
 
         .nav-item.active svg {
             fill: #00e5c8;
-            filter: drop-shadow(0 0 8px rgba(0,229,200,0.9));
-            transform: scale(1.15) translateY(-2px);
+            filter: drop-shadow(0 0 6px rgba(0,229,200,0.8));
+            transform: scale(1.12) translateY(-2px);
         }
 
-        /* Active indicator dot */
         .nav-item.active::after {
             content: '';
             position: absolute;
@@ -917,7 +831,7 @@
             border-radius: 1px;
         }
 
-        /* === PAGINATION UPGRADE === */
+        /* === PAGINATION === */
         .pagination {
             display: none;
             align-items: center;
@@ -942,14 +856,10 @@
             font-weight: 800;
             font-family: 'Outfit', sans-serif;
             cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
             box-shadow:
-                inset 0 1px 0 rgba(255,255,255,0.2),
-                inset 0 -2px 0 rgba(0,0,0,0.2),
-                0 6px 20px rgba(80,40,180,0.35),
-                0 2px 6px rgba(0,0,0,0.2);
+                inset 0 1px 0 rgba(255,255,255,0.15),
+                0 4px 14px rgba(80,40,180,0.3);
             user-select: none;
             min-width: 100px;
             letter-spacing: 0.3px;
@@ -958,18 +868,14 @@
         .pg-btn:hover {
             background: linear-gradient(135deg, rgba(140,90,255,0.65), rgba(80,40,180,0.65));
             box-shadow:
-                inset 0 1px 0 rgba(255,255,255,0.25),
-                inset 0 -2px 0 rgba(0,0,0,0.2),
-                0 8px 28px rgba(100,50,220,0.5),
-                0 2px 6px rgba(0,0,0,0.25);
+                inset 0 1px 0 rgba(255,255,255,0.2),
+                0 6px 20px rgba(100,50,220,0.4);
             transform: translateY(-1px);
         }
 
         .pg-btn:active {
             transform: translateY(2px) scale(0.96);
-            box-shadow:
-                inset 0 2px 4px rgba(0,0,0,0.2),
-                0 2px 8px rgba(0,0,0,0.2);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
         }
 
         .pg-btn:disabled {
@@ -987,7 +893,6 @@
             flex-shrink: 0;
         }
 
-        /* Center info block */
         .pg-info {
             display: flex;
             flex-direction: column;
@@ -1025,7 +930,6 @@
             color: var(--text-muted);
         }
 
-        /* Dot bar */
         .pg-dots {
             display: flex;
             gap: 4px;
@@ -1040,13 +944,13 @@
             height: 6px;
             border-radius: 50%;
             background: rgba(255,255,255,0.2);
-            transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+            transition: all 0.25s ease;
             flex-shrink: 0;
         }
 
         .pg-dot.active {
             background: #00e5c8;
-            box-shadow: 0 0 10px rgba(0,229,200,0.9), 0 0 20px rgba(0,229,200,0.4);
+            box-shadow: 0 0 8px rgba(0,229,200,0.8);
             width: 20px;
             border-radius: 3px;
         }
@@ -1057,7 +961,6 @@
             background: rgba(255,255,255,0.35);
         }
 
-        /* Responsive pagination */
         @media (max-width: 360px) {
             .pg-btn { min-width: 80px; padding: 10px 14px; font-size: 12px; }
             .pg-current { font-size: 18px; }
@@ -1066,24 +969,13 @@
         @media (min-width: 480px) {
             .pagination { padding: 20px 20px 32px; }
             .pg-btn { min-width: 110px; padding: 12px 22px; }
+            .grid-container { grid-template-columns: repeat(3, 1fr); gap: 16px; }
         }
 
         @media (min-width: 768px) {
             .pagination { padding: 24px 24px 40px; }
             .pg-btn { min-width: 130px; padding: 13px 28px; font-size: 14px; }
             .pg-current { font-size: 26px; }
-        }
-
-        @media (min-width: 1024px) {
-            .pagination { padding: 28px 0 48px; max-width: 480px; margin: 0 auto; }
-        }
-
-        /* === RESPONSIVE === */
-        @media (min-width: 480px) {
-            .grid-container { grid-template-columns: repeat(3, 1fr); gap: 16px; }
-        }
-
-        @media (min-width: 768px) {
             .grid-container { grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 0 24px 40px; }
             .hero-banner { height: 300px; margin: 0 24px 24px; }
             .search-container { padding-left: 24px; padding-right: 24px; }
@@ -1094,6 +986,7 @@
         }
 
         @media (min-width: 1024px) {
+            .pagination { padding: 28px 0 48px; max-width: 480px; margin: 0 auto; }
             .grid-container { grid-template-columns: repeat(5, 1fr); gap: 22px; padding: 0 32px 48px; }
             body { max-width: 1280px; margin: 0 auto; }
             .search-container { padding-left: 32px; padding-right: 32px; }
@@ -1294,45 +1187,62 @@
             }
         }
 
-        async function fetchImage(fileId) {
-            if (!fileId || !botToken) return null;
+        // === IMAGE FETCH — dengan throttle queue agar tidak flood request sekaligus ===
+        const _imgQueue = [];
+        let _imgRunning = 0;
+        const IMG_CONCURRENCY = 4; // max 4 request paralel
+
+        function fetchImage(fileId) {
+            if (!fileId || !botToken) return Promise.resolve(null);
             const cacheKey = `tg_img_${fileId}`;
             const cached = sessionStorage.getItem(cacheKey);
-            if (cached) return cached;
-            try {
-                const response = await fetch(`https://api.telegram.org/bot${botToken}/getFile?file_id=${fileId}`);
-                const json = await response.json();
-                if (json.ok && json.result.file_path) {
-                    const url = `https://api.telegram.org/file/bot${botToken}/${json.result.file_path}`;
-                    sessionStorage.setItem(cacheKey, url);
-                    return url;
-                }
-            } catch (e) {}
-            return null;
+            if (cached) return Promise.resolve(cached);
+
+            return new Promise((resolve) => {
+                _imgQueue.push({ fileId, cacheKey, resolve });
+                _drainImgQueue();
+            });
+        }
+
+        function _drainImgQueue() {
+            while (_imgRunning < IMG_CONCURRENCY && _imgQueue.length > 0) {
+                const { fileId, cacheKey, resolve } = _imgQueue.shift();
+                _imgRunning++;
+                fetch(`https://api.telegram.org/bot${botToken}/getFile?file_id=${fileId}`)
+                    .then(r => r.json())
+                    .then(json => {
+                        if (json.ok && json.result.file_path) {
+                            const url = `https://api.telegram.org/file/bot${botToken}/${json.result.file_path}`;
+                            sessionStorage.setItem(cacheKey, url);
+                            resolve(url);
+                        } else {
+                            resolve(null);
+                        }
+                    })
+                    .catch(() => resolve(null))
+                    .finally(() => {
+                        _imgRunning--;
+                        _drainImgQueue();
+                    });
+            }
         }
 
         // === SISTEM LABEL "BARU" ===
-        // knownIds: Set semua ID yang pernah dilihat user (persisten)
-        // newItemMap: { id: timestampPertamaKaliTerdeteksiSebagaiBaru }
         let knownIds = new Set(JSON.parse(localStorage.getItem('known_ids_v1')) || []);
         let newItemMap = JSON.parse(localStorage.getItem('new_item_map_v1')) || {};
 
-        const NEW_EXPIRE_MS = 5 * 60 * 1000; // 5 menit label tampil
+        const NEW_EXPIRE_MS = 5 * 60 * 1000; // 5 menit
 
         function initFirstSeen(data) {
-            // Kunjungan pertama sekali (knownIds kosong): simpan semua ID sebagai "sudah dikenal",
-            // TIDAK ada yang dapat label baru — semua dianggap sudah lama ada.
             if (knownIds.size === 0) {
                 data.forEach(item => knownIds.add(item.id));
                 localStorage.setItem('known_ids_v1', JSON.stringify([...knownIds]));
                 return;
             }
-            // Kunjungan berikutnya: ID yang belum ada di knownIds = drama BARU dari admin
             const now = Date.now();
             let changed = false;
             data.forEach(item => {
                 if (!knownIds.has(item.id)) {
-                    // Drama baru terdeteksi!
                     knownIds.add(item.id);
                     if (!newItemMap[item.id]) {
                         newItemMap[item.id] = now;
@@ -1348,21 +1258,17 @@
 
         function isNewItem(item) {
             if (!newItemMap[item.id]) return false;
-            // Label tampil selama 5 menit sejak pertama terdeteksi sebagai baru
-            const elapsed = Date.now() - newItemMap[item.id];
-            if (elapsed >= NEW_EXPIRE_MS) return false;
-            return true;
+            return (Date.now() - newItemMap[item.id]) < NEW_EXPIRE_MS;
         }
 
         function removeBadgeAnimated(badge) {
             if (!badge) return;
-            badge.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+            badge.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
             badge.style.opacity = '0';
             badge.style.transform = 'scale(0.6) translateY(-4px)';
-            setTimeout(() => { if (badge.parentNode) badge.parentNode.removeChild(badge); }, 380);
+            setTimeout(() => { if (badge.parentNode) badge.parentNode.removeChild(badge); }, 320);
         }
 
-        // Cleanup expired entries agar localStorage tidak membengkak
         function cleanupExpired() {
             const now = Date.now();
             let changed = false;
@@ -1372,9 +1278,7 @@
                     changed = true;
                 }
             });
-            if (changed) {
-                localStorage.setItem('new_item_map_v1', JSON.stringify(newItemMap));
-            }
+            if (changed) localStorage.setItem('new_item_map_v1', JSON.stringify(newItemMap));
         }
 
         function createCard(item, containerId) {
@@ -1390,9 +1294,9 @@
 
             card.innerHTML = `
                 <div class="card-inner">
+                    ${showNew ? `<div class="badge-new" id="badge-new-${containerId}-${item.id}">🆕 Baru</div>` : ''}
                     <div class="movie-poster-container shimmer" id="shimmer-${containerId}-${item.id}">
                         <img id="img-${containerId}-${item.id}" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Poster">
-                        ${showNew ? `<div class="badge-new" id="badge-new-${containerId}-${item.id}">🆕 Drama Baru</div>` : ''}
                         <div class="play-overlay">
                             <div class="play-overlay-icon">
                                 <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -1414,7 +1318,7 @@
                 </div>
             `;
 
-            // Auto-expire timer untuk badge kartu grid
+            // Auto-expire timer badge
             if (showNew && newItemMap[item.id]) {
                 const remaining = NEW_EXPIRE_MS - (Date.now() - newItemMap[item.id]);
                 if (remaining > 0) {
@@ -1476,7 +1380,6 @@
         function buildDots() {
             const dots = document.getElementById('pgDots');
             dots.innerHTML = '';
-            // Tampilkan max 7 dot, smart windowed around currentPage
             const maxDots = Math.min(totalPages, 7);
             let start = Math.max(1, currentPage - 3);
             let end = start + maxDots - 1;
@@ -1513,8 +1416,8 @@
             const end = start + ITEMS_PER_PAGE;
             filteredCache.slice(start, end).forEach(item => createCard(item, 'homeGrid'));
             updatePagination();
-            // Scroll ke atas grid dengan smooth
-            grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // Scroll ke top halaman dengan window.scrollTo — lebih ringan dari scrollIntoView
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function renderTabHome() {
@@ -1543,11 +1446,9 @@
                 document.getElementById('heroBadge').innerText = f.is_prem ? 'PREMIUM' : 'GRATIS';
                 document.getElementById('heroBadge').style.background = f.is_prem ? 'var(--primary)' : '#00c853';
 
-                // Tampilkan badge BARU di hero banner jika item adalah drama baru dari admin
                 const heroBadgeNew = document.getElementById('heroBadgeNew');
                 if (isNewItem(f)) {
                     heroBadgeNew.style.display = 'block';
-                    // Auto-expire: hilangkan badge otomatis saat 5 menit habis
                     const remaining = NEW_EXPIRE_MS - (Date.now() - newItemMap[f.id]);
                     if (remaining > 0) {
                         setTimeout(() => {
@@ -1622,12 +1523,11 @@
         function renderAllTabs() {
             cleanupExpired();
             initFirstSeen(catalogData);
-            // Sort: drama baru (ada di newItemMap) tampil paling atas
             catalogData.sort((a, b) => {
                 const aNew = newItemMap[a.id] ? newItemMap[a.id] : 0;
                 const bNew = newItemMap[b.id] ? newItemMap[b.id] : 0;
-                if (bNew !== aNew) return bNew - aNew; // drama baru ke atas
-                return 0; // urutan asli tetap untuk yang lama
+                if (bNew !== aNew) return bNew - aNew;
+                return 0;
             });
             renderTabHome();
             renderTabFav();
