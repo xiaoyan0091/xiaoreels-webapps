@@ -8,78 +8,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: linear-gradient(160deg, #1a0a3e 0%, #2d1060 30%, #1a1a6e 60%, #0d2060 100%);
-            --bg-light: linear-gradient(160deg, #e8e0ff 0%, #d4c5ff 30%, #c8d8ff 60%, #bdd4ff 100%);
-            --card-dark: rgba(255,255,255,0.07);
-            --card-light: rgba(255,255,255,0.65);
-            --text-dark: #ffffff;
-            --text-light: #1a0a4e;
-            --text-muted-dark: rgba(255,255,255,0.45);
-            --text-muted-light: rgba(30,10,80,0.5);
-            --border-dark: rgba(255,255,255,0.15);
-            --border-light: rgba(80,40,160,0.2);
-            --header-dark: rgba(30,10,80,0.6);
-            --header-light: rgba(255,255,255,0.55);
-            --nav-dark: rgba(20,8,55,0.75);
-            --nav-light: rgba(255,255,255,0.7);
-            --glass-dark: rgba(255,255,255,0.08);
-            --glass-light: rgba(255,255,255,0.5);
-            --orb1-dark: rgba(120,60,220,0.35);
-            --orb1-light: rgba(160,100,255,0.15);
-            --orb2-dark: rgba(60,30,150,0.4);
-            --orb2-light: rgba(100,60,200,0.12);
+            --bg: #1a1040;
+            --bg2: #221550;
+            --card: rgba(255,255,255,0.07);
+            --card2: rgba(255,255,255,0.04);
+            --card-solid: #2a1a60;
             --primary: #e50914;
+            --primary-glow: rgba(229,9,20,0.5);
+            --accent: #7c5cbf;
+            --accent2: #a07de0;
             --teal: #00e5c8;
             --gold: #ffd700;
+            --text: #ffffff;
+            --text-muted: rgba(255,255,255,0.45);
+            --border: rgba(255,255,255,0.12);
+            --border-bright: rgba(255,255,255,0.25);
+            --glass: rgba(255,255,255,0.08);
+            --glass-hover: rgba(255,255,255,0.14);
             --nav-h: 68px;
             --radius: 20px;
             --radius-sm: 14px;
-            /* Default: dark */
-            --bg: var(--bg-dark);
-            --card: var(--card-dark);
-            --text: var(--text-dark);
-            --text-muted: var(--text-muted-dark);
-            --border: var(--border-dark);
-            --header-bg: var(--header-dark);
-            --nav-bg: var(--nav-dark);
-            --glass: var(--glass-dark);
-            --orb1: var(--orb1-dark);
-            --orb2: var(--orb2-dark);
-            --info-color: rgba(255,255,255,0.6);
-            --search-bg: rgba(255,255,255,0.08);
-            --search-border: rgba(255,255,255,0.15);
-            --search-text: #fff;
-            --search-placeholder: rgba(255,255,255,0.35);
-            --filter-color: rgba(255,255,255,0.6);
-            --filter-bg: rgba(255,255,255,0.07);
-            --filter-border: rgba(255,255,255,0.15);
-            --card-info-bg: rgba(255,255,255,0.03);
-            --card-border-top: rgba(255,255,255,0.08);
-            --shadow-color: rgba(0,0,0,0.5);
-        }
-
-        body.light-mode {
-            --bg: var(--bg-light);
-            --card: var(--card-light);
-            --text: var(--text-light);
-            --text-muted: var(--text-muted-light);
-            --border: var(--border-light);
-            --header-bg: var(--header-light);
-            --nav-bg: var(--nav-light);
-            --glass: var(--glass-light);
-            --orb1: var(--orb1-light);
-            --orb2: var(--orb2-light);
-            --info-color: rgba(30,10,80,0.6);
-            --search-bg: rgba(255,255,255,0.6);
-            --search-border: rgba(80,40,160,0.25);
-            --search-text: #1a0a4e;
-            --search-placeholder: rgba(30,10,80,0.4);
-            --filter-color: rgba(30,10,80,0.6);
-            --filter-bg: rgba(255,255,255,0.5);
-            --filter-border: rgba(80,40,160,0.2);
-            --card-info-bg: rgba(255,255,255,0.4);
-            --card-border-top: rgba(80,40,160,0.1);
-            --shadow-color: rgba(80,40,160,0.2);
         }
 
         * {
@@ -93,14 +41,13 @@
 
         body {
             font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg);
+            background: linear-gradient(160deg, #1a0a3e 0%, #2d1060 30%, #1a1a6e 60%, #0d2060 100%);
             background-attachment: fixed;
             color: var(--text);
             overflow-x: hidden;
             padding-bottom: calc(var(--nav-h) + 10px);
             min-height: 100vh;
             position: relative;
-            transition: background 0.4s ease, color 0.4s ease;
         }
 
         /* === ANIMATED BACKGROUND ORBS === */
@@ -111,7 +58,7 @@
             left: -20%;
             width: 60%;
             height: 60%;
-            background: radial-gradient(ellipse, var(--orb1) 0%, transparent 70%);
+            background: radial-gradient(ellipse, rgba(120,60,220,0.35) 0%, transparent 70%);
             z-index: 0;
             pointer-events: none;
             animation: orb1 12s ease-in-out infinite alternate;
@@ -124,7 +71,7 @@
             right: -10%;
             width: 50%;
             height: 50%;
-            background: radial-gradient(ellipse, var(--orb2) 0%, transparent 70%);
+            background: radial-gradient(ellipse, rgba(60,30,150,0.4) 0%, transparent 70%);
             z-index: 0;
             pointer-events: none;
             animation: orb2 10s ease-in-out infinite alternate;
@@ -142,51 +89,18 @@
 
         /* === HEADER === */
         .header {
-            padding: 12px 16px;
+            padding: 14px 18px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: sticky;
             top: 0;
             z-index: 200;
-            background: var(--header-bg);
+            background: rgba(30,10,80,0.6);
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
-            border-bottom: 1px solid var(--border);
-            box-shadow: 0 1px 0 rgba(255,255,255,0.05), 0 8px 32px rgba(0,0,0,0.2);
-            transition: background 0.4s ease;
-        }
-
-        /* === THEME TOGGLE === */
-        .theme-toggle {
-            width: 38px;
-            height: 38px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 17px;
-            transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
-            flex-shrink: 0;
-            /* 3D button effect */
-            box-shadow:
-                inset 0 1px 0 rgba(255,255,255,0.15),
-                inset 0 -2px 0 rgba(0,0,0,0.15),
-                0 4px 12px rgba(0,0,0,0.3),
-                0 1px 3px rgba(0,0,0,0.2);
-            transform: translateY(0);
-            user-select: none;
-        }
-
-        .theme-toggle:active {
-            transform: translateY(2px);
-            box-shadow:
-                inset 0 2px 0 rgba(0,0,0,0.15),
-                0 1px 4px rgba(0,0,0,0.2);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 1px 0 rgba(255,255,255,0.05), 0 8px 32px rgba(0,0,0,0.3);
         }
 
         .header-left {
@@ -256,7 +170,7 @@
         .user-name {
             font-size: 13px;
             font-weight: 700;
-            color: var(--text);
+            color: #fff;
         }
 
         .user-id {
@@ -313,11 +227,11 @@
 
         .search-bar {
             width: 100%;
-            padding: 13px 16px 13px 46px;
-            border-radius: 16px;
-            border: 1px solid var(--search-border);
-            background: var(--search-bg);
-            color: var(--search-text);
+            padding: 13px 16px 13px 42px;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.08);
+            color: #fff;
             font-size: 14px;
             font-family: 'Outfit', sans-serif;
             font-weight: 500;
@@ -325,23 +239,15 @@
             transition: all 0.3s ease;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            /* 3D inset effect */
-            box-shadow:
-                inset 0 2px 4px rgba(0,0,0,0.15),
-                inset 0 1px 0 rgba(255,255,255,0.05),
-                0 1px 0 rgba(255,255,255,0.1),
-                0 4px 16px rgba(0,0,0,0.1);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 4px 20px rgba(0,0,0,0.2);
         }
 
-        .search-bar::placeholder { color: var(--search-placeholder); }
+        .search-bar::placeholder { color: rgba(255,255,255,0.35); }
 
         .search-bar:focus {
-            background: var(--search-bg);
-            border-color: rgba(120,80,220,0.5);
-            box-shadow:
-                inset 0 2px 4px rgba(0,0,0,0.1),
-                0 0 0 3px rgba(120,80,220,0.2),
-                0 4px 20px rgba(0,0,0,0.1);
+            background: rgba(255,255,255,0.13);
+            border-color: rgba(255,255,255,0.3);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 0 0 3px rgba(120,80,220,0.25), 0 4px 20px rgba(0,0,0,0.2);
         }
 
         /* === FILTERS === */
@@ -358,9 +264,9 @@
         .filter-btn {
             padding: 8px 18px;
             border-radius: 30px;
-            border: 1px solid var(--filter-border);
-            background: var(--filter-bg);
-            color: var(--filter-color);
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.07);
+            color: rgba(255,255,255,0.6);
             font-size: 12px;
             font-weight: 700;
             font-family: 'Outfit', sans-serif;
@@ -371,33 +277,25 @@
             position: relative;
             overflow: hidden;
             backdrop-filter: blur(10px);
-            /* 3D pill button */
-            box-shadow:
-                inset 0 1px 0 rgba(255,255,255,0.15),
-                inset 0 -2px 0 rgba(0,0,0,0.1),
-                0 3px 8px rgba(0,0,0,0.15),
-                0 1px 2px rgba(0,0,0,0.1);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 2px 8px rgba(0,0,0,0.2);
         }
 
         .filter-btn::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 50%;
-            background: linear-gradient(to bottom, rgba(255,255,255,0.12) 0%, transparent 100%);
-            border-radius: 30px 30px 0 0;
-            pointer-events: none;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.25s;
         }
 
+        .filter-btn:hover::before { opacity: 1; }
+
         .filter-btn.active {
-            background: linear-gradient(135deg, rgba(120,70,230,0.7), rgba(80,40,180,0.6));
-            border-color: rgba(180,130,255,0.4);
+            background: rgba(255,255,255,0.18);
+            border-color: rgba(255,255,255,0.35);
             color: #fff;
-            box-shadow:
-                inset 0 1px 0 rgba(255,255,255,0.25),
-                inset 0 -2px 0 rgba(0,0,0,0.2),
-                0 0 20px rgba(120,70,230,0.4),
-                0 4px 12px rgba(80,40,180,0.3);
+            box-shadow: 0 0 20px rgba(180,120,255,0.3), 0 4px 16px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.3);
         }
 
         /* === HERO BANNER === */
@@ -536,22 +434,20 @@
         .card-inner {
             border-radius: var(--radius);
             overflow: hidden;
-            background: var(--card);
-            border: 1px solid var(--border);
+            /* Glass morphism like screenshot */
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.18);
             position: relative;
             display: flex;
             flex-direction: column;
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            /* STRONG 3D light: bright top, dark bottom, bright left */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            /* Inner highlight top edge = 3D light source */
             box-shadow:
-                inset 0 1px 0 rgba(255,255,255,0.25),
-                inset 0 -2px 0 rgba(0,0,0,0.25),
-                inset 1px 0 0 rgba(255,255,255,0.12),
-                inset -1px 0 0 rgba(0,0,0,0.08),
-                0 10px 40px rgba(0,0,0,0.4),
-                0 2px 8px rgba(0,0,0,0.2);
-            transition: box-shadow 0.3s ease, background 0.4s ease;
+                inset 0 1px 0 rgba(255,255,255,0.2),
+                inset 0 -1px 0 rgba(0,0,0,0.2),
+                inset 1px 0 0 rgba(255,255,255,0.08),
+                0 8px 32px rgba(0,0,0,0.4);
         }
 
         /* 3D depth bottom layer 1 */
@@ -664,9 +560,8 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            background: var(--card-info-bg);
-            border-top: 1px solid var(--card-border-top);
-            transition: background 0.4s ease;
+            background: rgba(255,255,255,0.03);
+            border-top: 1px solid rgba(255,255,255,0.08);
         }
 
         .movie-title-box {
@@ -687,7 +582,6 @@
             overflow: hidden;
             flex-grow: 1;
             letter-spacing: -0.2px;
-            color: var(--text);
         }
 
         .fav-btn {
@@ -786,19 +680,20 @@
             left: 0;
             right: 0;
             height: var(--nav-h);
-            background: var(--nav-bg);
+            /* Glass morphism like screenshot */
+            background: rgba(20,8,55,0.75);
             backdrop-filter: blur(40px);
             -webkit-backdrop-filter: blur(40px);
             display: flex;
             justify-content: space-around;
             align-items: center;
             z-index: 300;
-            border-top: 1px solid var(--border);
+            /* 3D top border with highlight */
+            border-top: 1px solid rgba(255,255,255,0.15);
             box-shadow:
-                0 -1px 0 rgba(255,255,255,0.06),
-                0 -12px 40px rgba(0,0,0,0.3),
-                inset 0 1px 0 rgba(255,255,255,0.1);
-            transition: background 0.4s ease;
+                0 -1px 0 rgba(255,255,255,0.05),
+                0 -10px 40px rgba(0,0,0,0.4),
+                inset 0 1px 0 rgba(255,255,255,0.08);
         }
 
         .nav-item {
@@ -911,15 +806,12 @@
             </div>
             <div class="app-title" id="botTitle">VOD Premium</div>
         </div>
-        <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
-            <button class="theme-toggle" id="themeToggle" title="Ganti Tema">🌙</button>
-            <div class="user-profile" id="userProfile">
-                <div class="user-info-text">
-                    <span class="user-name" id="userName">Guest</span>
-                    <span class="user-id" id="userId">ID: -</span>
-                </div>
-                <img id="userAvatar" class="user-avatar" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="User">
+        <div class="user-profile" id="userProfile">
+            <div class="user-info-text">
+                <span class="user-name" id="userName">Guest</span>
+                <span class="user-id" id="userId">ID: -</span>
             </div>
+            <img id="userAvatar" class="user-avatar" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="User">
         </div>
     </div>
 
@@ -927,7 +819,8 @@
     <div id="view-home" class="view-section active">
         <div class="search-container">
             <div class="search-wrap">
-                <input type="text" id="searchInput" class="search-bar" placeholder="🔍 Cari film atau serial..." style="padding-left:16px;">
+                <svg class="search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                <input type="text" id="searchInput" class="search-bar" placeholder="Cari film atau serial...">
             </div>
         </div>
         <div class="filter-container">
@@ -1255,21 +1148,6 @@
                 if (tabId === 'fav') renderTabFav();
                 if (tabId === 'hist') renderTabHist();
             });
-        });
-
-        // === THEME TOGGLE ===
-        let isDark = true;
-        const themeBtn = document.getElementById('themeToggle');
-        themeBtn.addEventListener('click', () => {
-            isDark = !isDark;
-            if (isDark) {
-                document.body.classList.remove('light-mode');
-                themeBtn.textContent = '🌙';
-            } else {
-                document.body.classList.add('light-mode');
-                themeBtn.textContent = '☀️';
-            }
-            hapticLight();
         });
 
         initApp();
