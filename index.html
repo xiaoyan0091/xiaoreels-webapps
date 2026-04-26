@@ -1147,6 +1147,7 @@
         <div class="hero-banner" id="heroBanner">
             <div class="shimmer" style="width:100%;height:100%;position:absolute;top:0;left:0;z-index:1;" id="heroShimmer"></div>
             <img id="heroImg" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Hero">
+            <div id="heroBadgeNew" class="badge-new" style="display:none;position:absolute;top:10px;left:10px;z-index:10;">🆕 Baru</div>
             <div class="hero-overlay" style="z-index:2;">
                 <div class="hero-content">
                     <div class="hero-badge" id="heroBadge">PREMIUM</div>
@@ -1335,13 +1336,10 @@
         function isNewItem(item) {
             // Harus ada di firstSeenMap (= item terbaru dari katalog)
             if (!firstSeenMap[item.id]) return false;
-            // Jika sudah diklik, cek apakah 5 menit belum lewat
-            if (clickedNewMap[item.id]) {
-                const elapsed = Date.now() - clickedNewMap[item.id];
-                if (elapsed >= NEW_EXPIRE_MS) return false; // 5 menit lewat → hilang permanen
-                return true; // Masih dalam 5 menit → tetap tampil tapi akan expire
-            }
-            return true; // Belum diklik → tampil
+            // Cek apakah 5 menit sejak pertama kali terlihat sudah lewat
+            const elapsed = Date.now() - firstSeenMap[item.id];
+            if (elapsed >= NEW_EXPIRE_MS) return false; // 5 menit lewat → hilang permanen
+            return true; // Masih dalam 5 menit → tampil
         }
 
         function markClicked(itemId) {
@@ -1363,8 +1361,8 @@
         function cleanupExpired() {
             const now = Date.now();
             let changed = false;
-            Object.keys(clickedNewMap).forEach(id => {
-                if (now - clickedNewMap[id] >= NEW_EXPIRE_MS) {
+            Object.keys(firstSeenMap).forEach(id => {
+                if (now - firstSeenMap[id] >= NEW_EXPIRE_MS) {
                     delete firstSeenMap[id];
                     delete clickedNewMap[id];
                     changed = true;
@@ -1413,17 +1411,19 @@
                 </div>
             `;
 
+            // Auto-expire timer untuk badge kartu grid
+            if (showNew && firstSeenMap[item.id]) {
+                const remaining = NEW_EXPIRE_MS - (Date.now() - firstSeenMap[item.id]);
+                if (remaining > 0) {
+                    setTimeout(() => {
+                        const badge = document.getElementById(`badge-new-${containerId}-${item.id}`);
+                        if (badge) removeBadgeAnimated(badge);
+                    }, remaining);
+                }
+            }
+
             card.querySelector('.movie-poster-container').onclick = () => {
                 hapticHeavy();
-                // Tandai waktu klik — label hilang 5 menit kemudian
-                if (firstSeenMap[item.id] && !clickedNewMap[item.id]) {
-                    markClicked(item.id);
-                    const badge = document.getElementById(`badge-new-${containerId}-${item.id}`);
-                    if (badge) {
-                        // Hilangkan badge setelah 5 menit (300000ms)
-                        setTimeout(() => removeBadgeAnimated(badge), NEW_EXPIRE_MS);
-                    }
-                }
                 historyList = [item.id, ...historyList.filter(i => i !== item.id)].slice(0, 20);
                 updateStorage();
                 renderTabHist();
@@ -1539,6 +1539,23 @@
                 document.getElementById('heroTitle').innerText = f.t;
                 document.getElementById('heroBadge').innerText = f.is_prem ? 'PREMIUM' : 'GRATIS';
                 document.getElementById('heroBadge').style.background = f.is_prem ? 'var(--primary)' : '#00c853';
+
+                // Tampilkan badge BARU di hero banner jika item adalah item baru
+                const heroBadgeNew = document.getElementById('heroBadgeNew');
+                if (isNewItem(f)) {
+                    heroBadgeNew.style.display = 'block';
+                    // Auto-expire: hitung sisa waktu sampai 5 menit dari firstSeen, hilangkan badge otomatis
+                    const remaining = NEW_EXPIRE_MS - (Date.now() - firstSeenMap[f.id]);
+                    if (remaining > 0) {
+                        setTimeout(() => {
+                            const hbn = document.getElementById('heroBadgeNew');
+                            if (hbn) removeBadgeAnimated(hbn);
+                        }, remaining);
+                    }
+                } else {
+                    heroBadgeNew.style.display = 'none';
+                }
+
                 hero.onclick = () => {
                     hapticHeavy();
                     historyList = [f.id, ...historyList.filter(i => i !== f.id)].slice(0, 20);
