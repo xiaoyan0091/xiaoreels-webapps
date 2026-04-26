@@ -915,176 +915,216 @@ body {
 }
 
 /* ═══════════════════════════════════════════
-   DETAIL POPUP — STYLE TELEGRAM MINI APP
+   DETAIL POPUP — FULLSCREEN BOTTOM SHEET
 ═══════════════════════════════════════════ */
 #detailOverlay {
     display: none;
     position: fixed;
     inset: 0;
     z-index: 2000;
-    background: rgba(4,4,15,0.82);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    align-items: flex-start;
-    justify-content: center;
-    padding: 20px 16px;
-    overflow-y: auto;
-    animation: overlayFadeIn 0.25s ease both;
+    background: #04040f;
+    flex-direction: column;
+    overflow: hidden;
 }
 #detailOverlay.open { display: flex; }
 
-@keyframes overlayFadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-}
-
 .detail-modal {
-    background: linear-gradient(160deg, #12123a 0%, #0b0b1f 100%);
-    border: 1px solid rgba(139,92,246,0.3);
-    border-radius: 22px;
-    width: 100%;
-    max-width: 400px;
     position: relative;
-    box-shadow:
-        0 0 0 1px rgba(255,255,255,0.04) inset,
-        0 24px 80px rgba(0,0,0,0.9),
-        0 0 60px rgba(139,92,246,0.12);
-    animation: modalSlideUp 0.35s cubic-bezier(0.25,1,0.5,1) both;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
-    margin: auto;
+    background: #04040f;
+    animation: detailSlideIn 0.3s cubic-bezier(0.25,1,0.5,1) both;
 }
 
-@keyframes modalSlideUp {
-    from { opacity:0; transform: translateY(40px) scale(0.95); }
-    to   { opacity:1; transform: translateY(0) scale(1); }
+@keyframes detailSlideIn {
+    from { opacity:0; transform: translateY(30px); }
+    to   { opacity:1; transform: translateY(0); }
 }
 
+/* Tombol tutup (X) di pojok kiri atas */
 .detail-close {
     position: absolute;
-    top: 12px; left: 12px;
-    width: 32px; height: 32px;
+    top: 14px; left: 14px;
+    width: 34px; height: 34px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.1);
+    background: rgba(0,0,0,0.55);
     border: none;
     color: #fff;
-    font-size: 18px;
+    font-size: 17px;
     line-height: 1;
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    z-index: 10;
+    z-index: 20;
     transition: background 0.2s;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
 }
 .detail-close:active { background: rgba(255,255,255,0.2); }
 
+/* ── POSTER AREA (atas, fixed ratio) ── */
 .detail-poster-wrap {
-    width: 100%;
     position: relative;
+    width: 100%;
+    flex-shrink: 0;
     background: #07071a;
+    /* Poster ~55% tinggi layar */
+    height: 56vh;
+    max-height: 360px;
+    overflow: hidden;
 }
 .detail-poster-wrap img {
-    width: 100%;
-    max-height: 320px;
+    width: 100%; height: 100%;
     object-fit: cover;
     display: block;
-    border-radius: 22px 22px 0 0;
+    opacity: 0;
+    transition: opacity 0.5s;
 }
+.detail-poster-wrap img.loaded { opacity: 1; }
 .detail-poster-shimmer {
     position: absolute;
     inset: 0;
-    border-radius: 22px 22px 0 0;
+}
+/* Gradient fade bawah poster ke body */
+.detail-poster-fade {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, #04040f);
+    pointer-events: none;
+    z-index: 2;
 }
 
+/* ── BODY AREA (bawah, flex-grow) ── */
 .detail-body {
-    padding: 16px 18px 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 14px 18px 0;
+    overflow: hidden;
+    min-height: 0;
 }
 
 .detail-title {
     font-size: 17px;
     font-weight: 900;
     line-height: 1.3;
-    margin-bottom: 14px;
+    margin-bottom: 4px;
     letter-spacing: -0.3px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
 }
+.detail-title-icon { font-size: 15px; }
 
-.detail-search-link {
+/* Genre / kategori bar */
+.detail-genre {
     display: flex;
     align-items: center;
     gap: 6px;
     font-size: 12px;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(139,92,246,0.12);
+}
+.detail-genre-sep {
+    font-size: 16px;
+    color: rgba(255,21,40,0.7);
+    font-weight: 900;
+    line-height: 1;
+}
+
+/* Sinopsis label */
+.detail-synopsis-label {
+    font-size: 13px;
+    font-weight: 800;
+    margin-bottom: 7px;
+    letter-spacing: 0.2px;
+}
+
+/* Sinopsis teks dalam box bergaris kiri */
+.detail-synopsis-box {
+    position: relative;
+    background: rgba(139,92,246,0.06);
+    border-left: 3px solid rgba(255,21,40,0.5);
+    border-radius: 0 10px 10px 0;
+    padding: 10px 12px 10px 14px;
+    margin-bottom: 12px;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+.detail-synopsis-text {
+    font-size: 12px;
+    line-height: 1.65;
+    color: rgba(238,238,255,0.78);
+    font-weight: 400;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    /* max 4 baris sinopsis */
+    -webkit-line-clamp: 5;
+}
+/* Tanda kutip kanan bawah */
+.detail-synopsis-quote {
+    position: absolute;
+    bottom: 6px; right: 10px;
+    font-size: 22px;
+    color: rgba(255,21,40,0.35);
+    font-family: Georgia, serif;
+    line-height: 1;
+    font-weight: 900;
+}
+
+/* Total parts row */
+.detail-parts-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0 12px;
+    border-top: 1px solid rgba(139,92,246,0.1);
+    flex-shrink: 0;
+}
+.detail-parts-count {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 800;
+}
+.detail-parts-count-icon { font-size: 16px; }
+.detail-parts-time {
+    font-size: 13px;
     font-weight: 700;
     color: var(--muted);
-    text-decoration: none;
-    margin-bottom: 14px;
-    letter-spacing: 0.3px;
-}
-.detail-search-link span {
-    color: #5b9cf6;
-    text-decoration: underline;
-    word-break: break-all;
+    font-family: monospace;
+    letter-spacing: 1px;
 }
 
-.detail-parts {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 16px;
-}
-
-.detail-part-row {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.detail-part-label {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--muted);
-}
-.detail-part-label.vip { color: var(--gold); }
-.detail-part-label.free-label { color: var(--cyan); }
-.detail-part-label.end-label { color: var(--prim2); }
-
-.detail-part-link {
-    font-size: 12px;
-    color: #5b9cf6;
-    word-break: break-all;
-    text-decoration: underline;
-    cursor: pointer;
-    background: none;
-    border: none;
-    padding: 0;
-    text-align: left;
-    font-family: 'Outfit', sans-serif;
-    line-height: 1.4;
-}
-
-.detail-fav-btn {
+/* ── TOMBOL TONTON (fixed bawah) ── */
+.detail-watch-btn {
     width: 100%;
-    padding: 13px;
-    border-radius: 14px;
+    padding: 16px;
     border: none;
-    background: linear-gradient(135deg, var(--vio), var(--prim));
+    background: linear-gradient(135deg, #ff4e17, #ff1528);
     color: #fff;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 800;
     font-family: 'Outfit', sans-serif;
     cursor: pointer;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    box-shadow: 0 4px 0 rgba(80,0,130,0.5), 0 8px 24px rgba(139,92,246,0.4);
-    transition: all 0.2s;
-    letter-spacing: 0.2px;
+    display: flex; align-items: center; justify-content: center; gap: 9px;
+    letter-spacing: 0.3px;
+    transition: opacity 0.15s;
+    flex-shrink: 0;
+    /* tambah safe area bawah */
+    padding-bottom: max(16px, env(safe-area-inset-bottom, 16px));
 }
-.detail-fav-btn:active {
-    transform: translateY(2px);
-    box-shadow: 0 2px 0 rgba(80,0,130,0.5), 0 4px 12px rgba(139,92,246,0.3);
-}
-.detail-fav-btn.is-fav {
-    background: linear-gradient(135deg, #1a1a3e, #2a0a20);
-    border: 1px solid rgba(255,21,40,0.4);
-    color: var(--prim);
-    box-shadow: 0 4px 0 rgba(0,0,0,0.4), 0 0 20px rgba(255,21,40,0.15);
-}
+.detail-watch-btn:active { opacity: 0.85; }
+.detail-watch-btn svg { flex-shrink: 0; }
     </style>
 </head>
 <body>
@@ -1224,22 +1264,45 @@ body {
 <div id="detailOverlay">
     <div class="detail-modal" id="detailModal">
         <button class="detail-close" id="detailClose">✕</button>
+
+        <!-- POSTER -->
         <div class="detail-poster-wrap">
             <div class="detail-poster-shimmer shimmer" id="detailShimmer"></div>
             <img id="detailImg" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Detail Poster">
+            <div class="detail-poster-fade"></div>
         </div>
+
+        <!-- BODY INFO -->
         <div class="detail-body">
-            <div class="detail-title" id="detailTitle"></div>
-            <div class="detail-search-link" id="detailSearchRow">
-                <span>🔍 CARI JUDUL</span>
-                <span id="detailSearchUrl"></span>
+            <div class="detail-title">
+                <span class="detail-title-icon">🎬</span>
+                <span id="detailTitle"></span>
             </div>
-            <div class="detail-parts" id="detailParts"></div>
-            <button class="detail-fav-btn" id="detailFavBtn">
-                <span id="detailFavIcon">☆</span>
-                <span id="detailFavText">Simpan ke Koleksi</span>
-            </button>
+            <div class="detail-genre">
+                <span id="detailGenre">Drama China</span>
+                <span class="detail-genre-sep">/</span>
+                <span>Dubbing Indonesia</span>
+                <span class="detail-genre-sep" style="margin-left:2px;">"</span>
+            </div>
+            <div class="detail-synopsis-label">Sinopsis:</div>
+            <div class="detail-synopsis-box">
+                <div class="detail-synopsis-text" id="detailSynopsis">—</div>
+                <span class="detail-synopsis-quote">"</span>
+            </div>
+            <div class="detail-parts-row">
+                <div class="detail-parts-count">
+                    <span class="detail-parts-count-icon">🎞</span>
+                    <span>Total Parts: <span id="detailTotalParts">—</span></span>
+                </div>
+                <div class="detail-parts-time" id="detailPartsTime"></div>
+            </div>
         </div>
+
+        <!-- TOMBOL TONTON -->
+        <button class="detail-watch-btn" id="detailWatchBtn">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M8 5v14l11-7z"/></svg>
+            Tonton Sekarang
+        </button>
     </div>
 </div>
 
@@ -1706,109 +1769,72 @@ let _detailCurrentItem = null;
 function openDetailPopup(item) {
     _detailCurrentItem = item;
 
-    // Set title
+    // Judul
     document.getElementById('detailTitle').innerText = item.t;
 
-    // Set search link
-    const searchUrl = `https://t.me/${dynamicBotUsername}/cari`;
-    document.getElementById('detailSearchUrl').innerText = searchUrl;
-    document.getElementById('detailSearchRow').onclick = () => {
-        hapticLight();
-        tg.openTelegramLink(searchUrl);
-    };
+    // Genre — gunakan field item.genre / item.cat jika ada, default "Drama China"
+    const genreEl = document.getElementById('detailGenre');
+    genreEl.innerText = item.genre || item.cat || 'Drama China';
 
-    // Reset poster
+    // Sinopsis — gunakan field item.synopsis / item.desc / item.s jika ada
+    const synEl = document.getElementById('detailSynopsis');
+    synEl.innerText = item.synopsis || item.desc || item.s || '—';
+
+    // Total parts — gunakan item.parts array atau item.total_parts
+    let totalParts = 0;
+    if(item.parts && Array.isArray(item.parts)) {
+        totalParts = item.parts.length;
+    } else if(item.total_parts) {
+        totalParts = item.total_parts;
+    } else if(item.tp) {
+        totalParts = item.tp;
+    }
+    document.getElementById('detailTotalParts').innerText = totalParts > 0 ? totalParts : '—';
+
+    // Waktu upload / info tambahan jika ada
+    const timeEl = document.getElementById('detailPartsTime');
+    timeEl.innerText = item.updated || item.date || item.d || '';
+
+    // Reset dan load poster
     const detailImg = document.getElementById('detailImg');
     detailImg.src = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
     detailImg.classList.remove('loaded');
-    document.getElementById('detailShimmer').style.display = '';
+    const shimmerEl = document.getElementById('detailShimmer');
+    shimmerEl.style.display = '';
 
-    // Load poster
     fetchImage(item.p).then(url => {
         if(url) {
             detailImg.src = url;
             detailImg.onload = () => {
                 detailImg.classList.add('loaded');
-                document.getElementById('detailShimmer').style.display = 'none';
+                shimmerEl.style.display = 'none';
             };
         } else {
-            document.getElementById('detailShimmer').style.display = 'none';
+            shimmerEl.style.display = 'none';
         }
     });
 
-    // Build parts list
-    const partsContainer = document.getElementById('detailParts');
-    partsContainer.innerHTML = '';
+    // Setup tombol Tonton Sekarang — buka part pertama atau link utama
+    const watchBtn = document.getElementById('detailWatchBtn');
+    watchBtn.onclick = () => {
+        hapticHeavy();
+        historyList = [item.id, ...historyList.filter(i => i !== item.id)].slice(0, 20);
+        updateStorage();
+        renderTabHist();
+        // Jika ada parts, buka part pertama; jika tidak, buka link utama
+        let watchUrl;
+        if(item.parts && Array.isArray(item.parts) && item.parts.length > 0) {
+            const firstPart = item.parts[0];
+            watchUrl = firstPart.url || `https://t.me/${dynamicBotUsername}?start=${firstPart.code || firstPart.id || item.id}`;
+        } else {
+            watchUrl = `https://t.me/${dynamicBotUsername}?start=mp_${item.id}`;
+        }
+        tg.openTelegramLink(watchUrl);
+        tg.close();
+    };
 
-    if(item.parts && Array.isArray(item.parts) && item.parts.length > 0) {
-        item.parts.forEach((part, idx) => {
-            const row = document.createElement('div');
-            row.className = 'detail-part-row';
-
-            const isVip = part.vip === true || part.vip === 1;
-            const isEnd = part.end === true || part.end === 1 || (idx === item.parts.length - 1 && isVip);
-            const labelText = `Part ${idx + 1}` + (isEnd ? ' (vip) end' : isVip ? ' (vip)' : '');
-            const labelClass = 'detail-part-label' + (isEnd ? ' end-label' : isVip ? ' vip' : ' free-label');
-
-            const partUrl = part.url || `https://t.me/${dynamicBotUsername}?start=${part.code || part.id || item.id}`;
-
-            row.innerHTML = `
-                <span class="${labelClass}">${labelText}</span>
-                <button class="detail-part-link">${partUrl}</button>
-            `;
-            row.querySelector('.detail-part-link').onclick = () => {
-                hapticHeavy();
-                historyList = [item.id, ...historyList.filter(i => i !== item.id)].slice(0,20);
-                updateStorage();
-                renderTabHist();
-                tg.openTelegramLink(partUrl);
-                tg.close();
-            };
-            partsContainer.appendChild(row);
-        });
-    } else {
-        // Jika tidak ada data parts, tampilkan link play langsung
-        const row = document.createElement('div');
-        row.className = 'detail-part-row';
-        const playUrl = `https://t.me/${dynamicBotUsername}?start=mp_${item.id}`;
-        row.innerHTML = `
-            <span class="detail-part-label free-label">Part 1</span>
-            <button class="detail-part-link">${playUrl}</button>
-        `;
-        row.querySelector('.detail-part-link').onclick = () => {
-            hapticHeavy();
-            historyList = [item.id, ...historyList.filter(i => i !== item.id)].slice(0,20);
-            updateStorage();
-            renderTabHist();
-            tg.openTelegramLink(playUrl);
-            tg.close();
-        };
-        partsContainer.appendChild(row);
-    }
-
-    // Update fav button state
-    _updateDetailFavBtn(item);
-
-    // Show overlay
-    const overlay = document.getElementById('detailOverlay');
-    overlay.classList.add('open');
-    overlay.scrollTop = 0;
-}
-
-function _updateDetailFavBtn(item) {
-    const isFav = favorites.includes(item.id);
-    const btn = document.getElementById('detailFavBtn');
-    const icon = document.getElementById('detailFavIcon');
-    const text = document.getElementById('detailFavText');
-    if(isFav) {
-        btn.className = 'detail-fav-btn is-fav';
-        icon.innerText = '★';
-        text.innerText = 'Hapus dari Koleksi';
-    } else {
-        btn.className = 'detail-fav-btn';
-        icon.innerText = '☆';
-        text.innerText = 'Simpan ke Koleksi';
-    }
+    // Tampilkan overlay
+    document.getElementById('detailOverlay').classList.add('open');
 }
 
 function closeDetailPopup() {
@@ -1816,44 +1842,18 @@ function closeDetailPopup() {
     _detailCurrentItem = null;
 }
 
-// Close button
+// Tombol tutup (X)
 document.getElementById('detailClose').addEventListener('click', () => {
     hapticLight();
     closeDetailPopup();
 });
 
-// Tap overlay background to close
+// Tap background overlay untuk tutup (tidak ada background di mode fullscreen, tapi tetap pasang)
 document.getElementById('detailOverlay').addEventListener('click', (e) => {
     if(e.target === document.getElementById('detailOverlay')) {
         hapticLight();
         closeDetailPopup();
     }
-});
-
-// Detail fav button
-document.getElementById('detailFavBtn').addEventListener('click', () => {
-    if(!_detailCurrentItem) return;
-    hapticLight();
-    const item = _detailCurrentItem;
-    if(favorites.includes(item.id)){
-        favorites = favorites.filter(id => id !== item.id);
-    } else {
-        favorites.unshift(item.id);
-    }
-    updateStorage();
-    renderTabFav();
-    _updateDetailFavBtn(item);
-
-    // Juga update bintang di semua card yang sedang tampil
-    document.querySelectorAll(`[id^="btn-fav-"]`).forEach(btn => {
-        const parts = btn.id.split('-');
-        const cardItemId = parts[parts.length - 1];
-        if(cardItemId === String(item.id)) {
-            const nowFav = favorites.includes(item.id);
-            btn.className = nowFav ? 'fav-btn active' : 'fav-btn';
-            btn.innerText = nowFav ? '★' : '☆';
-        }
-    });
 });
 
 initApp();
