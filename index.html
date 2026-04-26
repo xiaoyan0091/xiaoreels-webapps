@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
 /* ═══════════════════════════════════════════
-   ROOT & RESET (TIDAK DIUBAH)
+   ROOT & RESET (IDENTIK)
 ═══════════════════════════════════════════ */
 :root {
     --bg:         #04040f;
@@ -44,9 +44,6 @@ body {
     perspective-origin: 50% 0;
 }
 
-/* ═══════════════════════════════════════════
-   DEEP SPACE BACKGROUND — THREE.js-style GRID
-═══════════════════════════════════════════ */
 #bgScene {
     position: fixed;
     inset: 0;
@@ -75,7 +72,6 @@ body {
     100% { background-position: 0 60px; }
 }
 
-/* Floating 3D orbs */
 .orb {
     position: absolute;
     border-radius: 50%;
@@ -91,12 +87,8 @@ body {
     100% { transform: translateY(-40px) scale(1.1); }
 }
 
-/* Stars */
 #stars { position:absolute; inset:0; }
 
-/* ═══════════════════════════════════════════
-   HEADER — 3D FLOATING PANEL
-═══════════════════════════════════════════ */
 .header {
     padding: 13px 18px;
     display: flex;
@@ -105,18 +97,11 @@ body {
     position: sticky;
     top: 0;
     z-index: 500;
-    background: linear-gradient(
-        135deg,
-        rgba(11,11,31,0.92) 0%,
-        rgba(18,18,58,0.88) 100%
-    );
+    background: linear-gradient(135deg, rgba(11,11,31,0.92) 0%, rgba(18,18,58,0.88) 100%);
     backdrop-filter: blur(28px) saturate(200%);
     -webkit-backdrop-filter: blur(28px) saturate(200%);
     border-bottom: 1px solid rgba(139,92,246,0.25);
-    box-shadow:
-        0 1px 0 rgba(255,255,255,0.05) inset,
-        0 8px 32px rgba(0,0,0,0.6),
-        0 0 60px rgba(139,92,246,0.08);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.05) inset, 0 8px 32px rgba(0,0,0,0.6), 0 0 60px rgba(139,92,246,0.08);
     transform: perspective(600px) rotateX(0.8deg);
     transform-origin: top center;
 }
@@ -166,11 +151,6 @@ body {
     transition: transform 0.3s;
 }
 
-.user-avatar:hover { transform: scale(1.08) rotate(-3deg); }
-
-/* ═══════════════════════════════════════════
-   VIEW SECTIONS
-═══════════════════════════════════════════ */
 .view-section { display:none; position:relative; z-index:1; }
 .view-section.active {
     display:block;
@@ -182,13 +162,8 @@ body {
     to   { opacity:1; transform: perspective(800px) rotateX(0deg) translateY(0); }
 }
 
-/* ═══════════════════════════════════════════
-   SEARCH BAR — 3D INSET
-═══════════════════════════════════════════ */
 .search-container { padding: 16px 16px 0; }
-
 .search-wrapper { position:relative; perspective: 400px; }
-
 .search-bar {
     width: 100%;
     padding: 13px 16px 13px 44px;
@@ -201,45 +176,22 @@ body {
     font-weight: 500;
     outline: none;
     transition: all 0.35s cubic-bezier(0.25,1,0.5,1);
-    box-shadow:
-        inset 0 2px 8px rgba(0,0,0,0.5),
-        inset 0 1px 0 rgba(255,255,255,0.04),
-        0 4px 20px rgba(0,0,0,0.3);
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.04), 0 4px 20px rgba(0,0,0,0.3);
     transform: perspective(400px) rotateX(1deg);
 }
-
-.search-bar::placeholder { color:var(--muted); }
-
 .search-bar:focus {
     border-color: var(--vio);
     background: linear-gradient(145deg, rgba(18,10,50,0.95), rgba(28,14,70,0.9));
-    box-shadow:
-        inset 0 2px 8px rgba(0,0,0,0.5),
-        0 0 0 3px rgba(139,92,246,0.2),
-        0 0 30px rgba(139,92,246,0.2);
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.5), 0 0 0 3px rgba(139,92,246,0.2), 0 0 30px rgba(139,92,246,0.2);
     transform: perspective(400px) rotateX(0deg) translateY(-1px);
 }
+.search-icon { position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--muted); pointer-events:none; }
 
-.search-icon {
-    position:absolute; left:14px; top:50%;
-    transform:translateY(-50%);
-    color:var(--muted);
-    pointer-events:none;
-    transition: color 0.3s;
-}
-.search-bar:focus + .search-icon,
-.search-wrapper:focus-within .search-icon { color:var(--vio2); }
-
-/* ═══════════════════════════════════════════
-   FILTER BUTTONS — 3D PILL
-═══════════════════════════════════════════ */
 .filter-container {
     display:flex; gap:8px;
     padding:14px 16px;
     overflow-x:auto; scrollbar-width:none;
 }
-.filter-container::-webkit-scrollbar { display:none; }
-
 .filter-btn {
     position:relative;
     padding: 9px 20px;
@@ -249,45 +201,21 @@ body {
     color: var(--muted);
     font-size: 12px;
     font-weight: 700;
-    font-family: 'Outfit', sans-serif;
-    letter-spacing: 0.3px;
     cursor: pointer;
     white-space: nowrap;
     transition: all 0.35s cubic-bezier(0.34,1.4,0.64,1);
-    box-shadow:
-        0 4px 0 rgba(0,0,0,0.4),
-        0 6px 16px rgba(0,0,0,0.3),
-        inset 0 1px 0 rgba(255,255,255,0.06);
+    box-shadow: 0 4px 0 rgba(0,0,0,0.4), 0 6px 16px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06);
     transform: perspective(300px) translateZ(0) translateY(0);
 }
-
-.filter-btn:active {
-    box-shadow: 0 1px 0 rgba(0,0,0,0.4), 0 2px 6px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06);
-    transform: perspective(300px) translateZ(0) translateY(3px);
-}
-
 .filter-btn.active {
     background: linear-gradient(135deg, var(--vio) 0%, var(--prim) 100%);
     border-color: transparent;
     color: #fff;
-    box-shadow:
-        0 4px 0 rgba(100,0,150,0.5),
-        0 8px 24px rgba(139,92,246,0.45),
-        0 0 40px rgba(255,21,40,0.2),
-        inset 0 1px 0 rgba(255,255,255,0.2);
+    box-shadow: 0 4px 0 rgba(100,0,150,0.5), 0 8px 24px rgba(139,92,246,0.45), 0 0 40px rgba(255,21,40,0.2), inset 0 1px 0 rgba(255,255,255,0.2);
     transform: perspective(300px) translateZ(8px) translateY(-2px);
-    text-shadow: 0 1px 4px rgba(0,0,0,0.4);
 }
 
-/* ═══════════════════════════════════════════
-   HERO BANNER — TRUE 3D CARD
-═══════════════════════════════════════════ */
-.hero-wrap {
-    padding: 0 16px;
-    perspective: 900px;
-    margin-bottom: 20px;
-}
-
+.hero-wrap { padding: 0 16px; perspective: 900px; margin-bottom: 20px; }
 .hero-banner {
     border-radius: 22px;
     overflow: hidden;
@@ -297,64 +225,19 @@ body {
     transform-style: preserve-3d;
     transform: perspective(900px) rotateX(4deg) rotateY(0deg) scale(1);
     transition: transform 0.5s cubic-bezier(0.25,1,0.5,1), box-shadow 0.5s;
-    box-shadow:
-        0 24px 60px rgba(0,0,0,0.8),
-        0 0 0 1px rgba(139,92,246,0.2),
-        0 0 80px rgba(139,92,246,0.12),
-        0 30px 0 -8px rgba(0,0,0,0.5);
-    will-change: transform;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.8), 0 0 0 1px rgba(139,92,246,0.2), 0 0 80px rgba(139,92,246,0.12), 0 30px 0 -8px rgba(0,0,0,0.5);
 }
-
-.hero-banner:active {
-    transform: perspective(900px) rotateX(1deg) rotateY(-2deg) scale(0.97);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.6), 0 0 0 1px rgba(139,92,246,0.15);
-}
-
-.hero-banner::before {
-    content:'';
-    position:absolute;
-    top:0; left:0; right:0;
-    height:2px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), var(--cyan), rgba(255,255,255,0.4), transparent);
-    z-index:5;
-    transform: translateZ(2px);
-}
-
-.hero-banner::after {
-    content:'';
-    position:absolute;
-    top:10%; right:0; bottom:10%;
-    width:1px;
-    background: linear-gradient(180deg, transparent, rgba(255,255,255,0.15), transparent);
-    z-index:5;
-}
-
-.hero-banner img {
-    width:100%; height:100%;
-    object-fit:cover; display:block;
-    opacity:0;
-    transition: opacity 0.7s, transform 10s ease-out;
-    transform: scale(1.06) translateZ(0);
-}
-.hero-banner img.loaded { opacity:1; transform: scale(1) translateZ(0); }
-
+.hero-banner img { width:100%; height:100%; object-fit:cover; display:block; opacity:0; transition: opacity 0.7s, transform 10s ease-out; transform: scale(1.06); }
+.hero-banner img.loaded { opacity:1; transform: scale(1); }
 .hero-overlay {
     position:absolute; inset:0;
-    background: linear-gradient(
-        160deg,
-        rgba(4,4,15,0) 30%,
-        rgba(4,4,15,0.65) 60%,
-        rgba(4,4,15,1) 100%
-    );
+    background: linear-gradient(160deg, rgba(4,4,15,0) 30%, rgba(4,4,15,0.65) 60%, rgba(4,4,15,1) 100%);
     display:flex; flex-direction:column;
     justify-content:flex-end;
     padding:20px;
     pointer-events:none;
-    transform: translateZ(4px);
 }
-
 .hero-content { z-index:2; pointer-events:auto; }
-
 .hero-badge {
     display:inline-flex; align-items:center; gap:5px;
     font-size:9px; font-weight:800;
@@ -364,31 +247,10 @@ body {
     margin-bottom:8px;
     text-transform:uppercase;
     letter-spacing:1.5px;
-    transform: translateZ(6px);
 }
-.hero-badge.prem {
-    background: rgba(255,21,40,0.18);
-    border:1px solid rgba(255,21,40,0.55);
-    color:#ff8080;
-    box-shadow: 0 0 20px rgba(255,21,40,0.35), inset 0 1px 0 rgba(255,255,255,0.1);
-    text-shadow: 0 0 10px var(--prim);
-}
-.hero-badge.free {
-    background: rgba(6,214,247,0.12);
-    border:1px solid rgba(6,214,247,0.4);
-    color:var(--cyan);
-    box-shadow: 0 0 20px rgba(6,214,247,0.2);
-}
-
-.hero-title {
-    font-size:22px; font-weight:900;
-    line-height:1.15;
-    display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
-    text-shadow: 0 2px 20px rgba(0,0,0,1), 0 0 40px rgba(0,0,0,0.8);
-    letter-spacing:-0.5px;
-    transform: translateZ(8px);
-}
-
+.hero-badge.prem { background: rgba(255,21,40,0.18); border:1px solid rgba(255,21,40,0.55); color:#ff8080; box-shadow: 0 0 20px rgba(255,21,40,0.35); }
+.hero-badge.free { background: rgba(6,214,247,0.12); border:1px solid rgba(6,214,247,0.4); color:var(--cyan); }
+.hero-title { font-size:22px; font-weight:900; line-height:1.15; text-shadow: 0 2px 20px rgba(0,0,0,1); letter-spacing:-0.5px; }
 .hero-cta {
     display:inline-flex; align-items:center; gap:7px;
     margin-top:12px;
@@ -398,21 +260,9 @@ body {
     padding:8px 18px;
     font-size:12px; font-weight:800;
     color:#fff;
-    font-family:'Outfit',sans-serif;
     cursor:pointer;
-    letter-spacing:0.3px;
-    box-shadow: 0 4px 0 rgba(140,0,0,0.6), 0 8px 24px rgba(255,21,40,0.4), inset 0 1px 0 rgba(255,255,255,0.25);
-    transform: translateZ(10px) translateY(0);
-    transition: all 0.2s;
+    box-shadow: 0 4px 0 rgba(140,0,0,0.6), 0 8px 24px rgba(255,21,40,0.4);
 }
-.hero-cta:active {
-    transform: translateZ(10px) translateY(3px);
-    box-shadow: 0 1px 0 rgba(140,0,0,0.6), 0 3px 10px rgba(255,21,40,0.3), inset 0 1px 0 rgba(255,255,255,0.25);
-}
-
-/* ═══════════════════════════════════════════
-   SECTION LABEL
-═══════════════════════════════════════════ */
 .section-label {
     display:flex; align-items:center; gap:10px;
     padding: 0 16px 12px;
@@ -428,17 +278,7 @@ body {
     border-radius:3px;
     background: linear-gradient(180deg, var(--cyan), var(--vio), var(--prim));
     box-shadow: 0 0 10px var(--glow-v);
-    flex-shrink:0;
-    animation: barPulse 2s ease-in-out infinite alternate;
 }
-@keyframes barPulse {
-    0%   { box-shadow: 0 0 6px var(--glow-v); }
-    100% { box-shadow: 0 0 18px var(--glow-v), 0 0 30px var(--glow-c); }
-}
-
-/* ═══════════════════════════════════════════
-   GRID + MOVIE CARDS — REAL 3D
-═══════════════════════════════════════════ */
 .grid-container {
     display:grid;
     grid-template-columns: repeat(2,1fr);
@@ -446,7 +286,6 @@ body {
     padding: 0 16px 30px;
     perspective: 1000px;
 }
-
 .movie-card {
     border-radius: 18px;
     overflow: hidden;
@@ -455,100 +294,34 @@ body {
     display: flex;
     flex-direction: column;
     border: 1px solid rgba(139,92,246,0.18);
-    transform: perspective(600px) rotateX(5deg) rotateY(0deg) translateZ(0px);
-    transform-style: preserve-3d;
-    transition: transform 0.4s cubic-bezier(0.25,1,0.5,1), box-shadow 0.4s, border-color 0.3s;
-    animation: card3dIn 0.5s cubic-bezier(0.25,1,0.5,1) both;
-    will-change: transform;
-    box-shadow:
-        0 8px 0 -2px rgba(18,18,58,0.8),
-        0 14px 0 -4px rgba(11,11,31,0.6),
-        0 20px 40px rgba(0,0,0,0.7),
-        inset 0 1px 0 rgba(255,255,255,0.07),
-        inset 0 -1px 0 rgba(0,0,0,0.3);
+    transform: perspective(600px) rotateX(5deg) rotateY(0deg);
+    transition: transform 0.4s;
+    box-shadow: 0 8px 0 -2px rgba(18,18,58,0.8), 0 14px 0 -4px rgba(11,11,31,0.6), 0 20px 40px rgba(0,0,0,0.7);
 }
-
-@keyframes card3dIn {
-    from {
-        opacity:0;
-        transform: perspective(600px) rotateX(25deg) rotateY(-8deg) translateZ(-40px) translateY(30px);
-    }
-    to {
-        opacity:1;
-        transform: perspective(600px) rotateX(5deg) rotateY(0deg) translateZ(0px) translateY(0);
-    }
-}
-
-.movie-card:nth-child(odd)  { transform: perspective(600px) rotateX(5deg) rotateY( 1deg) translateZ(0); }
-.movie-card:nth-child(even) { transform: perspective(600px) rotateX(5deg) rotateY(-1deg) translateZ(0); }
-
-.movie-card::before {
-    content:'';
-    position:absolute;
-    top:0; left:0; right:0;
-    height:1px;
-    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.18) 50%, transparent 100%);
-    z-index:3;
-    transform: translateZ(1px);
-}
-
-.movie-card::after {
-    content:'';
-    position:absolute;
-    top:0; right:0;
-    width:1px; height:100%;
-    background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 60%);
-    z-index:3;
-}
-
-.movie-card:active {
-    transform: perspective(600px) rotateX(2deg) rotateY(4deg) translateZ(-8px) scale(0.95) !important;
-    box-shadow:
-        0 2px 0 rgba(0,0,0,0.8),
-        0 6px 20px rgba(0,0,0,0.6),
-        inset 0 1px 0 rgba(255,255,255,0.05) !important;
-}
-
-/* POSTER CONTAINER */
 .movie-poster-container {
     position:relative;
     width:100%; padding-top:150%;
     background: linear-gradient(135deg, #07071a, #0d0d28);
     cursor:pointer;
     overflow:hidden;
-    transform-style: preserve-3d;
 }
-
 .movie-poster-container img {
     position:absolute; top:0; left:0;
     width:100%; height:100%;
     object-fit:cover;
     opacity:0;
-    transition: opacity 0.5s, transform 0.5s;
-    transform: scale(1.06) translateZ(0);
+    transition: opacity 0.5s;
+    transform: scale(1.06);
 }
-.movie-poster-container img.loaded {
-    opacity:1;
-    transform: scale(1) translateZ(0);
-}
-
+.movie-poster-container img.loaded { opacity:1; transform: scale(1); }
 .poster-gloss {
     position:absolute; inset:0;
-    background: linear-gradient(
-        145deg,
-        rgba(255,255,255,0.08) 0%,
-        rgba(255,255,255,0) 50%,
-        rgba(0,0,0,0.25) 100%
-    );
-    z-index:2;
+    background: linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.25) 100%);
     pointer-events:none;
-    transform: translateZ(2px);
 }
-
 .play-overlay {
     position:absolute; inset:0;
     display:flex; align-items:center; justify-content:center;
-    z-index:3;
     background: rgba(4,4,15,0);
     transition: background 0.2s;
 }
@@ -558,239 +331,92 @@ body {
     background: linear-gradient(135deg, var(--prim), var(--prim2));
     display:flex; align-items:center; justify-content:center;
     opacity:0;
-    transform: perspective(200px) scale(0.3) translateZ(-20px);
-    transition: opacity 0.25s, transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
-    box-shadow: 0 0 30px var(--glow-r), 0 4px 0 rgba(140,0,0,0.6);
+    transform: scale(0.3);
+    transition: opacity 0.25s, transform 0.35s;
+    box-shadow: 0 0 30px var(--glow-r);
 }
 .movie-poster-container:active .play-overlay { background: rgba(4,4,15,0.35); }
-.movie-poster-container:active .play-overlay-icon {
-    opacity:1;
-    transform: perspective(200px) scale(1) translateZ(0);
-}
+.movie-poster-container:active .play-overlay-icon { opacity:1; transform: scale(1); }
 
-/* MOVIE INFO */
 .movie-info {
     padding:10px 12px 12px;
     flex-grow:1;
-    display:flex; flex-direction:column; justify-content:space-between;
+    display:flex; flex-direction:column;
     background: linear-gradient(180deg, rgba(18,18,58,0.0) 0%, rgba(11,11,31,0.9) 100%);
-    transform: translateZ(4px);
-    transform-style: preserve-3d;
 }
-
 .movie-title-box {
     display:flex; justify-content:space-between; align-items:flex-start;
     gap:5px; margin-bottom:8px;
 }
-
 .movie-title {
     font-size:12px; font-weight:700;
     line-height:1.35;
     display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
     flex-grow:1;
-    letter-spacing:-0.2px;
 }
-
-/* PERBAIKAN UTAMA: tombol favorit responsif & area klik lebih jelas */
+/* PERBAIKAN UTAMA: Tombol favorit responsif dan area klik jelas */
 .fav-btn {
-    background:none;
-    border:none;
-    color:var(--muted);
-    padding:0;
-    margin:0;
-    font-size:22px;
-    line-height:1;
-    cursor:pointer;
-    transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
-    outline:none;
-    flex-shrink:0;
-    width:30px;
-    height:30px;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:30px;
-    transform: perspective(100px) translateZ(0);
-    -webkit-tap-highlight-color: transparent;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 32px;
+    transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1);
+    flex-shrink: 0;
+    outline: none;
 }
 .fav-btn:active {
-    transform: perspective(100px) translateZ(8px) scale(1.2);
+    transform: scale(1.2);
 }
 .fav-btn.active {
-    color:var(--prim);
-    transform: perspective(100px) translateZ(8px) scale(1.1);
+    color: var(--prim);
     filter: drop-shadow(0 0 8px var(--glow-r));
 }
-
 .movie-tags { display:flex; justify-content:space-between; align-items:center; }
+.tag-prem { font-size:9px; font-weight:800; padding:3px 9px; border-radius:6px; background: rgba(255,21,40,0.1); border:1px solid rgba(255,21,40,0.35); color:#ff8080; }
+.tag-free { font-size:9px; font-weight:800; padding:3px 9px; border-radius:6px; background: rgba(6,214,247,0.08); border:1px solid rgba(6,214,247,0.3); color:var(--cyan); }
+.play-indicator { font-size:10px; font-weight:600; color:var(--muted); display:flex; align-items:center; gap:3px; }
 
-.tag-prem {
-    font-size:9px; font-weight:800;
-    padding:3px 9px;
-    border-radius:6px;
-    background: rgba(255,21,40,0.1);
-    border:1px solid rgba(255,21,40,0.35);
-    color:#ff8080;
-    letter-spacing:0.5px;
-    box-shadow: 0 0 10px rgba(255,21,40,0.15);
-}
-.tag-free {
-    font-size:9px; font-weight:800;
-    padding:3px 9px;
-    border-radius:6px;
-    background: rgba(6,214,247,0.08);
-    border:1px solid rgba(6,214,247,0.3);
-    color:var(--cyan);
-    letter-spacing:0.5px;
-    box-shadow: 0 0 10px rgba(6,214,247,0.1);
-}
-.play-indicator {
-    font-size:10px; font-weight:600;
-    color:var(--muted);
-    display:flex; align-items:center; gap:3px;
-}
-
-/* Shimmer */
 .shimmer {
     background: linear-gradient(110deg, rgba(255,255,255,0.01) 0%, rgba(139,92,246,0.06) 40%, rgba(255,255,255,0.01) 80%);
     background-size:200% 100%;
     animation: shimmer 2s infinite ease-in-out;
 }
 @keyframes shimmer {
-    0%   { background-position:200% 0; }
+    0% { background-position:200% 0; }
     100% { background-position:-200% 0; }
 }
-
-/* Empty state */
-.empty-state {
-    text-align:center;
-    padding:70px 30px;
-    color:var(--muted);
-    font-size:14px;
-    line-height:1.8;
-    display:none;
-}
-.empty-state::before {
-    content:'✦';
-    display:block;
-    font-size:44px;
-    margin-bottom:16px;
-    background: linear-gradient(135deg, var(--vio), var(--prim));
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    background-clip:text;
-    animation: spinStar 6s linear infinite;
-}
-@keyframes spinStar {
-    0%   { transform: rotate(0deg) scale(1); }
-    50%  { transform: rotate(180deg) scale(1.1); }
-    100% { transform: rotate(360deg) scale(1); }
-}
-
-/* Tab title */
-.tab-title {
-    padding: 20px 16px 16px;
-    font-size:22px; font-weight:900;
-    display:flex; align-items:center; gap:14px;
-    letter-spacing:-0.5px;
-}
-.tab-title-icon {
-    width:44px; height:44px;
-    border-radius:14px;
-    display:flex; align-items:center; justify-content:center;
-    flex-shrink:0;
-    background: linear-gradient(135deg, var(--vio), var(--prim));
-    box-shadow:
-        0 4px 0 rgba(80,0,120,0.6),
-        0 8px 24px rgba(139,92,246,0.4),
-        inset 0 1px 0 rgba(255,255,255,0.2);
-    transform: perspective(200px) rotateX(8deg) rotateY(-5deg);
-}
+.empty-state { text-align:center; padding:70px 30px; color:var(--muted); font-size:14px; display:none; }
+.tab-title { padding: 20px 16px 16px; font-size:22px; font-weight:900; display:flex; align-items:center; gap:14px; }
+.tab-title-icon { width:44px; height:44px; border-radius:14px; display:flex; align-items:center; justify-content:center; background: linear-gradient(135deg, var(--vio), var(--prim)); box-shadow: 0 4px 0 rgba(80,0,120,0.6); transform: perspective(200px) rotateX(8deg) rotateY(-5deg); }
 .tab-title-icon svg { width:22px; height:22px; fill:#fff; }
-
-/* Bottom nav */
 .bottom-nav {
-    position:fixed;
-    bottom:0; left:0; right:0;
-    height:68px;
-    display:flex;
-    justify-content:space-around;
-    align-items:center;
+    position:fixed; bottom:0; left:0; right:0; height:68px;
+    display:flex; justify-content:space-around; align-items:center;
     z-index:1000;
-    background: linear-gradient(
-        180deg,
-        rgba(11,11,31,0.88) 0%,
-        rgba(4,4,15,0.96) 100%
-    );
-    backdrop-filter: blur(40px) saturate(200%);
-    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    background: linear-gradient(180deg, rgba(11,11,31,0.88) 0%, rgba(4,4,15,0.96) 100%);
+    backdrop-filter: blur(40px);
     border-top:1px solid rgba(139,92,246,0.2);
-    transform: perspective(600px) rotateX(-1.5deg);
-    transform-origin: bottom center;
-    box-shadow:
-        0 -1px 0 rgba(255,255,255,0.04) inset,
-        0 -20px 60px rgba(0,0,0,0.6),
-        0 0 80px rgba(139,92,246,0.08);
 }
-
-.bottom-nav::before {
-    content:'';
-    position:absolute;
-    top:0; left:8%; right:8%;
-    height:1px;
-    background: linear-gradient(90deg, transparent, var(--vio), var(--cyan), var(--prim), transparent);
-    animation: scanLine 4s ease-in-out infinite;
-}
-
 .nav-item {
-    display:flex; flex-direction:column;
-    align-items:center; justify-content:center;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
     width:33%; height:100%;
-    color:var(--muted);
-    font-size:9px; font-weight:800;
-    text-transform:uppercase; letter-spacing:1px;
+    color:var(--muted); font-size:9px; font-weight:800; text-transform:uppercase;
     cursor:pointer;
-    transition: all 0.35s cubic-bezier(0.34,1.4,0.64,1);
-    position:relative;
-    transform: perspective(300px) translateZ(0) translateY(0);
+    transition: all 0.35s;
 }
-
-.nav-item svg {
-    width:24px; height:24px;
-    margin-bottom:3px;
-    fill:currentColor;
-    transition: all 0.35s cubic-bezier(0.34,1.4,0.64,1);
-    transform: perspective(200px) translateZ(0);
-}
-
-.nav-item::after {
-    content:'';
-    position:absolute;
-    bottom:6px;
-    width:4px; height:4px;
-    border-radius:50%;
-    background: linear-gradient(135deg, var(--vio), var(--prim));
-    opacity:0;
-    transform: scale(0) translateZ(0);
-    transition: opacity 0.3s, transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
-    box-shadow: 0 0 10px var(--glow-v), 0 0 20px var(--glow-r);
-}
-
-.nav-item.active {
-    color:#fff;
-    transform: perspective(300px) translateZ(12px) translateY(-4px);
-}
-.nav-item.active svg {
-    fill: url(#navG);
-    filter: drop-shadow(0 0 8px rgba(139,92,246,0.8)) drop-shadow(0 4px 8px rgba(255,21,40,0.4));
-    transform: perspective(200px) translateZ(6px) scale(1.15);
-}
-.nav-item.active::after {
-    opacity:1;
-    transform: scale(1) translateZ(0);
-}
-
-/* Pagination */
+.nav-item svg { width:24px; height:24px; margin-bottom:3px; fill:currentColor; }
+.nav-item.active { color:#fff; transform: translateY(-4px); }
+.nav-item.active svg { fill: url(#navG); filter: drop-shadow(0 0 8px rgba(139,92,246,0.8)); }
 .pagination {
     display: none;
     align-items: center;
@@ -799,10 +425,8 @@ body {
     padding: 4px 16px 28px;
 }
 .pagination.visible { display: flex; }
-
 .pg-btn {
-    width: 44px; height: 44px;
-    border-radius: 14px;
+    width: 44px; height: 44px; border-radius: 14px;
     border: 1px solid rgba(139,92,246,0.3);
     background: linear-gradient(145deg, rgba(18,18,58,0.95), rgba(11,11,31,0.9));
     color: var(--txt);
@@ -810,215 +434,53 @@ body {
     font-weight: 900;
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    transition: all 0.3s cubic-bezier(0.34,1.4,0.64,1);
-    box-shadow:
-        0 4px 0 rgba(0,0,0,0.5),
-        0 6px 20px rgba(0,0,0,0.4),
-        inset 0 1px 0 rgba(255,255,255,0.07);
-    transform: perspective(200px) translateZ(0) translateY(0);
-    flex-shrink: 0;
-    user-select: none;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.5);
 }
-.pg-btn:active {
-    transform: perspective(200px) translateZ(0) translateY(3px);
-    box-shadow: 0 1px 0 rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.07);
-}
-.pg-btn:disabled {
-    opacity: 0.25;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-}
-.pg-btn.active-pg {
-    background: linear-gradient(135deg, var(--vio), var(--prim));
-    border-color: transparent;
-    box-shadow:
-        0 4px 0 rgba(80,0,130,0.5),
-        0 8px 24px rgba(139,92,246,0.45),
-        inset 0 1px 0 rgba(255,255,255,0.2);
-    transform: perspective(200px) translateZ(6px) translateY(-2px);
-}
-
-.pg-info {
-    font-size: 12px; font-weight: 700;
-    color: var(--muted);
-    letter-spacing: 0.5px;
-    min-width: 72px;
-    text-align: center;
-    font-family: 'Outfit', sans-serif;
-}
-
-.pg-info span {
-    color: var(--txt);
-    font-weight: 900;
-}
+.pg-info { font-size: 12px; font-weight: 700; color: var(--muted); min-width: 72px; text-align: center; }
+.pg-info span { color: var(--txt); font-weight: 900; }
+@media (min-width:480px) { .grid-container { grid-template-columns:repeat(3,1fr); } .hero-banner { height:280px; } }
+@media (min-width:768px) { .grid-container { grid-template-columns:repeat(4,1fr); } .hero-banner { height:340px; } }
+@media (min-width:1024px) { .grid-container { grid-template-columns:repeat(5,1fr); } body { max-width:960px; margin:0 auto; } }
     </style>
 </head>
 <body>
-
-<svg width="0" height="0" style="position:absolute">
-    <defs>
-        <linearGradient id="navG" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%"   stop-color="#8b5cf6"/>
-            <stop offset="100%" stop-color="#ff1528"/>
-        </linearGradient>
-    </defs>
-</svg>
-
-<div id="bgScene">
-    <div class="grid-floor"></div>
-    <div class="orb orb1"></div>
-    <div class="orb orb2"></div>
-    <div class="orb orb3"></div>
-    <canvas id="stars"></canvas>
-</div>
-
-<div class="header">
-    <div class="app-title" id="botTitle">VOD Premium</div>
-    <div class="user-profile" id="userProfile">
-        <div class="user-info-text">
-            <span class="user-name" id="userName">Guest</span>
-            <span class="user-id"   id="userId">ID: -</span>
-        </div>
-        <img id="userAvatar" class="user-avatar"
-             src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="User">
-    </div>
-</div>
+<svg width="0" height="0" style="position:absolute"><defs><linearGradient id="navG" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#ff1528"/></linearGradient></defs></svg>
+<div id="bgScene"><div class="grid-floor"></div><div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div><canvas id="stars"></canvas></div>
+<div class="header"><div class="app-title" id="botTitle">VOD Premium</div><div class="user-profile"><div class="user-info-text"><span class="user-name" id="userName">Guest</span><span class="user-id" id="userId">ID: -</span></div><img id="userAvatar" class="user-avatar" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="User"></div></div>
 
 <div id="view-home" class="view-section active">
-    <div class="search-container">
-        <div class="search-wrapper">
-            <input type="text" id="searchInput" class="search-bar" placeholder="Cari film atau serial...">
-            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-            </svg>
-        </div>
-    </div>
-    <div class="filter-container">
-        <button class="filter-btn active" data-filter="all">Semua</button>
-        <button class="filter-btn" data-filter="prem">💎 Premium</button>
-        <button class="filter-btn" data-filter="free">🆓 Gratis</button>
-    </div>
-    <div class="hero-wrap">
-        <div class="hero-banner" id="heroBanner">
-            <div class="shimmer" id="heroShimmer" style="position:absolute;inset:0;z-index:1;"></div>
-            <img id="heroImg" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Hero">
-            <div class="hero-overlay" style="z-index:2;">
-                <div class="hero-content">
-                    <div class="hero-badge prem" id="heroBadge"><svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> PREMIUM</div>
-                    <h2 class="hero-title" id="heroTitle">Memuat...</h2>
-                    <button class="hero-cta"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Tonton Sekarang</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div class="search-container"><div class="search-wrapper"><input type="text" id="searchInput" class="search-bar" placeholder="Cari film atau serial..."><svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></div></div>
+    <div class="filter-container"><button class="filter-btn active" data-filter="all">Semua</button><button class="filter-btn" data-filter="prem">💎 Premium</button><button class="filter-btn" data-filter="free">🆓 Gratis</button></div>
+    <div class="hero-wrap"><div class="hero-banner" id="heroBanner"><div class="shimmer" id="heroShimmer" style="position:absolute;inset:0;z-index:1;"></div><img id="heroImg" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Hero"><div class="hero-overlay"><div class="hero-content"><div class="hero-badge prem" id="heroBadge">PREMIUM</div><h2 class="hero-title" id="heroTitle">Memuat...</h2><button class="hero-cta">▶ Tonton Sekarang</button></div></div></div></div>
     <div class="section-label">Katalog Drama</div>
     <div class="grid-container" id="homeGrid"></div>
-    <div class="pagination" id="homePagination">
-        <button class="pg-btn" id="homePrev">&#8249;</button>
-        <div class="pg-info" id="homePageInfo"><span id="homePageCur">1</span> / <span id="homePageTotal">1</span></div>
-        <button class="pg-btn" id="homeNext">&#8250;</button>
-    </div>
+    <div class="pagination" id="homePagination"><button class="pg-btn" id="homePrev">‹</button><div class="pg-info"><span id="homePageCur">1</span> / <span id="homePageTotal">1</span></div><button class="pg-btn" id="homeNext">›</button></div>
     <div id="homeEmpty" class="empty-state">Data tidak ditemukan.</div>
 </div>
+<div id="view-fav" class="view-section"><div class="tab-title"><div class="tab-title-icon"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>Koleksi Saya</div><div class="grid-container" id="favGrid"></div><div class="pagination" id="favPagination"><button class="pg-btn" id="favPrev">‹</button><div class="pg-info"><span id="favPageCur">1</span> / <span id="favPageTotal">1</span></div><button class="pg-btn" id="favNext">›</button></div><div id="favEmpty" class="empty-state">Anda belum menambahkan drama apapun ke Koleksi. Tekan ikon Bintang di pojok kartu untuk menyimpan.</div></div>
+<div id="view-hist" class="view-section"><div class="tab-title"><div class="tab-title-icon" style="background:linear-gradient(135deg,#06d6f7,#8b5cf6);"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg></div>Riwayat Tontonan</div><div class="grid-container" id="histGrid"></div><div class="pagination" id="histPagination"><button class="pg-btn" id="histPrev">‹</button><div class="pg-info"><span id="histPageCur">1</span> / <span id="histPageTotal">1</span></div><button class="pg-btn" id="histNext">›</button></div><div id="histEmpty" class="empty-state">Anda belum pernah menonton drama apapun melalui WebApp ini. Riwayat Anda akan otomatis tersimpan di sini.</div></div>
 
-<div id="view-fav" class="view-section">
-    <div class="tab-title"><div class="tab-title-icon"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>Koleksi Saya</div>
-    <div class="grid-container" id="favGrid"></div>
-    <div class="pagination" id="favPagination">
-        <button class="pg-btn" id="favPrev">&#8249;</button>
-        <div class="pg-info" id="favPageInfo"><span id="favPageCur">1</span> / <span id="favPageTotal">1</span></div>
-        <button class="pg-btn" id="favNext">&#8250;</button>
-    </div>
-    <div id="favEmpty" class="empty-state">Anda belum menambahkan drama apapun ke Koleksi. Tekan ikon Bintang di pojok kartu untuk menyimpan.</div>
-</div>
-
-<div id="view-hist" class="view-section">
-    <div class="tab-title"><div class="tab-title-icon" style="background:linear-gradient(135deg,#06d6f7,#8b5cf6);"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg></div>Riwayat Tontonan</div>
-    <div class="grid-container" id="histGrid"></div>
-    <div class="pagination" id="histPagination">
-        <button class="pg-btn" id="histPrev">&#8249;</button>
-        <div class="pg-info" id="histPageInfo"><span id="histPageCur">1</span> / <span id="histPageTotal">1</span></div>
-        <button class="pg-btn" id="histNext">&#8250;</button>
-    </div>
-    <div id="histEmpty" class="empty-state">Anda belum pernah menonton drama apapun melalui WebApp ini. Riwayat Anda akan otomatis tersimpan di sini.</div>
-</div>
-
-<div class="bottom-nav">
-    <div class="nav-item active" data-tab="home"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Beranda</span></div>
-    <div class="nav-item" data-tab="fav"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><span>Koleksi</span></div>
-    <div class="nav-item" data-tab="hist"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg><span>Riwayat</span></div>
-</div>
+<div class="bottom-nav"><div class="nav-item active" data-tab="home"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Beranda</span></div><div class="nav-item" data-tab="fav"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><span>Koleksi</span></div><div class="nav-item" data-tab="hist"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg><span>Riwayat</span></div></div>
 
 <script>
-/* ═══════════════════════════════════════════
-   STAR FIELD (TIDAK BERUBAH)
-═══════════════════════════════════════════ */
-(function(){
-    var c = document.getElementById('stars');
-    var ctx = c.getContext('2d');
-    var W, H, stars = [];
-    function resize(){ W = c.width = window.innerWidth; H = c.height = window.innerHeight; }
-    function mkStar(){ return { x: Math.random()*W, y: Math.random()*H, r: Math.random()*1.2+0.2, a: Math.random(), da: (Math.random()-0.5)*0.008 }; }
-    resize();
-    for(var i=0;i<120;i++) stars.push(mkStar());
-    function draw(){
-        ctx.clearRect(0,0,W,H);
-        stars.forEach(function(s){
-            s.a += s.da;
-            if(s.a<0.05) s.da=Math.abs(s.da);
-            if(s.a>1) s.da=-Math.abs(s.da);
-            ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-            ctx.fillStyle='rgba(220,220,255,'+s.a.toFixed(2)+')';
-            ctx.fill();
-        });
-        requestAnimationFrame(draw);
-    }
-    draw();
-    window.addEventListener('resize', resize);
-})();
+(function(){ var c=document.getElementById('stars'),ctx=c.getContext('2d'),W,H,s=[];
+function resize(){ W=c.width=window.innerWidth; H=c.height=window.innerHeight; }
+function mks(){ return { x:Math.random()*W, y:Math.random()*H, r:Math.random()*1.2+0.2, a:Math.random(), da:(Math.random()-0.5)*0.008 }; }
+resize(); for(var i=0;i<120;i++) s.push(mks());
+function draw(){ ctx.clearRect(0,0,W,H); s.forEach(function(s){ s.a+=s.da; if(s.a<0.05) s.da=Math.abs(s.da); if(s.a>1) s.da=-Math.abs(s.da); ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fillStyle='rgba(220,220,255,'+s.a.toFixed(2)+')'; ctx.fill(); }); requestAnimationFrame(draw); }
+draw(); window.addEventListener('resize',resize); })();
 
-/* 3D PARALLAX HERO */
-(function(){
-    var hero = document.getElementById('heroBanner');
-    if(window.DeviceOrientationEvent){
-        window.addEventListener('deviceorientation', function(e){
-            var gx = Math.max(-15, Math.min(15, e.gamma||0));
-            var gy = Math.max(-10, Math.min(10, (e.beta||0)-30));
-            var lastGX = 0, lastGY = 0;
-            lastGX += (gx-lastGX)*0.12; lastGY += (gy-lastGY)*0.12;
-            hero.style.transform = 'perspective(900px) rotateX('+(4-lastGY*0.3)+'deg) rotateY('+(lastGX*0.3)+'deg) scale(1)';
-        });
-    }
-    document.addEventListener('mousemove', function(e){
-        var rx = ((e.clientY-window.innerHeight/2)/window.innerHeight/2)*(-12);
-        var ry = ((e.clientX-window.innerWidth/2)/window.innerWidth/2)*12;
-        hero.style.transform = 'perspective(900px) rotateX('+(4+rx)+'deg) rotateY('+ry+'deg) scale(1)';
-    });
-})();
+(function(){ var hero=document.getElementById('heroBanner'); if(window.DeviceOrientationEvent){ window.addEventListener('deviceorientation',function(e){ var gx=Math.max(-15,Math.min(15,e.gamma||0)),gy=Math.max(-10,Math.min(10,(e.beta||0)-30)),lx=0,ly=0; lx+=(gx-lx)*0.12; ly+=(gy-ly)*0.12; hero.style.transform='perspective(900px) rotateX('+(4-ly*0.3)+'deg) rotateY('+(lx*0.3)+'deg) scale(1)'; }); }
+document.addEventListener('mousemove',function(e){ var rx=((e.clientY-window.innerHeight/2)/window.innerHeight/2)*(-12), ry=((e.clientX-window.innerWidth/2)/window.innerWidth/2)*12; hero.style.transform='perspective(900px) rotateX('+(4+rx)+'deg) rotateY('+ry+'deg) scale(1)'; }); })();
 
-/* ═══════════════════════════════════════════
-   MAIN APP LOGIC — FAV BUTTON FULLY FIXED
-═══════════════════════════════════════════ */
-const tg = window.Telegram.WebApp;
-tg.expand();
-
-let botToken = "";
-let dynamicBotUsername = "Bot";
-let catalogData = [];
-let tgPath = "";
-let currentFilter = 'all';
-
-let favorites    = JSON.parse(localStorage.getItem('fav_v1'))  || [];
-let historyList  = JSON.parse(localStorage.getItem('hist_v1')) || [];
+const tg = window.Telegram.WebApp; tg.expand();
+let botToken = "", dynamicBotUsername = "Bot", catalogData = [], tgPath = "", currentFilter = 'all';
+let favorites = JSON.parse(localStorage.getItem('fav_v1')) || [];
+let historyList = JSON.parse(localStorage.getItem('hist_v1')) || [];
 
 function hapticLight() { if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light'); }
 function hapticHeavy() { if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('heavy'); }
-
-function updateStorage(){
-    localStorage.setItem('fav_v1', JSON.stringify(favorites));
-    localStorage.setItem('hist_v1', JSON.stringify(historyList));
-}
+function updateStorage(){ localStorage.setItem('fav_v1', JSON.stringify(favorites)); localStorage.setItem('hist_v1', JSON.stringify(historyList)); }
 
 async function initApp(){
     const user = tg.initDataUnsafe?.user;
@@ -1037,17 +499,10 @@ async function initApp(){
             tgPath = parts[1] || "";
             const res = await fetch(`https://api.telegram.org/bot${botToken}/getMe`);
             const json = await res.json();
-            if(json.ok){
-                dynamicBotUsername = json.result.username;
-                document.getElementById('botTitle').innerText = json.result.first_name;
-            }
+            if(json.ok){ dynamicBotUsername = json.result.username; document.getElementById('botTitle').innerText = json.result.first_name; }
         } catch(e){}
     }
-    if(!tgPath){
-        document.getElementById('homeEmpty').innerText = "Sistem Parameter Error.";
-        document.getElementById('homeEmpty').style.display = "block";
-        return;
-    }
+    if(!tgPath){ document.getElementById('homeEmpty').innerText = "Sistem Parameter Error."; document.getElementById('homeEmpty').style.display = "block"; return; }
     try{
         if(tgPath.startsWith("B64_")){
             const b64 = tgPath.replace("B64_","").replace(/-/g,'+').replace(/_/g,'/');
@@ -1062,10 +517,7 @@ async function initApp(){
             }
         }
         renderAllTabs();
-    } catch(e){
-        document.getElementById('homeEmpty').innerText = "Gagal membongkar Payload Engine.";
-        document.getElementById('homeEmpty').style.display = "block";
-    }
+    } catch(e){ document.getElementById('homeEmpty').innerText = "Gagal membongkar Payload Engine."; document.getElementById('homeEmpty').style.display = "block"; }
 }
 
 async function fetchImage(fileId){
@@ -1085,63 +537,26 @@ async function fetchImage(fileId){
     return null;
 }
 
-// PERBAIKAN UTAMA: event handler favorit stabil menggunakan referensi item & update langsung visual
-function attachFavHandler(btn, item, containerId) {
-    // Hapus listener lama jika ada, lalu pasang yang baru
-    const newBtn = btn.cloneNode(true);
-    btn.parentNode.replaceChild(newBtn, btn);
-    const finalBtn = newBtn;
-    
-    const updateButtonUI = () => {
-        const isFav = favorites.includes(item.id);
-        finalBtn.innerText = isFav ? '★' : '☆';
-        if(isFav) finalBtn.classList.add('active');
-        else finalBtn.classList.remove('active');
-    };
-    updateButtonUI();
-    
-    finalBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        hapticLight();
-        
-        if(favorites.includes(item.id)){
-            favorites = favorites.filter(id => id !== item.id);
-        } else {
-            favorites.unshift(item.id);
-        }
-        updateStorage();
-        updateButtonUI();
-        renderTabFav();   // refresh halaman koleksi jika sedang aktif / biarkan konsisten
-        // Jika sedang di home dan tab fav tidak aktif, cukup update UI tombol sudah ok
-        // juga perbarui jika ada perubahan koleksi pada halaman lain nanti saat dibuka
-    });
-}
-function renderAllTabs(){
-    renderTabHome();
-    renderTabFav();
-    renderTabHist();
-}
-
-// createCard dengan penanganan favorit yang SUPER RESPONSIF
-function createCard(item, gridContainerId){
+// CORE FIX: Tombol favorit dengan event listener langsung dan update state real-time
+function createCard(item, containerId){
     const card = document.createElement('div');
     card.className = 'movie-card';
     const badgeClass = item.is_prem ? 'tag-prem' : 'tag-free';
-    const badgeText  = item.is_prem ? 'Premium' : 'Gratis';
-    const favIconChar = favorites.includes(item.id) ? '★' : '☆';
-    const favActiveClass = favorites.includes(item.id) ? 'active' : '';
+    const badgeText = item.is_prem ? 'Premium' : 'Gratis';
+    const isFavInitially = favorites.includes(item.id);
+    const starChar = isFavInitially ? '★' : '☆';
+    const activeClass = isFavInitially ? 'active' : '';
     
     card.innerHTML = `
-        <div class="movie-poster-container shimmer" id="shimmer-${gridContainerId}-${item.id}">
-            <img id="img-${gridContainerId}-${item.id}" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Poster">
+        <div class="movie-poster-container shimmer" id="shimmer-${containerId}-${item.id}">
+            <img id="img-${containerId}-${item.id}" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Poster">
             <div class="poster-gloss"></div>
             <div class="play-overlay"><div class="play-overlay-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="white"><path d="M8 5v14l11-7z"/></svg></div></div>
         </div>
         <div class="movie-info">
             <div class="movie-title-box">
                 <div class="movie-title">${escapeHtml(item.t)}</div>
-                <button class="fav-btn ${favActiveClass}" data-favid="${item.id}">${favIconChar}</button>
+                <button class="fav-btn ${activeClass}" data-id="${item.id}">${starChar}</button>
             </div>
             <div class="movie-tags">
                 <span class="${badgeClass}">${badgeText}</span>
@@ -1150,8 +565,8 @@ function createCard(item, gridContainerId){
         </div>
     `;
     
-    const posterContainer = card.querySelector('.movie-poster-container');
-    posterContainer.onclick = () => {
+    const posterDiv = card.querySelector('.movie-poster-container');
+    posterDiv.onclick = () => {
         hapticHeavy();
         historyList = [item.id, ...historyList.filter(i => i !== item.id)].slice(0,20);
         updateStorage();
@@ -1160,39 +575,47 @@ function createCard(item, gridContainerId){
         tg.close();
     };
     
-    const favBtn = card.querySelector('.fav-btn');
-    // Pasang handler favorit yang robust
-    const updateFavUI = () => {
-        const isFavNow = favorites.includes(item.id);
-        favBtn.innerText = isFavNow ? '★' : '☆';
-        if(isFavNow) favBtn.classList.add('active');
-        else favBtn.classList.remove('active');
+    const favButton = card.querySelector('.fav-btn');
+    // Update tampilan tombol berdasarkan state terkini
+    const updateFavUI = (btn, isFav) => {
+        btn.innerText = isFav ? '★' : '☆';
+        if(isFav) btn.classList.add('active');
+        else btn.classList.remove('active');
     };
-    updateFavUI();
-    favBtn.addEventListener('click', (e) => {
+    updateFavUI(favButton, favorites.includes(item.id));
+    
+    // Event listener tombol favorit
+    favButton.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
         hapticLight();
-        if(favorites.includes(item.id)){
-            favorites = favorites.filter(id => id !== item.id);
-        } else {
+        const idx = favorites.indexOf(item.id);
+        if(idx === -1) {
             favorites.unshift(item.id);
+        } else {
+            favorites.splice(idx, 1);
         }
         updateStorage();
-        updateFavUI();
-        renderTabFav(); // refresh daftar favorit di tab koleksi
+        // Update tombol ini
+        updateFavUI(favButton, favorites.includes(item.id));
+        // Refresh tab favorit jika sedang aktif
+        if(document.getElementById('view-fav').classList.contains('active')){
+            renderTabFav();
+        }
+        // Refresh tab home jika dibutuhkan (tapi tombol sudah berubah, tidak perlu reload full)
+        // Untuk menjaga konsistensi ikon di home, sudah diupdate per tombol.
     });
     
-    document.getElementById(gridContainerId).appendChild(card);
+    document.getElementById(containerId).appendChild(card);
     
     fetchImage(item.p).then(url => {
         if(url){
-            const imgEl = document.getElementById(`img-${gridContainerId}-${item.id}`);
+            const imgEl = document.getElementById(`img-${containerId}-${item.id}`);
             if(imgEl){
                 imgEl.src = url;
                 imgEl.onload = () => {
                     imgEl.classList.add('loaded');
-                    const sh = document.getElementById(`shimmer-${gridContainerId}-${item.id}`);
+                    const sh = document.getElementById(`shimmer-${containerId}-${item.id}`);
                     if(sh) sh.classList.remove('shimmer');
                 };
             }
@@ -1202,12 +625,11 @@ function createCard(item, gridContainerId){
 
 function escapeHtml(str) { return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
 
-/* PAGINATION */
+// PAGINATION
 const PAGE_SIZE = 10;
 const pgState = { home: { cur:1, items:[] }, fav: { cur:1, items:[] }, hist: { cur:1, items:[] } };
 function getColCount(){ let w=window.innerWidth; if(w>=1024) return 5; if(w>=768) return 4; if(w>=480) return 3; return 2; }
-function calcPageSize(){ let cols=getColCount(); return Math.ceil(PAGE_SIZE/cols)*cols; }
-
+function calcPageSize(){ return Math.ceil(PAGE_SIZE / getColCount()) * getColCount(); }
 function renderPage(tabKey, gridId, pagId, curSpanId, totalSpanId){
     const ps = pgState[tabKey];
     const size = calcPageSize();
@@ -1305,6 +727,8 @@ function renderTabHist(){
     renderPage('hist', 'histGrid', 'histPagination', 'histPageCur', 'histPageTotal');
 }
 
+function renderAllTabs(){ renderTabHome(); renderTabFav(); renderTabHist(); }
+
 document.getElementById('searchInput').addEventListener('input', () => renderTabHome());
 document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
@@ -1327,7 +751,6 @@ document.querySelectorAll('.nav-item').forEach(nav => {
         if(tabId === 'hist') renderTabHist();
     });
 });
-
 initApp();
 </script>
 </body>
