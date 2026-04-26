@@ -1310,20 +1310,69 @@
             return null;
         }
 
-        // Key untuk menyimpan daftar id yang label "Baru" sudah dihapus user
-        let seenNew = JSON.parse(localStorage.getItem('seen_new_v1')) || [];
+        // === SISTEM LABEL "BARU" ===
+        // Menyimpan: { id: timestampPertamaKaliTerlihat }
+        let firstSeenMap = JSON.parse(localStorage.getItem('first_seen_v2')) || {};
+        // Menyimpan: { id: timestampSaatDiklik }
+        let clickedNewMap = JSON.parse(localStorage.getItem('clicked_new_v2')) || {};
 
-        function isNewItem(item) {
-            // Label BARU hanya muncul jika field is_new === 1 di data katalog
-            // DAN belum pernah ditonton/di-mark seen
-            if (seenNew.includes(item.id)) return false;
-            return item.is_new === 1;
+        const NEW_EXPIRE_MS = 5 * 60 * 1000; // 5 menit setelah diklik
+        const MAX_NEW_ITEMS = 3; // Maksimal 3 item teratas tampil label BARU
+
+        function initFirstSeen(data) {
+            const now = Date.now();
+            let changed = false;
+            // Ambil MAX_NEW_ITEMS item pertama dari katalog (urutan server = terbaru)
+            data.slice(0, MAX_NEW_ITEMS).forEach(item => {
+                if (!firstSeenMap[item.id]) {
+                    firstSeenMap[item.id] = now;
+                    changed = true;
+                }
+            });
+            if (changed) localStorage.setItem('first_seen_v2', JSON.stringify(firstSeenMap));
         }
 
-        function markSeen(itemId) {
-            if (!seenNew.includes(itemId)) {
-                seenNew.push(itemId);
-                localStorage.setItem('seen_new_v1', JSON.stringify(seenNew));
+        function isNewItem(item) {
+            // Harus ada di firstSeenMap (= item terbaru dari katalog)
+            if (!firstSeenMap[item.id]) return false;
+            // Jika sudah diklik, cek apakah 5 menit belum lewat
+            if (clickedNewMap[item.id]) {
+                const elapsed = Date.now() - clickedNewMap[item.id];
+                if (elapsed >= NEW_EXPIRE_MS) return false; // 5 menit lewat → hilang permanen
+                return true; // Masih dalam 5 menit → tetap tampil tapi akan expire
+            }
+            return true; // Belum diklik → tampil
+        }
+
+        function markClicked(itemId) {
+            if (!clickedNewMap[itemId]) {
+                clickedNewMap[itemId] = Date.now();
+                localStorage.setItem('clicked_new_v2', JSON.stringify(clickedNewMap));
+            }
+        }
+
+        function removeBadgeAnimated(badge) {
+            if (!badge) return;
+            badge.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+            badge.style.opacity = '0';
+            badge.style.transform = 'scale(0.6) translateY(-4px)';
+            setTimeout(() => { if (badge.parentNode) badge.parentNode.removeChild(badge); }, 380);
+        }
+
+        // Cleanup expired entries agar localStorage tidak membengkak
+        function cleanupExpired() {
+            const now = Date.now();
+            let changed = false;
+            Object.keys(clickedNewMap).forEach(id => {
+                if (now - clickedNewMap[id] >= NEW_EXPIRE_MS) {
+                    delete firstSeenMap[id];
+                    delete clickedNewMap[id];
+                    changed = true;
+                }
+            });
+            if (changed) {
+                localStorage.setItem('first_seen_v2', JSON.stringify(firstSeenMap));
+                localStorage.setItem('clicked_new_v2', JSON.stringify(clickedNewMap));
             }
         }
 
@@ -1366,14 +1415,14 @@
 
             card.querySelector('.movie-poster-container').onclick = () => {
                 hapticHeavy();
-                // Hapus label baru otomatis saat ditonton
-                markSeen(item.id);
-                const badge = document.getElementById(`badge-new-${containerId}-${item.id}`);
-                if (badge) {
-                    badge.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-                    badge.style.opacity = '0';
-                    badge.style.transform = 'scale(0.7)';
-                    setTimeout(() => badge.remove(), 300);
+                // Tandai waktu klik — label hilang 5 menit kemudian
+                if (firstSeenMap[item.id] && !clickedNewMap[item.id]) {
+                    markClicked(item.id);
+                    const badge = document.getElementById(`badge-new-${containerId}-${item.id}`);
+                    if (badge) {
+                        // Hilangkan badge setelah 5 menit (300000ms)
+                        setTimeout(() => removeBadgeAnimated(badge), NEW_EXPIRE_MS);
+                    }
                 }
                 historyList = [item.id, ...historyList.filter(i => i !== item.id)].slice(0, 20);
                 updateStorage();
@@ -1551,6 +1600,8 @@
         }
 
         function renderAllTabs() {
+            cleanupExpired();
+            initFirstSeen(catalogData);
             renderTabHome();
             renderTabFav();
             renderTabHist();
