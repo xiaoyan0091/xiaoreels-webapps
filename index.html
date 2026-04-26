@@ -740,6 +740,35 @@
             text-transform: uppercase;
         }
 
+        /* === BADGE BARU RILIS === */
+        .badge-new {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 10;
+            background: linear-gradient(135deg, #ff6b35, #ff0080);
+            color: #fff;
+            font-size: 8.5px;
+            font-weight: 900;
+            padding: 3px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            /* 3D inset highlight */
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.35),
+                inset 0 -1px 0 rgba(0,0,0,0.2),
+                0 2px 8px rgba(255,0,128,0.5),
+                0 1px 3px rgba(0,0,0,0.3);
+            animation: badgePulse 2s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.35), inset 0 -1px 0 rgba(0,0,0,0.2), 0 2px 8px rgba(255,0,128,0.5), 0 1px 3px rgba(0,0,0,0.3); }
+            50% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.35), inset 0 -1px 0 rgba(0,0,0,0.2), 0 2px 16px rgba(255,0,128,0.8), 0 1px 3px rgba(0,0,0,0.3); }
+        }
+
         .play-indicator {
             font-size: 10px;
             font-weight: 700;
@@ -852,15 +881,16 @@
         /* === TAB TITLE === */
         .tab-title {
             padding: 20px 18px 16px;
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 800;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid var(--border);
             margin-bottom: 16px;
             display: flex;
             align-items: center;
             gap: 10px;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.4px;
             position: relative;
+            color: var(--text);
         }
 
         .tab-title::after {
@@ -868,20 +898,140 @@
             position: absolute;
             bottom: -1px;
             left: 18px;
-            width: 40px;
+            width: 36px;
             height: 2px;
-            background: linear-gradient(90deg, #00e5c8, transparent);
+            background: linear-gradient(90deg, #00e5c8, rgba(0,229,200,0));
             border-radius: 2px;
         }
 
         /* === SECTION LABEL === */
         .section-label {
-            padding: 4px 18px 12px;
-            font-size: 11px;
-            font-weight: 700;
+            padding: 6px 18px 10px;
+            font-size: 10px;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 2.5px;
             color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--border), transparent);
+            border-radius: 1px;
+        }
+
+        /* === PAGINATION === */
+        .pagination {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 16px 18px 28px;
+        }
+
+        .pagination.visible { display: flex; }
+
+        .pg-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px 20px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            background: var(--filter-bg);
+            color: var(--text);
+            font-size: 13px;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            /* 3D button */
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.18),
+                inset 0 -2px 0 rgba(0,0,0,0.18),
+                0 4px 14px rgba(0,0,0,0.25),
+                0 1px 3px rgba(0,0,0,0.15);
+            user-select: none;
+            min-width: 90px;
+        }
+
+        .pg-btn:active {
+            transform: translateY(2px) scale(0.97);
+            box-shadow:
+                inset 0 2px 0 rgba(0,0,0,0.15),
+                0 1px 4px rgba(0,0,0,0.2);
+        }
+
+        .pg-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none;
+            pointer-events: none;
+        }
+
+        .pg-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+            flex-shrink: 0;
+        }
+
+        .pg-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            min-width: 64px;
+        }
+
+        .pg-current {
+            font-size: 16px;
+            font-weight: 900;
+            color: var(--text);
+            line-height: 1;
+        }
+
+        .pg-total {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        /* Dot indicators */
+        .pg-dots {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .pg-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--border);
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .pg-dot.active {
+            background: #00e5c8;
+            box-shadow: 0 0 8px rgba(0,229,200,0.8);
+            width: 18px;
+            border-radius: 3px;
+        }
+
+        @media (min-width: 768px) {
+            .pagination { padding: 20px 24px 36px; }
+            .pg-btn { padding: 11px 24px; font-size: 14px; }
         }
 
         /* === RESPONSIVE === */
@@ -950,6 +1100,23 @@
         <div class="section-label">Semua Drama</div>
         <div class="grid-container" id="homeGrid"></div>
         <div id="homeEmpty" class="empty-state"><span class="empty-icon">🔍</span>Data tidak ditemukan.</div>
+
+        <!-- PAGINATION -->
+        <div class="pagination" id="homePagination">
+            <button class="pg-btn" id="pgPrev">
+                <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                Prev
+            </button>
+            <div class="pg-info">
+                <span class="pg-current" id="pgCurrent">1</span>
+                <span class="pg-total" id="pgTotal">dari 1</span>
+                <div class="pg-dots" id="pgDots"></div>
+            </div>
+            <button class="pg-btn" id="pgNext">
+                Next
+                <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+            </button>
+        </div>
     </div>
 
     <!-- FAVORITES VIEW -->
@@ -1082,6 +1249,24 @@
             return null;
         }
 
+        // Key untuk menyimpan daftar id yang sudah "tidak baru lagi"
+        let seenNew = JSON.parse(localStorage.getItem('seen_new_v1')) || [];
+
+        function isNewItem(item, allData) {
+            // Tandai sebagai baru jika: field is_new=1, ATAU 3 item pertama di katalog & belum pernah ditonton
+            if (seenNew.includes(item.id)) return false;
+            if (item.is_new === 1) return true;
+            const idx = allData.findIndex(d => d.id === item.id);
+            return idx >= 0 && idx < 3;
+        }
+
+        function markSeen(itemId) {
+            if (!seenNew.includes(itemId)) {
+                seenNew.push(itemId);
+                localStorage.setItem('seen_new_v1', JSON.stringify(seenNew));
+            }
+        }
+
         function createCard(item, containerId) {
             const card = document.createElement('div');
             card.className = 'movie-card';
@@ -1091,11 +1276,13 @@
             const badgeText = item.is_prem ? '💎 Premium' : '🆓 Gratis';
             const favIcon = isFav ? '★' : '☆';
             const favClass = isFav ? 'fav-btn active' : 'fav-btn';
+            const showNew = isNewItem(item, catalogData);
 
             card.innerHTML = `
                 <div class="card-inner">
                     <div class="movie-poster-container shimmer" id="shimmer-${containerId}-${item.id}">
                         <img id="img-${containerId}-${item.id}" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Poster">
+                        ${showNew ? `<div class="badge-new" id="badge-new-${containerId}-${item.id}">🆕 Baru</div>` : ''}
                         <div class="play-overlay">
                             <div class="play-overlay-icon">
                                 <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -1119,6 +1306,15 @@
 
             card.querySelector('.movie-poster-container').onclick = () => {
                 hapticHeavy();
+                // Hapus label baru otomatis saat ditonton
+                markSeen(item.id);
+                const badge = document.getElementById(`badge-new-${containerId}-${item.id}`);
+                if (badge) {
+                    badge.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                    badge.style.opacity = '0';
+                    badge.style.transform = 'scale(0.7)';
+                    setTimeout(() => badge.remove(), 300);
+                }
                 historyList = [item.id, ...historyList.filter(i => i !== item.id)].slice(0, 20);
                 updateStorage();
                 renderTabHist();
@@ -1160,15 +1356,55 @@
             });
         }
 
+        const ITEMS_PER_PAGE = 12;
+        let currentPage = 1;
+        let totalPages = 1;
+        let filteredCache = [];
+
+        function buildDots() {
+            const dots = document.getElementById('pgDots');
+            dots.innerHTML = '';
+            const max = Math.min(totalPages, 5);
+            for (let i = 1; i <= max; i++) {
+                const d = document.createElement('div');
+                d.className = 'pg-dot' + (i === currentPage ? ' active' : '');
+                dots.appendChild(d);
+            }
+        }
+
+        function updatePagination() {
+            const pg = document.getElementById('homePagination');
+            if (totalPages <= 1) { pg.classList.remove('visible'); return; }
+            pg.classList.add('visible');
+            document.getElementById('pgCurrent').textContent = currentPage;
+            document.getElementById('pgTotal').textContent = 'dari ' + totalPages;
+            document.getElementById('pgPrev').disabled = currentPage === 1;
+            document.getElementById('pgNext').disabled = currentPage === totalPages;
+            buildDots();
+        }
+
+        function renderPage() {
+            const grid = document.getElementById('homeGrid');
+            grid.innerHTML = '';
+            const start = (currentPage - 1) * ITEMS_PER_PAGE;
+            const end = start + ITEMS_PER_PAGE;
+            filteredCache.slice(start, end).forEach(item => createCard(item, 'homeGrid'));
+            updatePagination();
+            // Scroll ke atas grid dengan smooth
+            grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
         function renderTabHome() {
             const query = document.getElementById('searchInput').value.toLowerCase();
             const grid = document.getElementById('homeGrid');
             const hero = document.getElementById('heroBanner');
             const empty = document.getElementById('homeEmpty');
+            const pg = document.getElementById('homePagination');
 
             grid.innerHTML = '';
             hero.style.display = 'none';
             empty.style.display = 'none';
+            pg.classList.remove('visible');
 
             let filtered = catalogData.filter(item => {
                 return item.t.toLowerCase().includes(query) &&
@@ -1190,7 +1426,6 @@
                     tg.openTelegramLink(`https://t.me/${dynamicBotUsername}?start=mp_${f.id}`);
                     tg.close();
                 };
-
                 fetchImage(f.p).then(url => {
                     if (url) {
                         document.getElementById('heroImg').src = url;
@@ -1200,8 +1435,27 @@
                 filtered = filtered.slice(1);
             }
 
-            filtered.forEach(item => createCard(item, 'homeGrid'));
+            filteredCache = filtered;
+            totalPages = Math.max(1, Math.ceil(filteredCache.length / ITEMS_PER_PAGE));
+            currentPage = 1;
+            renderPage();
         }
+
+        document.getElementById('pgPrev').addEventListener('click', () => {
+            if (currentPage > 1) {
+                hapticLight();
+                currentPage--;
+                renderPage();
+            }
+        });
+
+        document.getElementById('pgNext').addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                hapticLight();
+                currentPage++;
+                renderPage();
+            }
+        });
 
         function renderTabFav() {
             const grid = document.getElementById('favGrid');
