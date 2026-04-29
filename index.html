@@ -768,40 +768,50 @@ function loadingContent(label, price) {
     <p>Menyiapkan QRIS pembayaran<br><strong>${label}</strong> — Rp ${fmtRp(price)}</p></div>`;
 }
 
+// ═══════════════════════════════════════════════════════════
+// QRIS FLOW — Bot generate QR → WebApp embed → Auto-poll lunas
+// ═══════════════════════════════════════════════════════════
+
+// State polling
+let _pollTimer    = null;
+let _pollTxnId    = null;
+let _pollAttempts = 0;
+const POLL_INTERVAL = 5000;  // 5 detik
+const POLL_MAX      = 36;    // max 3 menit
+
 async function generateQris(pkg, planLabel) {
+    // Tampilkan loading
+    setQrisContent(loadingContent(planLabel, pkg.price));
+
+    // 1. Coba langsung via VPS proxy jika sudah dipasang
+    if (SAWERIA_PROXY) {
+        try {
+            await _generateViaProxy(pkg, planLabel);
+            return;
+        } catch (e) {
+            // Proxy belum aktif atau gagal → lanjut ke bot
+        }
+    }
+
+    // 2. Minta bot generate QRIS → bot kirim balik qr_string via sendData reply
+    _requestQrisFromBot(pkg, planLabel);
+}
+
+// ─── Generate langsung via VPS proxy ─────────────────────
+async function _generateViaProxy(pkg, planLabel) {
     const user   = tg.initDataUnsafe?.user;
     const userId = user ? user.id : 0;
+    const base   = SAWERIA_PROXY;
 
-    // Coba VPS Proxy dulu (paling stabil, tidak kena CORS)
-    // Jika gagal → fallback ke bot (generate QR di chat)
-    try {
-        await _saweriaRequest(pkg, planLabel, userId);
-    } catch (err) {
-        // Proxy belum dipasang atau gagal → minta bot generate QRIS
-        _renderBotQris(pkg, planLabel);
-    }
-}
-
-// ─── Helper: base URL proxy VPS ───────────────────────────
-function _saweriaBase() {
-    return SAWERIA_PROXY || 'https://backend.saweria.co';
-}
-
-// ─── Request ke proxy VPS → dapat QR string → render QR ──
-async function _saweriaRequest(pkg, planLabel, userId) {
-    const base = _saweriaBase();
-
-    // Step 1: Ambil streamer ID via proxy
     const pageRes = await fetch(
         `${base}/users/page?username_or_id=${encodeURIComponent(saweriaUid)}`,
-        { signal: AbortSignal.timeout(10000) }
+        { signal: AbortSignal.timeout(8000) }
     );
-    if (!pageRes.ok) throw new Error(`page HTTP ${pageRes.status}`);
+    if (!pageRes.ok) throw new Error(`page ${pageRes.status}`);
     const pageJson = await pageRes.json();
-    if (!pageJson.data) throw new Error('data kosong');
+    if (!pageJson.data) throw new Error('no data');
     const streamerId = pageJson.data.id;
 
-    // Step 2: Buat order QRIS via proxy
     const orderRes = await fetch(`${base}/orders/${streamerId}`, {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -815,66 +825,144 @@ async function _saweriaRequest(pkg, planLabel, userId) {
         }),
         signal: AbortSignal.timeout(12000),
     });
-    if (!orderRes.ok) throw new Error(`order HTTP ${orderRes.status}`);
-    const orderJson = await orderRes.json();
-    const data   = orderJson.data || orderJson;
-    const txnId  = data.id || data.transaction_id || data.order_id;
+    if (!orderRes.ok) throw new Error(`order ${orderRes.status}`);
+    const j    = await orderRes.json();
+    const data = j.data || j;
+    const txnId  = data.id || data.transaction_id;
     const qrStr  = data.qr_string || data.qris_string;
     const amount = data.amount || pkg.price;
-    if (!txnId || !qrStr) throw new Error('response tidak lengkap');
+    if (!txnId || !qrStr) throw new Error('incomplete');
 
-    activeTxnId = txnId;
-    const qrImgUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&ecc=M&margin=2&data=${encodeURIComponent(qrStr)}`;
-    renderQrisPayment(txnId, qrImgUrl, amount, planLabel, pkg, streamerId);
+    _showQrEmbed(txnId, qrStr, amount, planLabel, pkg);
 }
 
-// ─── Fallback: bot generate QRIS → kirim ke chat user ─────
-// Cara ini identik dengan payment.py V4 — paling terpercaya
-function _renderBotQris(pkg, planLabel) {
+// ─── Minta bot generate QRIS ──────────────────────────────
+function _requestQrisFromBot(pkg, planLabel) {
     setQrisContent(`
-        <div class="modal-title">📲 Generate QRIS via Bot</div>
-        <div class="modal-subtitle">${planLabel} — Rp ${fmtRp(pkg.price)}</div>
-        <div class="qris-steps">
-            <strong>Paket:</strong> ${planLabel}<br>
-            <strong>Harga:</strong> Rp ${fmtRp(pkg.price)}<br><br>
-            Tap <strong>Generate QRIS</strong> — bot akan langsung kirim QR Saweria
-            ke chat kamu secara otomatis dengan nominal yang tepat.<br><br>
-            Scan QR di chat, bayar, lalu klik <strong>Konfirmasi</strong> di pesan bot.
+        <div class="modal-loading">
+            <div class="big-icon">⚡</div>
+            <p>Menghubungi bot untuk buat QRIS<br>
+               <strong>${planLabel} — Rp ${fmtRp(pkg.price)}</strong><br><br>
+               <span style="color:var(--text-muted);font-size:12px">WebApp akan tutup sebentar,<br>QR dikirim langsung ke chat kamu.</span>
+            </p>
         </div>
-        <button class="btn-confirm"
-            onclick="requestBotQris(${pkg.days}, ${pkg.price}, '${planLabel}')">
-            ⚡ Generate QRIS Otomatis
-        </button>
-        <button class="btn-cancel" onclick="closeQrisModal()">❌ Batal</button>
     `);
-}
 
-function requestBotQris(days, price, planLabel) {
-    hapticL();
-    // Kirim ke bot → bot panggil SaweriaScraper.create_payment() → kirim QR image ke chat
+    // Kirim sendData → bot generate QR → bot kirim foto+tombol konfirmasi ke chat
     try {
         tg.sendData(JSON.stringify({
-            action:   'buy_vip',
-            days:     days,
-            price:    price,
-            label:    planLabel,
+            action: 'buy_vip',
+            days:   pkg.days,
+            price:  pkg.price,
+            label:  planLabel,
         }));
     } catch {}
-    // Tutup WebApp agar user langsung lihat QR yang dikirim bot
+
+    // Tutup WebApp setelah 1.5 detik agar user lihat QR di chat
+    setTimeout(() => {
+        setQrisContent(`
+            <div class="success-wrap">
+                <div class="big-icon">📲</div>
+                <h2 style="color:var(--accent)">QR Dikirim ke Chat!</h2>
+                <p>Bot mengirimkan QRIS <strong>${planLabel}</strong><br>
+                   langsung ke chat kamu.<br><br>
+                   Scan QR, bayar, lalu klik<br>
+                   <strong>✅ Konfirmasi</strong> di pesan bot.</p>
+                <button class="btn-close" onclick="tg.close()">📲 Buka Chat Bot</button>
+            </div>
+        `);
+    }, 1500);
+}
+
+// ─── Tampilkan QR embed + mulai auto-poll ────────────────
+function _showQrEmbed(txnId, qrStr, amount, planLabel, pkg) {
+    _stopPoll();
+    activeTxnId  = txnId;
+    _pollTxnId   = txnId;
+    _pollAttempts = 0;
+
+    const qrImg = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&ecc=M&margin=2&data=${encodeURIComponent(qrStr)}`;
+
     setQrisContent(`
-        <div class="success-wrap">
-            <div class="big-icon">⚡</div>
-            <h2 style="color:var(--accent)">QRIS Sedang Dikirim!</h2>
-            <p>Bot sedang membuat QR Saweria untuk<br>
-               <strong>${planLabel} — Rp ${fmtRp(price)}</strong><br><br>
-               Tutup WebApp ini dan cek chat bot kamu.</p>
-            <button class="btn-close" onclick="tg.close()">📲 Buka Chat Bot</button>
+        <div class="modal-title">💳 Scan QRIS & Bayar</div>
+        <div class="modal-subtitle">${planLabel} — Langsung terkonfirmasi otomatis</div>
+
+        <div class="qris-wrap">
+            <img class="qris-img" src="${qrImg}" alt="QRIS"
+                 onerror="this.style.opacity='0.3'">
         </div>
+
+        <div class="qris-amount">Rp ${fmtRp(amount)}</div>
+        <div class="qris-txn">ID: ${txnId}</div>
+
+        <div class="qris-steps" id="pollStatus">
+            <span id="pollDot" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#4ce58d;margin-right:6px;animation:pulse 1s infinite"></span>
+            <strong>Menunggu pembayaran...</strong> Otomatis terkonfirmasi setelah bayar.
+        </div>
+
+        <style>@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}</style>
+
+        <button class="btn-confirm" id="btnManualCheck"
+            onclick="manualCheckPaid('${txnId}','${planLabel}',${pkg.days},${amount})">
+            🔄 Cek Manual
+        </button>
+        <button class="btn-cancel" onclick="_stopPoll();closeQrisModal()">❌ Batal</button>
     `);
+
+    // Mulai auto-poll
+    _pollTimer = setInterval(() => _autoPoll(txnId, planLabel, pkg.days, amount), POLL_INTERVAL);
+}
+
+// ─── Auto-poll status pembayaran ────────────────────────
+async function _autoPoll(txnId, planLabel, days, amount) {
+    _pollAttempts++;
+    if (_pollAttempts > POLL_MAX) {
+        _stopPoll();
+        const el = document.getElementById('pollStatus');
+        if (el) el.innerHTML = '⏰ Waktu cek habis. Gunakan tombol <strong>Cek Manual</strong>.';
+        return;
+    }
+
+    const paid = await _checkPaidProxy(txnId);
+    if (paid) {
+        _stopPoll();
+        paymentSuccess(txnId, days, amount, planLabel);
+    }
+}
+
+async function _checkPaidProxy(txnId) {
+    try {
+        const base = SAWERIA_PROXY || 'https://backend.saweria.co';
+        const r = await fetch(`${base}/orders/${txnId}`,
+            { signal: AbortSignal.timeout(8000) });
+        if (!r.ok) return false;
+        const j = await r.json();
+        const d = j.data || j;
+        const s = (d.status || d.payment_status || '').toLowerCase();
+        return ['paid','success','completed','settlement'].includes(s);
+    } catch { return false; }
+}
+
+function _stopPoll() {
+    if (_pollTimer) { clearInterval(_pollTimer); _pollTimer = null; }
+}
+
+async function manualCheckPaid(txnId, planLabel, days, amount) {
+    hapticL();
+    const btn = document.getElementById('btnManualCheck');
+    if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spin"></span>'; }
+    const paid = await _checkPaidProxy(txnId);
+    if (paid) {
+        _stopPoll();
+        paymentSuccess(txnId, days, amount, planLabel);
+    } else {
+        if (btn) { btn.disabled = false; btn.innerHTML = '🔄 Cek Manual'; }
+        showToast('Pembayaran belum terdeteksi, coba beberapa detik lagi.', 'err');
+    }
 }
 
 function renderFallback(pkg, planLabel) {
-    _renderBotQris(pkg, planLabel);
+    _requestQrisFromBot(pkg, planLabel);
 }
 
 // ─── Konfirmasi Pembayaran ────────────────────────────────
