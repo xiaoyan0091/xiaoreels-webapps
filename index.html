@@ -831,6 +831,23 @@ async function _saweriaRequest(pkg, planLabel, userId) {
 // ─── Fallback: buka halaman Saweria jika VPS proxy belum diset ─────
 function _renderSaweriaEmbed(pkg, planLabel) {
     if (!saweriaUid) { renderFallback(pkg, planLabel); return; }
+    // Validasi: saweriaUid harus username (bukan UUID)
+    // UUID format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(saweriaUid);
+    if (isUUID) {
+        setQrisContent(`
+            <div class="modal-title">⚙️ Konfigurasi Diperlukan</div>
+            <div class="modal-subtitle">Admin perlu reset pengaturan Saweria</div>
+            <div class="qris-steps">
+                Pengaturan Saweria perlu diperbarui.<br><br>
+                Admin bot: masuk ke <strong>Settings → 💰 Atur Saweria</strong>,
+                lalu ketik ulang <strong>username</strong> Saweria (bukan ID).<br><br>
+                Setelah itu coba lagi.
+            </div>
+            <button class="btn-cancel" onclick="closeQrisModal()">Tutup</button>
+        `);
+        return;
+    }
     const saweriaUrl = `https://saweria.co/${encodeURIComponent(saweriaUid)}`
         + `?amount=${pkg.price}`
         + `&message=${encodeURIComponent(`VIP ${planLabel} @${dynamicBotUsername}`)}`;
