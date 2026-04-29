@@ -772,26 +772,26 @@ async function generateQris(pkg, planLabel) {
     const user   = tg.initDataUnsafe?.user;
     const userId = user ? user.id : 0;
 
-    // Coba 3 lapisan: VPS Proxy → Direct API → Saweria embed page
+    // Coba VPS Proxy dulu (paling stabil, tidak kena CORS)
+    // Jika gagal → fallback ke bot (generate QR di chat)
     try {
         await _saweriaRequest(pkg, planLabel, userId);
     } catch (err) {
-        _renderSaweriaEmbed(pkg, planLabel);
+        // Proxy belum dipasang atau gagal → minta bot generate QRIS
+        _renderBotQris(pkg, planLabel);
     }
 }
 
-// ─── Helper: pilih base URL otomatis ──────────────────────
-// Priority: VPS proxy (/saweria) → direct Saweria API
+// ─── Helper: base URL proxy VPS ───────────────────────────
 function _saweriaBase() {
-    // Coba proxy VPS dulu — paling stabil karena tidak kena CORS
     return SAWERIA_PROXY || 'https://backend.saweria.co';
 }
 
-// ─── Satu fungsi request Saweria (proxy atau direct) ──────
+// ─── Request ke proxy VPS → dapat QR string → render QR ──
 async function _saweriaRequest(pkg, planLabel, userId) {
     const base = _saweriaBase();
 
-    // Step 1: Ambil streamer ID
+    // Step 1: Ambil streamer ID via proxy
     const pageRes = await fetch(
         `${base}/users/page?username_or_id=${encodeURIComponent(saweriaUid)}`,
         { signal: AbortSignal.timeout(10000) }
@@ -801,7 +801,7 @@ async function _saweriaRequest(pkg, planLabel, userId) {
     if (!pageJson.data) throw new Error('data kosong');
     const streamerId = pageJson.data.id;
 
-    // Step 2: Buat order QRIS
+    // Step 2: Buat order QRIS via proxy
     const orderRes = await fetch(`${base}/orders/${streamerId}`, {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -828,92 +828,53 @@ async function _saweriaRequest(pkg, planLabel, userId) {
     renderQrisPayment(txnId, qrImgUrl, amount, planLabel, pkg, streamerId);
 }
 
-// ─── Fallback: buka halaman Saweria jika VPS proxy belum diset ─────
-function _renderSaweriaEmbed(pkg, planLabel) {
-    if (!saweriaUid) { renderFallback(pkg, planLabel); return; }
-    // Validasi: saweriaUid harus username (bukan UUID)
-    // UUID format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-    const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(saweriaUid);
-    if (isUUID) {
-        setQrisContent(`
-            <div class="modal-title">⚙️ Konfigurasi Diperlukan</div>
-            <div class="modal-subtitle">Admin perlu reset pengaturan Saweria</div>
-            <div class="qris-steps">
-                Pengaturan Saweria perlu diperbarui.<br><br>
-                Admin bot: masuk ke <strong>Settings → 💰 Atur Saweria</strong>,
-                lalu ketik ulang <strong>username</strong> Saweria (bukan ID).<br><br>
-                Setelah itu coba lagi.
-            </div>
-            <button class="btn-cancel" onclick="closeQrisModal()">Tutup</button>
-        `);
-        return;
-    }
-    const saweriaUrl = `https://saweria.co/${encodeURIComponent(saweriaUid)}`
-        + `?amount=${pkg.price}`
-        + `&message=${encodeURIComponent(`VIP ${planLabel} @${dynamicBotUsername}`)}`;
+// ─── Fallback: bot generate QRIS → kirim ke chat user ─────
+// Cara ini identik dengan payment.py V4 — paling terpercaya
+function _renderBotQris(pkg, planLabel) {
     setQrisContent(`
-        <div class="modal-title">💳 Bayar via Saweria</div>
+        <div class="modal-title">📲 Generate QRIS via Bot</div>
         <div class="modal-subtitle">${planLabel} — Rp ${fmtRp(pkg.price)}</div>
         <div class="qris-steps">
             <strong>Paket:</strong> ${planLabel}<br>
             <strong>Harga:</strong> Rp ${fmtRp(pkg.price)}<br><br>
-            1. Tap <strong>Buka Halaman Bayar</strong> di bawah<br>
-            2. Pilih metode <strong>QRIS</strong> di halaman Saweria<br>
-            3. Scan &amp; selesaikan pembayaran<br>
-            4. Kembali ke sini &amp; tap <strong>Saya Sudah Bayar</strong>
+            Tap <strong>Generate QRIS</strong> — bot akan langsung kirim QR Saweria
+            ke chat kamu secara otomatis dengan nominal yang tepat.<br><br>
+            Scan QR di chat, bayar, lalu klik <strong>Konfirmasi</strong> di pesan bot.
         </div>
-        <button class="btn-confirm" style="background:linear-gradient(135deg,#5c20da,#722cf2);box-shadow:0 4px 14px rgba(92,32,218,0.4);margin-bottom:10px"
-            onclick="openSaweriaPage('${saweriaUrl}')">
-            💳 Buka Halaman Bayar Saweria
-        </button>
-        <button class="btn-confirm" style="margin-bottom:10px"
-            onclick="openConfirmManual(${pkg.days},${pkg.price},'${planLabel}')">
-            ✅ Saya Sudah Bayar
+        <button class="btn-confirm"
+            onclick="requestBotQris(${pkg.days}, ${pkg.price}, '${planLabel}')">
+            ⚡ Generate QRIS Otomatis
         </button>
         <button class="btn-cancel" onclick="closeQrisModal()">❌ Batal</button>
     `);
 }
 
-function openSaweriaPage(url) {
+function requestBotQris(days, price, planLabel) {
     hapticL();
-    try { tg.openLink(url); } catch { window.open(url, '_blank'); }
-}
-
-function openConfirmManual(days, price, planLabel) {
-    hapticL();
+    // Kirim ke bot → bot panggil SaweriaScraper.create_payment() → kirim QR image ke chat
+    try {
+        tg.sendData(JSON.stringify({
+            action:   'buy_vip',
+            days:     days,
+            price:    price,
+            label:    planLabel,
+        }));
+    } catch {}
+    // Tutup WebApp agar user langsung lihat QR yang dikirim bot
     setQrisContent(`
-        <div class="modal-title">✅ Konfirmasi Pembayaran</div>
-        <div class="modal-subtitle">Pastikan pembayaran sudah berhasil di Saweria</div>
-        <div class="qris-steps">
-            <strong>Paket:</strong> ${planLabel}<br>
-            <strong>Harga:</strong> Rp ${fmtRp(price)}<br><br>
-            Dengan mengetuk <strong>Konfirmasi</strong>, sistem akan mencatat pembelian VIP kamu.<br>
-            Bot akan mengaktifkan VIP setelah owner verifikasi pembayaran di Saweria.
+        <div class="success-wrap">
+            <div class="big-icon">⚡</div>
+            <h2 style="color:var(--accent)">QRIS Sedang Dikirim!</h2>
+            <p>Bot sedang membuat QR Saweria untuk<br>
+               <strong>${planLabel} — Rp ${fmtRp(price)}</strong><br><br>
+               Tutup WebApp ini dan cek chat bot kamu.</p>
+            <button class="btn-close" onclick="tg.close()">📲 Buka Chat Bot</button>
         </div>
-        <button class="btn-confirm"
-            onclick="paymentSuccess('manual-'+Date.now(),${days},${price},'${planLabel}')">
-            ✅ Konfirmasi, Saya Sudah Bayar
-        </button>
-        <button class="btn-cancel" onclick="closeQrisModal()">❌ Batal</button>
     `);
 }
 
 function renderFallback(pkg, planLabel) {
-    setQrisContent(`
-        <div class="modal-title">📲 Lanjutkan di Bot</div>
-        <div class="modal-subtitle">Tap tombol di bawah — bot akan kirimkan QRIS Saweria ke chat Anda</div>
-        <div class="qris-steps">
-            <strong>Paket:</strong> ${planLabel}<br>
-            <strong>Harga:</strong> Rp ${fmtRp(pkg.price)}<br><br>
-            Bot akan mengirimkan QR Saweria ke chat Anda.<br>
-            Scan &amp; bayar, lalu klik <strong>Konfirmasi</strong> di pesan bot.
-        </div>
-        <button class="btn-confirm" style="background:linear-gradient(135deg,#5c20da,#722cf2);box-shadow:0 4px 14px rgba(92,32,218,0.4)"
-            onclick="sendDataToBot(${pkg.days})">
-            📲 Minta QRIS ke Bot
-        </button>
-        <button class="btn-cancel" onclick="closeQrisModal()">❌ Batal</button>
-    `);
+    _renderBotQris(pkg, planLabel);
 }
 
 // ─── Konfirmasi Pembayaran ────────────────────────────────
