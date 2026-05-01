@@ -32,6 +32,10 @@
             --shimmer2: #1e1840;
             --nav-h: 68px;
             --header-h: 62px;
+            --red: #ef4444;
+            --red-bg: rgba(239, 68, 68, 0.12);
+            --blue: #3b82f6;
+            --blue-bg: rgba(59, 130, 246, 0.12);
         }
 
         body.light {
@@ -55,6 +59,10 @@
             --shadow: rgba(80, 60, 160, 0.1);
             --shimmer1: #e8e2ff;
             --shimmer2: #d8d0ff;
+            --red: #dc2626;
+            --red-bg: rgba(220, 38, 38, 0.08);
+            --blue: #2563eb;
+            --blue-bg: rgba(37, 99, 235, 0.08);
         }
 
         *, *::before, *::after {
@@ -154,9 +162,9 @@
         .header-right {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             flex-shrink: 0;
-            margin-left: 10px;
+            margin-left: 8px;
         }
 
         .icon-btn {
@@ -171,10 +179,18 @@
             cursor: pointer;
             transition: all 0.2s;
             flex-shrink: 0;
+            position: relative;
         }
 
         .icon-btn:active { transform: scale(0.92); }
         .icon-btn svg { width: 17px; height: 17px; fill: var(--text2); transition: fill 0.3s; }
+
+        /* Sort button active state */
+        .icon-btn.sort-active {
+            background: rgba(124,58,237,0.15);
+            border-color: var(--primary);
+        }
+        .icon-btn.sort-active svg { fill: var(--primary2); }
 
         .user-chip {
             display: flex;
@@ -202,6 +218,85 @@
         .user-meta { display: flex; flex-direction: column; }
         .user-name { font-size: 12px; font-weight: 700; line-height: 1.2; }
         .user-id { font-size: 10px; color: var(--text3); line-height: 1.2; }
+
+        /* ─── SORT DROPDOWN ─── */
+        .sort-dropdown {
+            position: fixed;
+            top: calc(var(--header-h) + 6px);
+            right: 16px;
+            background: var(--card2);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 6px;
+            z-index: 300;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+            min-width: 170px;
+            opacity: 0;
+            transform: translateY(-8px) scale(0.95);
+            pointer-events: none;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        body.light .sort-dropdown { box-shadow: 0 8px 24px rgba(80,60,160,0.15); }
+
+        .sort-dropdown.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        .sort-label-title {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 8px 6px;
+        }
+
+        .sort-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 10px;
+            border-radius: 9px;
+            cursor: pointer;
+            transition: background 0.15s;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text2);
+        }
+
+        .sort-option:active { background: var(--border); }
+
+        .sort-option svg {
+            width: 15px;
+            height: 15px;
+            fill: var(--text3);
+            flex-shrink: 0;
+        }
+
+        .sort-option.active {
+            background: rgba(124,58,237,0.12);
+            color: var(--primary2);
+        }
+
+        .sort-option.active svg { fill: var(--primary2); }
+
+        .sort-check {
+            margin-left: auto;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--primary2);
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sort-option.active .sort-check { display: flex; }
+
+        .sort-check svg { width: 8px; height: 8px; fill: #fff; }
 
         /* ─── SEARCH ─── */
         .search-wrap {
@@ -400,6 +495,21 @@
 
         .movie-card:active {
             transform: scale(0.95);
+        }
+
+        /* NEW BADGE on card */
+        .new-ribbon {
+            position: absolute;
+            top: 0; right: 0;
+            z-index: 3;
+            background: var(--accent);
+            color: #fff;
+            font-size: 7.5px;
+            font-weight: 900;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            padding: 3px 6px;
+            border-bottom-left-radius: 7px;
         }
 
         .poster-wrap {
@@ -753,6 +863,7 @@
             align-items: center;
             justify-content: center;
             transition: background 0.25s;
+            position: relative;
         }
 
         .nav-item svg {
@@ -789,6 +900,30 @@
             border-radius: 0 0 4px 4px;
             box-shadow: 0 0 8px var(--primary-glow);
         }
+
+        /* Nav badge */
+        .nav-badge {
+            position: absolute;
+            top: -3px;
+            right: 3px;
+            min-width: 16px;
+            height: 16px;
+            border-radius: 8px;
+            background: var(--red);
+            color: #fff;
+            font-size: 9px;
+            font-weight: 800;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+            border: 2px solid var(--bg);
+            line-height: 1;
+        }
+
+        .nav-badge.show { display: flex; }
+
+        body.light .nav-badge { border-color: var(--bg); }
 
         /* ─── SCROLL TO TOP ─── */
         .scroll-top-btn {
@@ -1086,6 +1221,199 @@
             box-shadow: 0 0 8px var(--primary-glow);
         }
 
+        /* ─── SORT INFO CHIP (inline) ─── */
+        .sort-info-chip {
+            display: none;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--primary2);
+            background: rgba(124,58,237,0.1);
+            border: 1px solid rgba(124,58,237,0.2);
+            border-radius: 6px;
+            padding: 3px 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .sort-info-chip.show { display: inline-flex; }
+        .sort-info-chip:active { transform: scale(0.94); }
+        .sort-info-chip svg { width: 11px; height: 11px; fill: var(--primary2); }
+
+        /* ─── CLEAR HISTORY BUTTON ─── */
+        .section-action-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--red);
+            background: var(--red-bg);
+            border: 1px solid rgba(239,68,68,0.2);
+            border-radius: 8px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .section-action-btn:active { transform: scale(0.93); }
+        .section-action-btn svg { width: 12px; height: 12px; fill: var(--red); }
+
+        /* Clear fav btn - green/accent style */
+        .section-action-btn.green-btn {
+            color: var(--green);
+            background: var(--green-bg);
+            border-color: rgba(34,197,94,0.2);
+        }
+        .section-action-btn.green-btn svg { fill: var(--green); }
+
+        /* ─── ONLINE STATUS INDICATOR ─── */
+        .online-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--green);
+            flex-shrink: 0;
+            animation: pulse-dot 2.5s infinite;
+            box-shadow: 0 0 0 0 rgba(34,197,94,0.5);
+        }
+
+        @keyframes pulse-dot {
+            0%   { box-shadow: 0 0 0 0 rgba(34,197,94,0.5); }
+            70%  { box-shadow: 0 0 0 5px rgba(34,197,94,0); }
+            100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+        }
+
+        /* ─── QUICK STATS MODAL (Info Tab) ─── */
+        .view-info-inner {
+            padding: 16px;
+        }
+
+        .info-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .info-card-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text2);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .info-card-title svg {
+            width: 14px;
+            height: 14px;
+            fill: var(--primary2);
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .info-row:last-child { border-bottom: none; }
+
+        .info-row-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text3);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .info-row-label svg { width: 13px; height: 13px; fill: var(--text3); }
+
+        .info-row-value {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .info-row-value.green { color: var(--green); }
+        .info-row-value.gold  { color: var(--gold); }
+        .info-row-value.blue  { color: var(--blue); }
+        .info-row-value.red   { color: var(--red); }
+
+        .progress-bar-wrap {
+            margin-top: 10px;
+        }
+
+        .progress-bar-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text3);
+            margin-bottom: 5px;
+        }
+
+        .progress-bar-track {
+            height: 6px;
+            background: var(--bg2);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .pb-prem { background: linear-gradient(90deg, var(--gold), #ffb800); }
+        .pb-free { background: linear-gradient(90deg, var(--green), var(--accent)); }
+        .pb-fav  { background: linear-gradient(90deg, var(--primary), var(--primary2)); }
+        .pb-hist { background: linear-gradient(90deg, var(--blue), #60a5fa); }
+
+        .about-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+        }
+
+        .about-icon-wrap {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px var(--primary-glow);
+        }
+
+        .about-icon-wrap svg { width: 16px; height: 16px; fill: #fff; }
+
+        .about-text { flex: 1; }
+        .about-text-title { font-size: 13px; font-weight: 800; color: var(--text); }
+        .about-text-sub   { font-size: 11px; font-weight: 500; color: var(--text3); margin-top: 1px; }
+
+        .version-badge {
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--primary2);
+            background: rgba(124,58,237,0.12);
+            border: 1px solid rgba(124,58,237,0.2);
+            border-radius: 6px;
+            padding: 3px 7px;
+        }
+
         /* ─── RESPONSIVE TWEAKS ─── */
         @media (max-width: 360px) {
             .stats-row { gap: 7px; }
@@ -1113,11 +1441,17 @@
             <span class="app-title" id="botTitle">Katalog Drama</span>
         </div>
         <div class="header-right">
+            <!-- Sort Button -->
+            <div class="icon-btn" id="sortBtn" onclick="toggleSortDropdown()" title="Urutkan">
+                <svg viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z" fill="currentColor"/></svg>
+            </div>
+            <!-- Theme Toggle -->
             <div class="icon-btn" id="themeBtn" onclick="toggleTheme()">
                 <svg id="themeIcon" viewBox="0 0 24 24">
                     <path d="M12 3a9 9 0 109 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 01-4.4 2.26 5.403 5.403 0 01-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
                 </svg>
             </div>
+            <!-- User Chip -->
             <div class="user-chip" id="userProfile">
                 <img id="userAvatar" class="user-avatar" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="">
                 <div class="user-meta">
@@ -1127,6 +1461,36 @@
             </div>
         </div>
     </header>
+
+    <!-- SORT DROPDOWN -->
+    <div class="sort-dropdown" id="sortDropdown">
+        <div class="sort-label-title">Urutkan berdasarkan</div>
+        <div class="sort-option active" data-sort="default" onclick="setSort('default')">
+            <svg viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/></svg>
+            Default
+            <span class="sort-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>
+        </div>
+        <div class="sort-option" data-sort="az" onclick="setSort('az')">
+            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5.02 14H12.5l-1-2.6H8.5L7.5 17H6.02L9 9h2l3.98 8zm-5.5-4h2L9.5 10.4 8.48 13z"/></svg>
+            A – Z
+            <span class="sort-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>
+        </div>
+        <div class="sort-option" data-sort="za" onclick="setSort('za')">
+            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14l-4-4v3H8v-6h2v3l4-4v8z"/></svg>
+            Z – A
+            <span class="sort-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>
+        </div>
+        <div class="sort-option" data-sort="prem_first" onclick="setSort('prem_first')">
+            <svg viewBox="0 0 24 24"><path d="M12 2L2 9l3 13h14l3-13-10-7zm0 2.5l6.5 4.5-3.5 1-3-3.5-3 3.5-3.5-1 6.5-4.5z"/></svg>
+            Premium Dulu
+            <span class="sort-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>
+        </div>
+        <div class="sort-option" data-sort="free_first" onclick="setSort('free_first')">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+            Gratis Dulu
+            <span class="sort-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>
+        </div>
+    </div>
 
     <!-- LOADING BAR -->
     <div class="loading-bar" id="loadingBar"></div>
@@ -1143,9 +1507,11 @@
         <!-- Hero Banner -->
         <div class="hero-banner" id="heroBanner">
             <div class="hero-text">
-                <div class="hero-label">✦ Selamat Datang</div>
+                <div class="hero-label" style="display:flex;align-items:center;gap:5px;">
+                    <span class="online-dot"></span> <span>Live</span>
+                </div>
                 <div class="hero-title" id="heroTitle">Temukan Drama Favoritmu</div>
-                <div class="hero-sub" id="heroSub">Pilih & tonton langsung via Telegram</div>
+                <div class="hero-sub" id="heroSub">Pilih &amp; tonton langsung via Telegram</div>
             </div>
             <div class="hero-stat">
                 <span class="hero-stat-num" id="heroStatNum">—</span>
@@ -1209,17 +1575,21 @@
             </button>
         </div>
 
-        <!-- Result Info (shown when searching) -->
+        <!-- Result Info (shown when searching/sorting) -->
         <div class="result-info" id="resultInfo">
             <span class="result-text">Menampilkan <strong id="resultCount">0</strong> hasil</span>
             <span class="result-keyword" id="resultKeyword"></span>
         </div>
 
-        <!-- Divider -->
-        <div class="section-divider" id="homeDivider">
+        <!-- Divider + Sort chip -->
+        <div class="section-divider" id="homeDivider" style="flex-wrap:wrap;gap:8px;">
             <div class="divider-line"></div>
             <span class="divider-label" id="dividerLabel">Semua Drama</span>
             <div class="divider-line"></div>
+            <span class="sort-info-chip" id="sortInfoChip" onclick="toggleSortDropdown()">
+                <svg viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/></svg>
+                <span id="sortChipLabel">Default</span>
+            </span>
         </div>
 
         <div class="grid" id="homeGrid"></div>
@@ -1261,7 +1631,13 @@
                 </div>
                 Koleksi Tersimpan
             </div>
-            <span class="count-badge" id="favCountBadge">0 judul</span>
+            <div style="display:flex;align-items:center;gap:7px;">
+                <span class="count-badge" id="favCountBadge">0 judul</span>
+                <button class="section-action-btn green-btn" id="clearFavBtn" onclick="clearFavorites()" style="display:none;">
+                    <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                    Hapus Semua
+                </button>
+            </div>
         </div>
         <div class="section-divider">
             <div class="divider-line"></div>
@@ -1305,7 +1681,13 @@
                 </div>
                 Tontonan Terakhir
             </div>
-            <span class="count-badge" id="histCountBadge">0 judul</span>
+            <div style="display:flex;align-items:center;gap:7px;">
+                <span class="count-badge" id="histCountBadge">0 judul</span>
+                <button class="section-action-btn" id="clearHistBtn" onclick="clearHistory()" style="display:none;">
+                    <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                    Hapus
+                </button>
+            </div>
         </div>
         <div class="section-divider">
             <div class="divider-line"></div>
@@ -1340,6 +1722,146 @@
         </div>
     </div>
 
+    <!-- INFO TAB (NEW) -->
+    <div id="view-info" class="view-section">
+        <div class="view-info-inner">
+
+            <!-- About Card -->
+            <div class="info-card">
+                <div class="about-row">
+                    <div class="about-icon-wrap">
+                        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                    <div class="about-text">
+                        <div class="about-text-title" id="infoAppName">Katalog Drama</div>
+                        <div class="about-text-sub">Powered by Fsub Builder Dracin</div>
+                    </div>
+                    <span class="version-badge">v4.0</span>
+                </div>
+            </div>
+
+            <!-- Catalog Stats Card -->
+            <div class="info-card">
+                <div class="info-card-title">
+                    <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                    Statistik Katalog
+                </div>
+                <div class="info-row">
+                    <span class="info-row-label">
+                        <svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
+                        Total Judul
+                    </span>
+                    <span class="info-row-value" id="infoTotal">—</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-row-label">
+                        <svg viewBox="0 0 24 24"><path d="M12 2L2 9l3 13h14l3-13-10-7z"/></svg>
+                        Premium
+                    </span>
+                    <span class="info-row-value gold" id="infoPrem">—</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-row-label">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+                        Gratis
+                    </span>
+                    <span class="info-row-value green" id="infoFree">—</span>
+                </div>
+                <!-- Progress bars -->
+                <div class="progress-bar-wrap">
+                    <div class="progress-bar-label">
+                        <span style="color:var(--gold);">⭐ Premium</span>
+                        <span id="infoPremPct">0%</span>
+                    </div>
+                    <div class="progress-bar-track">
+                        <div class="progress-bar-fill pb-prem" id="pbPrem" style="width:0%"></div>
+                    </div>
+                </div>
+                <div class="progress-bar-wrap" style="margin-top:8px;">
+                    <div class="progress-bar-label">
+                        <span style="color:var(--green);">▶ Gratis</span>
+                        <span id="infoFreePct">0%</span>
+                    </div>
+                    <div class="progress-bar-track">
+                        <div class="progress-bar-fill pb-free" id="pbFree" style="width:0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activity Card -->
+            <div class="info-card">
+                <div class="info-card-title">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+                    Aktivitas Kamu
+                </div>
+                <div class="info-row">
+                    <span class="info-row-label">
+                        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                        Koleksi
+                    </span>
+                    <span class="info-row-value" id="infoFavCount" style="color:var(--primary2);">0 judul</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-row-label">
+                        <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                        Riwayat Tonton
+                    </span>
+                    <span class="info-row-value" id="infoHistCount" style="color:var(--blue);">0 judul</span>
+                </div>
+                <div class="progress-bar-wrap">
+                    <div class="progress-bar-label">
+                        <span style="color:var(--primary2);">❤ Koleksi tersimpan</span>
+                        <span id="infoFavPct">0%</span>
+                    </div>
+                    <div class="progress-bar-track">
+                        <div class="progress-bar-fill pb-fav" id="pbFav" style="width:0%"></div>
+                    </div>
+                </div>
+                <div class="progress-bar-wrap" style="margin-top:8px;">
+                    <div class="progress-bar-label">
+                        <span style="color:var(--blue);">🕐 Sudah ditonton</span>
+                        <span id="infoHistPct">0%</span>
+                    </div>
+                    <div class="progress-bar-track">
+                        <div class="progress-bar-fill pb-hist" id="pbHist" style="width:0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bot Info Card -->
+            <div class="info-card">
+                <div class="info-card-title">
+                    <svg viewBox="0 0 24 24"><path d="M21 9V7c0-1.1-.9-2-2-2h-2V3H7v2H5c-1.1 0-2 .9-2 2v2c0 1.8 1.2 3.3 2.9 3.8C6.6 15.3 8.5 17 11 17.5V20H8v2h8v-2h-3v-2.5c2.5-.5 4.4-2.2 5.1-4.7 1.7-.5 2.9-2 2.9-3.8zm-14 2V9h2v2H7zm10 0h-2V9h2v2z"/></svg>
+                    Info Bot
+                </div>
+                <div class="info-row">
+                    <span class="info-row-label">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                        Nama Bot
+                    </span>
+                    <span class="info-row-value" id="infoBotName">—</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-row-label">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                        Status
+                    </span>
+                    <span class="info-row-value green" style="display:flex;align-items:center;gap:5px;">
+                        <span class="online-dot"></span> Online
+                    </span>
+                </div>
+                <div class="info-row">
+                    <span class="info-row-label">
+                        <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+                        Builder
+                    </span>
+                    <span class="info-row-value" style="color:var(--accent);">Dracin</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <!-- BOTTOM NAV -->
     <nav class="bottom-nav">
         <div class="nav-item active" data-tab="home">
@@ -1351,14 +1873,22 @@
         <div class="nav-item" data-tab="fav">
             <div class="nav-icon-wrap">
                 <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                <span class="nav-badge" id="navBadgeFav"></span>
             </div>
             <span>Koleksi</span>
         </div>
         <div class="nav-item" data-tab="hist">
             <div class="nav-icon-wrap">
                 <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                <span class="nav-badge" id="navBadgeHist"></span>
             </div>
             <span>Riwayat</span>
+        </div>
+        <div class="nav-item" data-tab="info">
+            <div class="nav-icon-wrap">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            </div>
+            <span>Info</span>
         </div>
     </nav>
 
@@ -1377,11 +1907,13 @@
         let dynamicBotUsername = "Bot";
         let catalogData = [];
         let currentFilter = 'all';
+        let currentSort   = 'default';
         const ITEMS_PER_PAGE = 8;
         const pageState = { home: 1, fav: 1, hist: 1 };
         let favorites  = JSON.parse(localStorage.getItem('fav_v3'))  || [];
         let historyList= JSON.parse(localStorage.getItem('hist_v3')) || [];
         let isDark = localStorage.getItem('theme_v3') === null ? true : localStorage.getItem('theme_v3') === 'dark';
+        let sortDropdownOpen = false;
 
         // ── THEME ──
         function applyTheme() {
@@ -1442,6 +1974,53 @@
             _toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
         }
 
+        // ── SORT DROPDOWN ──
+        function toggleSortDropdown() {
+            hapticLight();
+            sortDropdownOpen = !sortDropdownOpen;
+            document.getElementById('sortDropdown').classList.toggle('show', sortDropdownOpen);
+            document.getElementById('sortBtn').classList.toggle('sort-active', sortDropdownOpen);
+        }
+
+        function closeSortDropdown() {
+            sortDropdownOpen = false;
+            document.getElementById('sortDropdown').classList.remove('show');
+            document.getElementById('sortBtn').classList.remove('sort-active');
+        }
+
+        document.addEventListener('click', (e) => {
+            if (sortDropdownOpen && !e.target.closest('#sortDropdown') && !e.target.closest('#sortBtn')) {
+                closeSortDropdown();
+            }
+        });
+
+        function setSort(val) {
+            hapticLight();
+            currentSort = val;
+            closeSortDropdown();
+            pageState.home = 1;
+            // Update active state in dropdown
+            document.querySelectorAll('.sort-option').forEach(o => {
+                o.classList.toggle('active', o.dataset.sort === val);
+            });
+            // Update sort chip
+            const labels = { default: 'Default', az: 'A–Z', za: 'Z–A', prem_first: 'Premium Dulu', free_first: 'Gratis Dulu' };
+            document.getElementById('sortChipLabel').textContent = labels[val] || 'Default';
+            const chip = document.getElementById('sortInfoChip');
+            chip.classList.toggle('show', val !== 'default');
+            renderTabHome();
+        }
+
+        // ── APPLY SORT ──
+        function applySortToData(data) {
+            const d = [...data];
+            if (currentSort === 'az')         return d.sort((a,b) => a.t.localeCompare(b.t));
+            if (currentSort === 'za')         return d.sort((a,b) => b.t.localeCompare(a.t));
+            if (currentSort === 'prem_first') return d.sort((a,b) => (b.is_prem||0) - (a.is_prem||0));
+            if (currentSort === 'free_first') return d.sort((a,b) => (a.is_prem||0) - (b.is_prem||0));
+            return d;
+        }
+
         // ── UPDATE STATS CHIPS ──
         function updateStats() {
             const total = catalogData.length;
@@ -1451,6 +2030,39 @@
             document.getElementById('statTotal').textContent   = total > 0 ? total : '—';
             document.getElementById('statPrem').textContent    = prem  > 0 ? prem  : '—';
             document.getElementById('statFree').textContent    = free  > 0 ? free  : '—';
+            updateInfoTab(total, prem, free);
+        }
+
+        // ── UPDATE INFO TAB ──
+        function updateInfoTab(total, prem, free) {
+            document.getElementById('infoTotal').textContent = total || '—';
+            document.getElementById('infoPrem').textContent  = prem  || '—';
+            document.getElementById('infoFree').textContent  = free  || '—';
+            const premPct = total > 0 ? Math.round((prem/total)*100) : 0;
+            const freePct = total > 0 ? Math.round((free/total)*100) : 0;
+            document.getElementById('infoPremPct').textContent = premPct + '%';
+            document.getElementById('infoFreePct').textContent = freePct + '%';
+            setTimeout(() => {
+                document.getElementById('pbPrem').style.width = premPct + '%';
+                document.getElementById('pbFree').style.width = freePct + '%';
+            }, 300);
+            updateInfoActivity();
+        }
+
+        function updateInfoActivity() {
+            const total = catalogData.length;
+            const favCount  = favorites.length;
+            const histCount = historyList.length;
+            document.getElementById('infoFavCount').textContent  = favCount  + ' judul';
+            document.getElementById('infoHistCount').textContent = histCount + ' judul';
+            const favPct  = total > 0 ? Math.min(100, Math.round((favCount/total)*100))  : 0;
+            const histPct = total > 0 ? Math.min(100, Math.round((histCount/total)*100)) : 0;
+            document.getElementById('infoFavPct').textContent  = favPct  + '%';
+            document.getElementById('infoHistPct').textContent = histPct + '%';
+            setTimeout(() => {
+                document.getElementById('pbFav').style.width  = favPct  + '%';
+                document.getElementById('pbHist').style.width = histPct + '%';
+            }, 300);
         }
 
         // ── UPDATE HERO GREETING ──
@@ -1494,6 +2106,41 @@
             const histBadge = document.getElementById('histCountBadge');
             if (favBadge)  favBadge.textContent  = favorites.length   + ' judul';
             if (histBadge) histBadge.textContent  = historyList.length + ' judul';
+
+            // Nav badges (red dots)
+            const nbFav  = document.getElementById('navBadgeFav');
+            const nbHist = document.getElementById('navBadgeHist');
+            if (nbFav)  { nbFav.textContent  = favorites.length  > 9 ? '9+' : favorites.length;   nbFav.classList.toggle('show',  favorites.length  > 0); }
+            if (nbHist) { nbHist.textContent = historyList.length > 9 ? '9+' : historyList.length; nbHist.classList.toggle('show', historyList.length > 0); }
+
+            // Clear buttons
+            const clearFav  = document.getElementById('clearFavBtn');
+            const clearHist = document.getElementById('clearHistBtn');
+            if (clearFav)  clearFav.style.display  = favorites.length   > 0 ? 'flex' : 'none';
+            if (clearHist) clearHist.style.display = historyList.length > 0 ? 'flex' : 'none';
+
+            updateInfoActivity();
+        }
+
+        // ── CLEAR HISTORY ──
+        function clearHistory() {
+            hapticHeavy();
+            historyList = [];
+            updateStorage();
+            updateTabBadges();
+            renderTabHist();
+            showToast('🗑 Riwayat berhasil dihapus');
+        }
+
+        // ── CLEAR FAVORITES ──
+        function clearFavorites() {
+            hapticHeavy();
+            favorites = [];
+            updateStorage();
+            updateTabBadges();
+            renderTabFav();
+            renderTabHome();
+            showToast('🗑 Semua koleksi dihapus');
         }
 
         // ── SEARCH CLEAR BUTTON ──
@@ -1568,7 +2215,10 @@
                         .then(j => {
                             if (j.ok) {
                                 dynamicBotUsername = j.result.username;
-                                document.getElementById('botTitle').textContent = j.result.first_name;
+                                const name = j.result.first_name;
+                                document.getElementById('botTitle').textContent  = name;
+                                document.getElementById('infoAppName').textContent = name;
+                                document.getElementById('infoBotName').textContent  = name + ' (@' + j.result.username + ')';
                             }
                         }).catch(() => {});
 
@@ -1618,9 +2268,12 @@
 
             const isFav   = favorites.includes(item.id);
             const isPrem  = item.is_prem === 1;
+            const isNew   = item.is_new === 1; // NEW flag support
             const badgeHtml = isPrem
                 ? `<span class="poster-badge badge-prem"><svg viewBox="0 0 24 24"><path d="M12 2L2 9l3 13h14l3-13-10-7zm0 2.5l6.5 4.5-3.5 1-3-3.5-3 3.5-3.5-1 6.5-4.5z"/></svg>Premium</span>`
                 : `<span class="poster-badge badge-free"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>Gratis</span>`;
+
+            const newRibbon = isNew ? `<span class="new-ribbon">Baru</span>` : '';
 
             const favPath_active = "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z";
             const favPath_empty  = "M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3zm-4.4 15.55l-.1.1-.1-.1C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05z";
@@ -1629,6 +2282,7 @@
                 <div class="poster-wrap shimmer" id="shimmer-${containerId}-${item.id}">
                     <img id="img-${containerId}-${item.id}" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="">
                     ${badgeHtml}
+                    ${newRibbon}
                 </div>
                 <div class="card-body">
                     <div class="card-title">${item.t}</div>
@@ -1649,6 +2303,7 @@
                 hapticHeavy();
                 historyList = [item.id, ...historyList.filter(i => i !== item.id)].slice(0, 30);
                 updateStorage();
+                updateTabBadges();
                 tg.openTelegramLink(`https://t.me/${dynamicBotUsername}?start=mp_${item.id}`);
                 tg.close();
             };
@@ -1751,7 +2406,7 @@
             const empty = document.getElementById('homeEmpty');
             grid.innerHTML = '';
             empty.style.display = 'none';
-            const filtered = getFiltered(catalogData);
+            const filtered = getFiltered(applySortToData(catalogData));
             updateResultInfo(filtered.length, searchInput.value, currentFilter);
             if (!filtered.length) { empty.style.display = 'flex'; document.getElementById('homePagination').style.display = 'none'; return; }
             paginate(filtered, pageState.home).forEach(item => createCard(item, 'homeGrid'));
@@ -1804,7 +2459,9 @@
                 if (tab === 'home') renderTabHome();
                 if (tab === 'fav')  renderTabFav();
                 if (tab === 'hist') renderTabHist();
+                if (tab === 'info') { updateInfoActivity(); }
                 window.scrollTo({ top: 0, behavior: 'smooth' });
+                closeSortDropdown();
             });
         });
 
