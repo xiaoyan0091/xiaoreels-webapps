@@ -1,2484 +1,929 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Katalog Drama Bot</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #060412;
-            --bg2: #0d0820;
-            --card: #110d26;
-            --card2: #160f2e;
-            --border: rgba(120, 80, 255, 0.12);
-            --primary: #7c3aed;
-            --primary2: #9d5cff;
-            --primary-glow: rgba(124, 58, 237, 0.35);
-            --accent: #06d6a0;
-            --accent2: #00f5d4;
-            --accent-glow: rgba(6, 214, 160, 0.3);
-            --gold: #f4c542;
-            --gold-bg: rgba(244, 197, 66, 0.12);
-            --green: #22c55e;
-            --green-bg: rgba(34, 197, 94, 0.12);
-            --text: #f0ecff;
-            --text2: #b8b0d8;
-            --text3: #6b6387;
-            --shadow: rgba(0, 0, 0, 0.5);
-            --shimmer1: #130e2a;
-            --shimmer2: #1e1840;
-            --nav-h: 68px;
-            --header-h: 62px;
-            --red: #ef4444;
-            --red-bg: rgba(239, 68, 68, 0.12);
-            --blue: #3b82f6;
-            --blue-bg: rgba(59, 130, 246, 0.12);
-        }
-
-        body.light {
-            --bg: #f0eeff;
-            --bg2: #e8e2ff;
-            --card: #ffffff;
-            --card2: #f5f2ff;
-            --border: rgba(120, 80, 255, 0.15);
-            --primary: #7c3aed;
-            --primary2: #9d5cff;
-            --primary-glow: rgba(124, 58, 237, 0.2);
-            --accent: #059669;
-            --accent2: #10b981;
-            --gold: #b45309;
-            --gold-bg: rgba(180, 83, 9, 0.08);
-            --green: #059669;
-            --green-bg: rgba(5, 150, 105, 0.1);
-            --text: #1a1232;
-            --text2: #4a4070;
-            --text3: #8a80aa;
-            --shadow: rgba(80, 60, 160, 0.1);
-            --shimmer1: #e8e2ff;
-            --shimmer2: #d8d0ff;
-            --red: #dc2626;
-            --red-bg: rgba(220, 38, 38, 0.08);
-            --blue: #2563eb;
-            --blue-bg: rgba(37, 99, 235, 0.08);
-        }
-
-        *, *::before, *::after {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-            margin: 0; padding: 0;
-        }
-
-        body {
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            overflow-x: hidden;
-            padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom));
-            min-height: 100dvh;
-            transition: background 0.4s, color 0.4s;
-        }
-
-        /* ─── BACKGROUND MESH ─── */
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background:
-                radial-gradient(ellipse 60% 40% at 80% 10%, rgba(124, 58, 237, 0.18) 0%, transparent 60%),
-                radial-gradient(ellipse 40% 30% at 10% 80%, rgba(6, 214, 160, 0.1) 0%, transparent 60%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        body.light::before {
-            background:
-                radial-gradient(ellipse 60% 40% at 80% 10%, rgba(124, 58, 237, 0.08) 0%, transparent 60%),
-                radial-gradient(ellipse 40% 30% at 10% 80%, rgba(6, 214, 160, 0.05) 0%, transparent 60%);
-        }
-
-        /* ─── HEADER ─── */
-        .header {
-            position: sticky;
-            top: 0;
-            z-index: 200;
-            height: var(--header-h);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 16px;
-            background: rgba(6, 4, 18, 0.85);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border-bottom: 1px solid var(--border);
-            transition: background 0.4s;
-        }
-
-        body.light .header {
-            background: rgba(240, 238, 255, 0.9);
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            min-width: 0;
-            flex: 1;
-        }
-
-        .logo-wrap {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            box-shadow: 0 4px 12px var(--primary-glow);
-        }
-
-        .logo-wrap svg {
-            width: 16px;
-            height: 16px;
-            fill: #fff;
-        }
-
-        .app-title {
-            font-size: 17px;
-            font-weight: 800;
-            letter-spacing: -0.3px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            background: linear-gradient(90deg, var(--text), var(--primary2));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-shrink: 0;
-            margin-left: 8px;
-        }
-
-        .icon-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            flex-shrink: 0;
-            position: relative;
-        }
-
-        .icon-btn:active { transform: scale(0.92); }
-        .icon-btn svg { width: 17px; height: 17px; fill: var(--text2); transition: fill 0.3s; }
-
-        /* Sort button active state */
-        .icon-btn.sort-active {
-            background: rgba(124,58,237,0.15);
-            border-color: var(--primary);
-        }
-        .icon-btn.sort-active svg { fill: var(--primary2); }
-
-        .user-chip {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 3px 10px 3px 3px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .user-chip:active { transform: scale(0.96); }
-
-        .user-avatar {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--primary);
-            flex-shrink: 0;
-        }
-
-        .user-meta { display: flex; flex-direction: column; }
-        .user-name { font-size: 12px; font-weight: 700; line-height: 1.2; }
-        .user-id { font-size: 10px; color: var(--text3); line-height: 1.2; }
-
-        /* ─── SORT DROPDOWN ─── */
-        .sort-dropdown {
-            position: fixed;
-            top: calc(var(--header-h) + 6px);
-            right: 16px;
-            background: var(--card2);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 6px;
-            z-index: 300;
-            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
-            min-width: 170px;
-            opacity: 0;
-            transform: translateY(-8px) scale(0.95);
-            pointer-events: none;
-            transition: opacity 0.2s, transform 0.2s;
-        }
-
-        body.light .sort-dropdown { box-shadow: 0 8px 24px rgba(80,60,160,0.15); }
-
-        .sort-dropdown.show {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-            pointer-events: auto;
-        }
-
-        .sort-label-title {
-            font-size: 10px;
-            font-weight: 700;
-            color: var(--text3);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 4px 8px 6px;
-        }
-
-        .sort-option {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 9px 10px;
-            border-radius: 9px;
-            cursor: pointer;
-            transition: background 0.15s;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text2);
-        }
-
-        .sort-option:active { background: var(--border); }
-
-        .sort-option svg {
-            width: 15px;
-            height: 15px;
-            fill: var(--text3);
-            flex-shrink: 0;
-        }
-
-        .sort-option.active {
-            background: rgba(124,58,237,0.12);
-            color: var(--primary2);
-        }
-
-        .sort-option.active svg { fill: var(--primary2); }
-
-        .sort-check {
-            margin-left: auto;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: var(--primary2);
-            display: none;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .sort-option.active .sort-check { display: flex; }
-
-        .sort-check svg { width: 8px; height: 8px; fill: #fff; }
-
-        /* ─── SEARCH ─── */
-        .search-wrap {
-            padding: 14px 16px 0;
-            position: relative;
-        }
-
-        .search-box {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: var(--card);
-            border: 1.5px solid var(--border);
-            border-radius: 14px;
-            padding: 11px 14px;
-            transition: all 0.25s;
-        }
-
-        .search-box:focus-within {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px var(--primary-glow);
-        }
-
-        .search-box svg {
-            width: 17px;
-            height: 17px;
-            fill: var(--text3);
-            flex-shrink: 0;
-            transition: fill 0.2s;
-        }
-
-        .search-box:focus-within svg { fill: var(--primary2); }
-
-        .search-box input {
-            flex: 1;
-            border: none;
-            background: transparent;
-            color: var(--text);
-            font-size: 14px;
-            font-family: inherit;
-            font-weight: 500;
-            outline: none;
-            min-width: 0;
-        }
-
-        .search-box input::placeholder { color: var(--text3); }
-
-        .search-clear {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: var(--text3);
-            border: none;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            flex-shrink: 0;
-            transition: background 0.2s;
-        }
-
-        .search-clear.show { display: flex; }
-        .search-clear:active { background: var(--primary); }
-        .search-clear svg { width: 10px; height: 10px; fill: #fff; }
-
-        /* ─── FILTERS ─── */
-        .filter-row {
-            display: flex;
-            gap: 8px;
-            padding: 12px 16px;
-            overflow-x: auto;
-            scrollbar-width: none;
-        }
-
-        .filter-row::-webkit-scrollbar { display: none; }
-
-        .filter-pill {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            padding: 7px 14px;
-            border-radius: 50px;
-            border: 1.5px solid var(--border);
-            background: var(--card);
-            color: var(--text3);
-            font-size: 12px;
-            font-weight: 700;
-            font-family: inherit;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.2s;
-            flex-shrink: 0;
-        }
-
-        .filter-pill:active { transform: scale(0.94); }
-
-        .filter-pill.active {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: #fff;
-            box-shadow: 0 4px 12px var(--primary-glow);
-        }
-
-        .filter-pill .pill-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: currentColor;
-            opacity: 0.7;
-        }
-
-        /* ─── TAB SECTIONS ─── */
-        .view-section {
-            display: none;
-            animation: slideUp 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) both;
-        }
-
-        .view-section.active { display: block; }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ─── SECTION HEADER ─── */
-        .section-head {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px 16px 0;
-        }
-
-        .section-title {
-            font-size: 17px;
-            font-weight: 800;
-            letter-spacing: -0.3px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .section-title .title-icon {
-            width: 30px;
-            height: 30px;
-            border-radius: 8px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .section-title .title-icon svg {
-            width: 16px;
-            height: 16px;
-            fill: #fff;
-        }
-
-        .count-badge {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text3);
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 3px 9px;
-        }
-
-        /* ─── GRID ─── */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 14px;
-            padding: 14px 16px;
-        }
-
-        @media (min-width: 480px) {
-            .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
-        }
-
-        @media (min-width: 768px) {
-            .grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; padding: 16px 20px; }
-        }
-
-        /* ─── MOVIE CARD ─── */
-        .movie-card {
-            border-radius: 14px;
-            overflow: hidden;
-            background: var(--card);
-            border: 1px solid var(--border);
-            position: relative;
-            transition: transform 0.18s, box-shadow 0.18s;
-            display: flex;
-            flex-direction: column;
-            cursor: pointer;
-        }
-
-        .movie-card:active {
-            transform: scale(0.95);
-        }
-
-        /* NEW BADGE on card */
-        .new-ribbon {
-            position: absolute;
-            top: 0; right: 0;
-            z-index: 3;
-            background: var(--accent);
-            color: #fff;
-            font-size: 7.5px;
-            font-weight: 900;
-            letter-spacing: 0.8px;
-            text-transform: uppercase;
-            padding: 3px 6px;
-            border-bottom-left-radius: 7px;
-        }
-
-        .poster-wrap {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 2/3;
-            background: var(--bg2);
-            overflow: hidden;
-        }
-
-        .poster-wrap img {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-            opacity: 0;
-            transition: opacity 0.5s;
-        }
-
-        .poster-wrap img.loaded { opacity: 1; }
-
-        /* Gradient overlay on poster */
-        .poster-wrap::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            height: 50%;
-            background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%);
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        /* Premium badge on poster */
-        .poster-badge {
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            z-index: 2;
-            display: flex;
-            align-items: center;
-            gap: 3px;
-            font-size: 8.5px;
-            font-weight: 800;
-            font-family: inherit;
-            padding: 3px 7px;
-            border-radius: 6px;
-            letter-spacing: 0.3px;
-            text-transform: uppercase;
-            backdrop-filter: blur(8px);
-        }
-
-        .badge-prem {
-            background: rgba(244, 197, 66, 0.2);
-            color: var(--gold);
-            border: 1px solid rgba(244, 197, 66, 0.3);
-        }
-
-        .badge-free {
-            background: rgba(34, 197, 94, 0.2);
-            color: var(--green);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-        }
-
-        .badge-prem svg, .badge-free svg {
-            width: 9px;
-            height: 9px;
-            fill: currentColor;
-        }
-
-        .card-body {
-            padding: 10px 10px 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            flex: 1;
-        }
-
-        .card-title {
-            font-size: 12px;
-            font-weight: 700;
-            line-height: 1.45;
-            color: var(--text);
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            min-height: 34px;
-        }
-
-        .card-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .fav-btn {
-            width: 28px;
-            height: 28px;
-            border-radius: 8px;
-            background: var(--bg2);
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            flex-shrink: 0;
-        }
-
-        .fav-btn svg {
-            width: 13px;
-            height: 13px;
-            fill: none;
-            stroke: var(--text3);
-            stroke-width: 2;
-            transition: all 0.2s;
-        }
-
-        .fav-btn.active {
-            background: rgba(124, 58, 237, 0.15);
-            border-color: var(--primary);
-        }
-
-        .fav-btn.active svg {
-            fill: var(--primary2);
-            stroke: var(--primary2);
-        }
-
-        .play-btn-mini {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            background: var(--primary);
-            color: #fff;
-            border-radius: 7px;
-            padding: 5px 8px;
-            font-size: 10px;
-            font-weight: 700;
-            font-family: inherit;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s;
-            flex-shrink: 0;
-        }
-
-        .play-btn-mini svg {
-            width: 9px;
-            height: 9px;
-            fill: currentColor;
-        }
-
-        .play-btn-mini:active { transform: scale(0.92); background: var(--primary2); }
-
-        /* ─── SHIMMER ─── */
-        .shimmer {
-            animation: shimmer 1.6s infinite linear;
-            background: linear-gradient(90deg,
-                var(--shimmer1) 0%,
-                var(--shimmer2) 40%,
-                var(--shimmer1) 100%
-            );
-            background-size: 200% 100%;
-        }
-
-        @keyframes shimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-
-        /* ─── EMPTY STATE ─── */
-        .empty-state {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 60px 30px;
-            gap: 12px;
-        }
-
-        .empty-icon {
-            width: 64px;
-            height: 64px;
-            border-radius: 20px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 4px;
-        }
-
-        .empty-icon svg {
-            width: 30px;
-            height: 30px;
-            fill: var(--text3);
-        }
-
-        .empty-title {
-            font-size: 16px;
-            font-weight: 800;
-            color: var(--text2);
-        }
-
-        .empty-sub {
-            font-size: 13px;
-            color: var(--text3);
-            line-height: 1.6;
-            max-width: 260px;
-        }
-
-        /* ─── PAGINATION ─── */
-        .pagination {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            gap: 14px;
-            padding: 16px 16px 20px;
-        }
-
-        .page-counter {
-            display: flex;
-            align-items: baseline;
-            gap: 5px;
-            font-size: 15px;
-            font-weight: 800;
-        }
-
-        .page-counter .slash { color: var(--text3); font-weight: 400; font-size: 13px; }
-        .page-counter .total { color: var(--text3); font-weight: 500; font-size: 13px; }
-
-        .dots-row {
-            display: flex;
-            gap: 5px;
-            align-items: center;
-        }
-
-        .dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--text3);
-            opacity: 0.35;
-            transition: all 0.3s;
-        }
-
-        .dot.active {
-            width: 20px;
-            border-radius: 4px;
-            background: var(--accent);
-            opacity: 1;
-        }
-
-        .page-actions {
-            display: flex;
-            gap: 10px;
-            width: 100%;
-            max-width: 320px;
-        }
-
-        .page-btn {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            padding: 12px;
-            border-radius: 12px;
-            border: 1.5px solid var(--border);
-            background: var(--card);
-            color: var(--text);
-            font-size: 13px;
-            font-weight: 700;
-            font-family: inherit;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .page-btn:not(:disabled):active { transform: scale(0.96); }
-
-        .page-btn.next-btn {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: #fff;
-            box-shadow: 0 4px 12px var(--primary-glow);
-        }
-
-        .page-btn:disabled {
-            opacity: 0.35;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-
-        .page-btn svg {
-            width: 15px;
-            height: 15px;
-            fill: currentColor;
-            flex-shrink: 0;
-        }
-
-        /* ─── BOTTOM NAV ─── */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: calc(var(--nav-h) + env(safe-area-inset-bottom));
-            padding-bottom: env(safe-area-inset-bottom);
-            background: rgba(6, 4, 18, 0.92);
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
-            border-top: 1px solid var(--border);
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-around;
-            z-index: 200;
-            transition: background 0.4s;
-        }
-
-        body.light .bottom-nav {
-            background: rgba(240, 238, 255, 0.95);
-        }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-            padding-top: 10px;
-            flex: 1;
-            height: var(--nav-h);
-            cursor: pointer;
-            color: var(--text3);
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 0.2px;
-            position: relative;
-            transition: color 0.25s;
-            user-select: none;
-        }
-
-        .nav-icon-wrap {
-            width: 40px;
-            height: 32px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.25s;
-            position: relative;
-        }
-
-        .nav-item svg {
-            width: 22px;
-            height: 22px;
-            fill: none;
-            stroke: currentColor;
-            stroke-width: 1.8;
-            transition: stroke 0.25s;
-        }
-
-        .nav-item.active {
-            color: var(--primary2);
-        }
-
-        .nav-item.active .nav-icon-wrap {
-            background: rgba(124, 58, 237, 0.15);
-        }
-
-        .nav-item.active svg {
-            stroke: var(--primary2);
-        }
-
-        /* Active bar on top */
-        .nav-item.active::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 28px;
-            height: 3px;
-            background: var(--primary2);
-            border-radius: 0 0 4px 4px;
-            box-shadow: 0 0 8px var(--primary-glow);
-        }
-
-        /* Nav badge */
-        .nav-badge {
-            position: absolute;
-            top: -3px;
-            right: 3px;
-            min-width: 16px;
-            height: 16px;
-            border-radius: 8px;
-            background: var(--red);
-            color: #fff;
-            font-size: 9px;
-            font-weight: 800;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 0 4px;
-            border: 2px solid var(--bg);
-            line-height: 1;
-        }
-
-        .nav-badge.show { display: flex; }
-
-        body.light .nav-badge { border-color: var(--bg); }
-
-        /* ─── SCROLL TO TOP ─── */
-        .scroll-top-btn {
-            position: fixed;
-            bottom: calc(var(--nav-h) + env(safe-area-inset-bottom) + 16px);
-            right: 16px;
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            background: var(--primary);
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 150;
-            box-shadow: 0 4px 16px var(--primary-glow);
-            opacity: 0;
-            pointer-events: none;
-            transform: translateY(10px);
-            transition: opacity 0.3s, transform 0.3s;
-        }
-
-        .scroll-top-btn.show {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateY(0);
-        }
-
-        .scroll-top-btn svg {
-            width: 18px;
-            height: 18px;
-            fill: #fff;
-        }
-
-        /* ─── HERO BANNER ─── */
-        .hero-banner {
-            margin: 14px 16px 0;
-            border-radius: 16px;
-            background: linear-gradient(130deg, rgba(124,58,237,0.22) 0%, rgba(6,214,160,0.12) 100%);
-            border: 1px solid rgba(124,58,237,0.2);
-            padding: 16px 18px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .hero-banner::before {
-            content: '';
-            position: absolute;
-            top: -30px; right: -30px;
-            width: 120px; height: 120px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(124,58,237,0.25) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        .hero-text { flex: 1; min-width: 0; }
-
-        .hero-label {
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            color: var(--accent);
-            margin-bottom: 4px;
-        }
-
-        .hero-title {
-            font-size: 15px;
-            font-weight: 800;
-            letter-spacing: -0.2px;
-            color: var(--text);
-            line-height: 1.3;
-        }
-
-        .hero-sub {
-            font-size: 11.5px;
-            color: var(--text3);
-            margin-top: 3px;
-            font-weight: 500;
-        }
-
-        .hero-stat {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2px;
-            flex-shrink: 0;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 10px 14px;
-        }
-
-        body.light .hero-stat {
-            background: rgba(0,0,0,0.04);
-        }
-
-        .hero-stat-num {
-            font-size: 20px;
-            font-weight: 900;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, var(--primary2), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1;
-        }
-
-        .hero-stat-label {
-            font-size: 9.5px;
-            font-weight: 600;
-            color: var(--text3);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* ─── STATS ROW ─── */
-        .stats-row {
-            display: flex;
-            gap: 10px;
-            padding: 12px 16px 0;
-        }
-
-        .stat-chip {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 7px 12px;
-            flex: 1;
-            min-width: 0;
-        }
-
-        .stat-chip-icon {
-            width: 24px;
-            height: 24px;
-            border-radius: 7px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .stat-chip-icon svg {
-            width: 13px;
-            height: 13px;
-            fill: currentColor;
-        }
-
-        .stat-chip-icon.prem-icon { background: var(--gold-bg); color: var(--gold); }
-        .stat-chip-icon.free-icon { background: var(--green-bg); color: var(--green); }
-        .stat-chip-icon.all-icon  { background: rgba(124,58,237,0.12); color: var(--primary2); }
-
-        .stat-chip-info { display: flex; flex-direction: column; min-width: 0; }
-
-        .stat-chip-num {
-            font-size: 14px;
-            font-weight: 800;
-            line-height: 1.1;
-            color: var(--text);
-        }
-
-        .stat-chip-label {
-            font-size: 9.5px;
-            font-weight: 600;
-            color: var(--text3);
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        /* ─── RESULT INFO BAR ─── */
-        .result-info {
-            display: none;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 16px 0;
-            gap: 8px;
-        }
-
-        .result-info.show { display: flex; }
-
-        .result-text {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text3);
-        }
-
-        .result-text strong {
-            color: var(--primary2);
-            font-weight: 800;
-        }
-
-        .result-keyword {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--accent);
-            background: rgba(6,214,160,0.1);
-            border: 1px solid rgba(6,214,160,0.2);
-            border-radius: 6px;
-            padding: 3px 8px;
-            max-width: 150px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        body.light .result-keyword {
-            background: rgba(5,150,105,0.08);
-            border-color: rgba(5,150,105,0.2);
-        }
-
-        /* ─── DIVIDER ─── */
-        .section-divider {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 14px 16px 0;
-        }
-
-        .divider-line {
-            flex: 1;
-            height: 1px;
-            background: var(--border);
-        }
-
-        .divider-label {
-            font-size: 10.5px;
-            font-weight: 700;
-            color: var(--text3);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            white-space: nowrap;
-        }
-
-        /* ─── TOAST NOTIFICATION ─── */
-        .toast {
-            position: fixed;
-            bottom: calc(var(--nav-h) + env(safe-area-inset-bottom) + 14px);
-            left: 50%;
-            transform: translateX(-50%) translateY(20px);
-            background: var(--card2);
-            border: 1px solid var(--border);
-            border-radius: 50px;
-            padding: 9px 18px;
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text);
-            white-space: nowrap;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.25s, transform 0.25s;
-            z-index: 300;
-            display: flex;
-            align-items: center;
-            gap: 7px;
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        .toast-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: var(--accent);
-            flex-shrink: 0;
-        }
-
-        /* ─── LOADING INDICATOR ─── */
-        .loading-bar {
-            position: fixed;
-            top: 0; left: 0;
-            height: 2px;
-            width: 0%;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            z-index: 999;
-            transition: width 0.4s ease, opacity 0.4s;
-            border-radius: 0 2px 2px 0;
-            box-shadow: 0 0 8px var(--primary-glow);
-        }
-
-        /* ─── SORT INFO CHIP (inline) ─── */
-        .sort-info-chip {
-            display: none;
-            align-items: center;
-            gap: 6px;
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--primary2);
-            background: rgba(124,58,237,0.1);
-            border: 1px solid rgba(124,58,237,0.2);
-            border-radius: 6px;
-            padding: 3px 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            flex-shrink: 0;
-        }
-
-        .sort-info-chip.show { display: inline-flex; }
-        .sort-info-chip:active { transform: scale(0.94); }
-        .sort-info-chip svg { width: 11px; height: 11px; fill: var(--primary2); }
-
-        /* ─── CLEAR HISTORY BUTTON ─── */
-        .section-action-btn {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--red);
-            background: var(--red-bg);
-            border: 1px solid rgba(239,68,68,0.2);
-            border-radius: 8px;
-            padding: 5px 10px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: inherit;
-        }
-
-        .section-action-btn:active { transform: scale(0.93); }
-        .section-action-btn svg { width: 12px; height: 12px; fill: var(--red); }
-
-        /* Clear fav btn - green/accent style */
-        .section-action-btn.green-btn {
-            color: var(--green);
-            background: var(--green-bg);
-            border-color: rgba(34,197,94,0.2);
-        }
-        .section-action-btn.green-btn svg { fill: var(--green); }
-
-        /* ─── ONLINE STATUS INDICATOR ─── */
-        .online-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: var(--green);
-            flex-shrink: 0;
-            animation: pulse-dot 2.5s infinite;
-            box-shadow: 0 0 0 0 rgba(34,197,94,0.5);
-        }
-
-        @keyframes pulse-dot {
-            0%   { box-shadow: 0 0 0 0 rgba(34,197,94,0.5); }
-            70%  { box-shadow: 0 0 0 5px rgba(34,197,94,0); }
-            100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
-        }
-
-        /* ─── QUICK STATS MODAL (Info Tab) ─── */
-        .view-info-inner {
-            padding: 16px;
-        }
-
-        .info-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 12px;
-        }
-
-        .info-card-title {
-            font-size: 13px;
-            font-weight: 800;
-            color: var(--text2);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 7px;
-        }
-
-        .info-card-title svg {
-            width: 14px;
-            height: 14px;
-            fill: var(--primary2);
-        }
-
-        .info-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .info-row:last-child { border-bottom: none; }
-
-        .info-row-label {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text3);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .info-row-label svg { width: 13px; height: 13px; fill: var(--text3); }
-
-        .info-row-value {
-            font-size: 13px;
-            font-weight: 800;
-            color: var(--text);
-        }
-
-        .info-row-value.green { color: var(--green); }
-        .info-row-value.gold  { color: var(--gold); }
-        .info-row-value.blue  { color: var(--blue); }
-        .info-row-value.red   { color: var(--red); }
-
-        .progress-bar-wrap {
-            margin-top: 10px;
-        }
-
-        .progress-bar-label {
-            display: flex;
-            justify-content: space-between;
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--text3);
-            margin-bottom: 5px;
-        }
-
-        .progress-bar-track {
-            height: 6px;
-            background: var(--bg2);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .progress-bar-fill {
-            height: 100%;
-            border-radius: 4px;
-            transition: width 1s cubic-bezier(0.22, 0.61, 0.36, 1);
-        }
-
-        .pb-prem { background: linear-gradient(90deg, var(--gold), #ffb800); }
-        .pb-free { background: linear-gradient(90deg, var(--green), var(--accent)); }
-        .pb-fav  { background: linear-gradient(90deg, var(--primary), var(--primary2)); }
-        .pb-hist { background: linear-gradient(90deg, var(--blue), #60a5fa); }
-
-        .about-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 0;
-        }
-
-        .about-icon-wrap {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            box-shadow: 0 4px 10px var(--primary-glow);
-        }
-
-        .about-icon-wrap svg { width: 16px; height: 16px; fill: #fff; }
-
-        .about-text { flex: 1; }
-        .about-text-title { font-size: 13px; font-weight: 800; color: var(--text); }
-        .about-text-sub   { font-size: 11px; font-weight: 500; color: var(--text3); margin-top: 1px; }
-
-        .version-badge {
-            font-size: 10px;
-            font-weight: 800;
-            color: var(--primary2);
-            background: rgba(124,58,237,0.12);
-            border: 1px solid rgba(124,58,237,0.2);
-            border-radius: 6px;
-            padding: 3px 7px;
-        }
-
-        /* ─── RESPONSIVE TWEAKS ─── */
-        @media (max-width: 360px) {
-            .stats-row { gap: 7px; }
-            .stat-chip { padding: 6px 9px; }
-            .stat-chip-num { font-size: 13px; }
-            .hero-banner { padding: 13px 14px; }
-            .hero-title { font-size: 14px; }
-        }
-
-        @media (min-width: 600px) {
-            .hero-banner { margin: 16px 20px 0; }
-            .stats-row { padding: 14px 20px 0; }
-            .result-info { padding: 12px 20px 0; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Katalog Drama</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{
+  --bg:#08051a;--bg2:#0f0b24;--card:#130e2c;--card2:#1a1238;
+  --border:rgba(139,92,246,.13);--border2:rgba(139,92,246,.22);
+  --p:#7c3aed;--p2:#9d5cff;--pg:rgba(124,58,237,.28);--pg2:rgba(124,58,237,.12);
+  --a:#06d6a0;--a2:#00f5d4;--ag:rgba(6,214,160,.2);
+  --gold:#f59e0b;--goldb:rgba(245,158,11,.12);
+  --green:#22c55e;--greenb:rgba(34,197,94,.12);
+  --red:#ef4444;--redb:rgba(239,68,68,.12);
+  --blue:#3b82f6;--blueb:rgba(59,130,246,.12);
+  --t:#f0ecff;--t2:#b8b0d8;--t3:#6b6387;
+  --nav:68px;--hdr:60px;
+  --sh1:#100c28;--sh2:#1d1740;
+}
+body.light{
+  --bg:#eeebff;--bg2:#e4e0ff;--card:#fff;--card2:#f5f2ff;
+  --border:rgba(124,58,237,.14);--border2:rgba(124,58,237,.25);
+  --t:#1a1232;--t2:#4a4070;--t3:#8078aa;
+  --sh1:#e8e4ff;--sh2:#d8d0ff;
+  --pg:rgba(124,58,237,.15);--pg2:rgba(124,58,237,.08);
+  --a:#059669;--ag:rgba(5,150,105,.14);
+  --gold:#d97706;--goldb:rgba(217,119,6,.1);
+  --green:#059669;--greenb:rgba(5,150,105,.1);
+  --red:#dc2626;--redb:rgba(220,38,38,.08);
+  --blue:#2563eb;--blueb:rgba(37,99,235,.08);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px;background:var(--bg);color:var(--t);overflow-x:hidden;padding-bottom:calc(var(--nav) + env(safe-area-inset-bottom));min-height:100dvh;transition:background .3s,color .3s}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 55% 35% at 85% 5%,rgba(124,58,237,.15) 0%,transparent 65%),radial-gradient(ellipse 40% 28% at 5% 90%,rgba(6,214,160,.07) 0%,transparent 60%)}
+body.light::before{background:radial-gradient(ellipse 55% 35% at 85% 5%,rgba(124,58,237,.06) 0%,transparent 65%)}
+img{display:block;max-width:100%}
+button,input{font-family:inherit}
+
+/* LOADING BAR */
+#lbar{position:fixed;top:0;left:0;height:2.5px;width:0;z-index:9999;background:linear-gradient(90deg,var(--p),var(--a));border-radius:0 2px 2px 0;box-shadow:0 0 10px var(--pg);transition:width .35s ease,opacity .3s}
+
+/* TOAST */
+#toast{position:fixed;bottom:calc(var(--nav) + env(safe-area-inset-bottom) + 14px);left:50%;transform:translateX(-50%) translateY(18px);background:var(--card2);border:1px solid var(--border2);border-radius:50px;padding:9px 18px 9px 12px;display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--t);white-space:nowrap;max-width:calc(100vw - 28px);box-shadow:0 8px 28px rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:opacity .22s,transform .22s;z-index:9998}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.tico{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.tico svg{width:11px;height:11px;fill:#fff}
+
+/* HEADER */
+.hdr{position:sticky;top:0;z-index:500;height:var(--hdr);display:flex;align-items:center;justify-content:space-between;padding:0 14px;gap:10px;background:rgba(8,5,26,.88);backdrop-filter:blur(22px) saturate(180%);-webkit-backdrop-filter:blur(22px) saturate(180%);border-bottom:1px solid var(--border);transition:background .3s}
+body.light .hdr{background:rgba(238,235,255,.92)}
+.hdr-l{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.logo{width:36px;height:36px;border-radius:10px;flex-shrink:0;background:linear-gradient(135deg,var(--p),var(--a));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px var(--pg)}
+.logo svg{width:16px;height:16px;fill:#fff}
+.app-name{font-size:17px;font-weight:800;letter-spacing:-.4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:linear-gradient(90deg,var(--t) 40%,var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hdr-r{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.ico-btn{width:36px;height:36px;border-radius:10px;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .18s;-webkit-user-select:none;user-select:none}
+.ico-btn:active{transform:scale(.9)}
+.ico-btn svg{width:17px;height:17px;fill:var(--t2)}
+.ico-btn.on{background:var(--pg2);border-color:var(--p)}
+.ico-btn.on svg{fill:var(--p2)}
+.uchip{display:flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:3px 10px 3px 3px;cursor:pointer;transition:all .18s}
+.uchip:active{transform:scale(.95)}
+.uavatar{width:30px;height:30px;border-radius:50%;object-fit:cover;border:2px solid var(--p);flex-shrink:0}
+.uname{font-size:12px;font-weight:700;line-height:1.2}
+.uid-el{font-size:10px;color:var(--t3);line-height:1.2}
+
+/* SORT DROPDOWN */
+.sdd{position:fixed;top:calc(var(--hdr)+6px);right:14px;background:var(--card2);border:1px solid var(--border2);border-radius:14px;padding:6px;z-index:600;min-width:178px;box-shadow:0 14px 44px rgba(0,0,0,.45);opacity:0;transform:translateY(-8px) scale(.95);pointer-events:none;transition:opacity .18s,transform .18s}
+body.light .sdd{box-shadow:0 8px 24px rgba(80,60,160,.18)}
+.sdd.open{opacity:1;transform:none;pointer-events:auto}
+.sdd-head{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:1.1px;padding:4px 9px 7px}
+.si{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:9px;cursor:pointer;transition:background .14s;font-size:12.5px;font-weight:600;color:var(--t2)}
+.si:active{background:var(--border)}
+.si svg{width:14px;height:14px;fill:var(--t3);flex-shrink:0}
+.si.on{background:var(--pg2);color:var(--p2)}
+.si.on svg{fill:var(--p2)}
+.si-ck{margin-left:auto;width:14px;height:14px;border-radius:50%;background:var(--p2);display:none;align-items:center;justify-content:center}
+.si.on .si-ck{display:flex}
+.si-ck svg{width:8px;height:8px;fill:#fff}
+
+/* SECTIONS */
+.sec{display:none;animation:fadeUp .27s cubic-bezier(.22,.61,.36,1) both}
+.sec.act{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* SEARCH */
+.sw{padding:14px 14px 0;position:relative}
+.sbox{display:flex;align-items:center;gap:9px;background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:11px 13px;transition:all .22s}
+.sbox:focus-within{border-color:var(--p);box-shadow:0 0 0 3px var(--pg)}
+.sbox>svg{width:16px;height:16px;fill:var(--t3);flex-shrink:0;transition:fill .2s}
+.sbox:focus-within>svg{fill:var(--p2)}
+.sinput{flex:1;border:none;background:transparent;color:var(--t);font-size:14px;font-weight:500;outline:none;min-width:0}
+.sinput::placeholder{color:var(--t3)}
+.sclear{width:20px;height:20px;border-radius:50%;background:var(--t3);border:none;cursor:pointer;display:none;align-items:center;justify-content:center}
+.sclear.show{display:flex}
+.sclear svg{width:10px;height:10px;fill:#fff}
+
+/* SEARCH SUGGESTIONS */
+.sug-box{position:absolute;top:calc(100% + 4px);left:14px;right:14px;background:var(--card2);border:1px solid var(--border2);border-radius:12px;padding:6px;z-index:400;display:none;box-shadow:0 10px 30px rgba(0,0,0,.35);max-height:220px;overflow-y:auto}
+.sug-box.show{display:block}
+.sug-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;cursor:pointer;transition:background .14s;font-size:12.5px;font-weight:600;color:var(--t2)}
+.sug-item:hover,.sug-item:active{background:var(--pg2);color:var(--t)}
+.sug-item svg{width:13px;height:13px;fill:var(--t3);flex-shrink:0}
+.sug-badge{font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;margin-left:auto;flex-shrink:0}
+.sug-badge.p{background:var(--goldb);color:var(--gold)}
+.sug-badge.f{background:var(--greenb);color:var(--green)}
+
+/* FILTER PILLS */
+.pills{display:flex;gap:8px;padding:11px 14px;overflow-x:auto;scrollbar-width:none}
+.pills::-webkit-scrollbar{display:none}
+.pill{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:50px;border:1.5px solid var(--border);background:var(--card);color:var(--t3);font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .18s;-webkit-user-select:none;user-select:none}
+.pill:active{transform:scale(.93)}
+.pill.on{background:var(--p);border-color:var(--p);color:#fff;box-shadow:0 4px 12px var(--pg)}
+.pill.prem.on{background:linear-gradient(135deg,var(--gold),#ffb800);border-color:var(--gold);box-shadow:0 4px 12px rgba(245,158,11,.3)}
+.pill.free.on{background:linear-gradient(135deg,var(--green),var(--a));border-color:var(--green);box-shadow:0 4px 12px rgba(34,197,94,.3)}
+.pill svg{width:10px;height:10px;fill:currentColor}
+
+/* QUICK ACTIONS */
+.qacts{display:flex;gap:9px;padding:11px 14px 0;overflow-x:auto;scrollbar-width:none}
+.qacts::-webkit-scrollbar{display:none}
+.qbtn{display:flex;align-items:center;gap:6px;padding:9px 14px;border-radius:12px;border:1.5px solid var(--border);background:var(--card);color:var(--t2);font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .18s;-webkit-user-select:none;user-select:none}
+.qbtn:active{transform:scale(.93)}
+.qbtn svg{width:14px;height:14px;fill:currentColor}
+.qbtn.qrnd{color:var(--gold);border-color:var(--goldb);background:var(--goldb)}
+.qbtn.qnew{color:var(--a);border-color:var(--ag);background:var(--ag)}
+.qbtn.qpop{color:var(--p2);border-color:var(--pg2);background:var(--pg2)}
+
+/* RESULT BAR */
+.rbar{display:none;align-items:center;justify-content:space-between;padding:8px 14px 0;gap:8px}
+.rbar.show{display:flex}
+.rbar-txt{font-size:12px;font-weight:600;color:var(--t3)}
+.rbar-txt strong{color:var(--p2);font-weight:800}
+.rbar-kw{display:inline-flex;align-items:center;font-size:11px;font-weight:700;color:var(--a);background:var(--ag);border:1px solid rgba(6,214,160,.2);border-radius:6px;padding:2px 8px;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* DIVIDER */
+.drow{display:flex;align-items:center;gap:10px;padding:12px 14px 0;flex-wrap:wrap}
+.dline{flex:1;height:1px;background:var(--border)}
+.dlbl{font-size:10.5px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:1px;white-space:nowrap}
+.sort-chip{display:none;align-items:center;gap:5px;font-size:11px;font-weight:700;color:var(--p2);background:var(--pg2);border:1px solid rgba(124,58,237,.22);border-radius:6px;padding:3px 8px;cursor:pointer}
+.sort-chip.show{display:inline-flex}
+.sort-chip svg{width:11px;height:11px;fill:var(--p2)}
+
+/* HERO */
+.hero{margin:14px 14px 0;border-radius:16px;background:linear-gradient(130deg,rgba(124,58,237,.2) 0%,rgba(6,214,160,.1) 100%);border:1px solid rgba(124,58,237,.18);padding:15px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-40px;right:-40px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(124,58,237,.22) 0%,transparent 70%);pointer-events:none}
+.hero-txt{flex:1;min-width:0}
+.hero-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--a);margin-bottom:4px;display:flex;align-items:center;gap:5px}
+.hero-h{font-size:15px;font-weight:800;letter-spacing:-.2px;line-height:1.3}
+.hero-sub{font-size:11.5px;color:var(--t3);margin-top:3px;font-weight:500}
+.hero-stat{display:flex;flex-direction:column;align-items:center;gap:2px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:12px;padding:10px 14px;flex-shrink:0}
+body.light .hero-stat{background:rgba(0,0,0,.04)}
+.hero-num{font-size:22px;font-weight:900;letter-spacing:-.5px;line-height:1;background:linear-gradient(135deg,var(--p2),var(--a));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-statlbl{font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px}
+
+/* STATS CHIPS */
+.stats-row{display:flex;gap:9px;padding:11px 14px 0}
+.sc{display:flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:7px 11px;flex:1;min-width:0}
+.sci{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sci svg{width:13px;height:13px;fill:currentColor}
+.sci.all{background:var(--pg2);color:var(--p2)}
+.sci.prem{background:var(--goldb);color:var(--gold)}
+.sci.free{background:var(--greenb);color:var(--green)}
+.scn{font-size:15px;font-weight:900;line-height:1.1;color:var(--t)}
+.scl{font-size:9.5px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* SEC HEADER */
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;padding:15px 14px 0;gap:8px}
+.sec-title{font-size:17px;font-weight:800;letter-spacing:-.3px;display:flex;align-items:center;gap:8px}
+.title-ico{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--p),var(--a));display:flex;align-items:center;justify-content:center}
+.title-ico svg{width:16px;height:16px;fill:#fff}
+.cnt-badge{font-size:11px;font-weight:700;color:var(--t3);background:var(--card);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+.sec-acts{display:flex;align-items:center;gap:7px}
+.act-btn{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;border-radius:8px;padding:5px 10px;cursor:pointer;transition:all .18s;border:1px solid;font-family:inherit}
+.act-btn:active{transform:scale(.92)}
+.act-btn svg{width:12px;height:12px;fill:currentColor}
+.act-btn.red{color:var(--red);background:var(--redb);border-color:rgba(239,68,68,.2)}
+
+/* GRID */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:13px;padding:13px 14px}
+@media(min-width:420px){.grid{grid-template-columns:repeat(auto-fill,minmax(155px,1fr))}}
+@media(min-width:600px){.grid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:15px;padding:15px 18px}}
+
+/* CARD */
+.card{border-radius:14px;overflow:hidden;background:var(--card);border:1px solid var(--border);display:flex;flex-direction:column;cursor:pointer;transition:transform .16s;position:relative}
+.card:active{transform:scale(.95)}
+.new-rib{position:absolute;top:0;right:0;z-index:3;background:var(--a);color:#fff;font-size:7px;font-weight:900;letter-spacing:.8px;text-transform:uppercase;padding:3px 6px;border-bottom-left-radius:7px}
+.poster{position:relative;width:100%;aspect-ratio:2/3;background:var(--bg2);overflow:hidden}
+.poster.shimmer{animation:shim 1.5s infinite linear;background:linear-gradient(90deg,var(--sh1) 0%,var(--sh2) 45%,var(--sh1) 100%);background-size:220% 100%}
+@keyframes shim{0%{background-position:220% 0}100%{background-position:-220% 0}}
+.poster img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .4s}
+.poster img.rdy{opacity:1}
+.pbadge{position:absolute;top:7px;left:7px;z-index:2;display:flex;align-items:center;gap:3px;font-size:8.5px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:3px 7px;border-radius:6px;backdrop-filter:blur(8px)}
+.pbadge.prem{background:rgba(245,158,11,.18);color:var(--gold);border:1px solid rgba(245,158,11,.28)}
+.pbadge.free{background:rgba(34,197,94,.18);color:var(--green);border:1px solid rgba(34,197,94,.28)}
+.pbadge svg{width:9px;height:9px;fill:currentColor}
+.watched-ov{position:absolute;bottom:0;left:0;right:0;height:28px;background:linear-gradient(to top,rgba(124,58,237,.7),transparent);display:flex;align-items:center;justify-content:center;gap:4px;opacity:0;z-index:2}
+.card.watched .watched-ov{opacity:1}
+.watched-ov svg{width:11px;height:11px;fill:#fff}
+.watched-ov span{font-size:9px;font-weight:800;color:#fff;letter-spacing:.5px;text-transform:uppercase}
+.cbody{padding:9px 10px 10px;display:flex;flex-direction:column;gap:8px;flex:1}
+.ctitle{font-size:12px;font-weight:700;line-height:1.45;color:var(--t);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:34px}
+.cfoot{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.fav-btn{width:28px;height:28px;border-radius:7px;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .18s;flex-shrink:0}
+.fav-btn svg{width:13px;height:13px;fill:none;stroke:var(--t3);stroke-width:2;transition:all .18s}
+.fav-btn.on{background:rgba(124,58,237,.14);border-color:var(--p)}
+.fav-btn.on svg{fill:var(--p2);stroke:var(--p2)}
+.play-btn{display:flex;align-items:center;gap:4px;background:var(--p);color:#fff;border-radius:7px;padding:5px 8px;font-size:10px;font-weight:700;border:none;cursor:pointer;transition:all .18s;flex-shrink:0}
+.play-btn svg{width:9px;height:9px;fill:#fff}
+.play-btn:active{transform:scale(.9);background:var(--p2)}
+
+/* DETAIL MODAL */
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:800;display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-ov.open{opacity:1;pointer-events:auto}
+.modal{width:100%;max-height:88dvh;background:var(--card2);border-radius:22px 22px 0 0;overflow:hidden;transform:translateY(40px);transition:transform .28s cubic-bezier(.22,.61,.36,1);display:flex;flex-direction:column}
+.modal-ov.open .modal{transform:translateY(0)}
+.modal-drag{width:40px;height:4px;border-radius:2px;background:var(--t3);opacity:.35;margin:12px auto 0;flex-shrink:0}
+.modal-scroll{overflow-y:auto;flex:1}
+.modal-hero{display:flex;gap:14px;padding:14px 16px}
+.modal-poster{width:90px;height:130px;border-radius:12px;overflow:hidden;background:var(--bg2);flex-shrink:0}
+.modal-poster img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .4s}
+.modal-poster img.rdy{opacity:1}
+.modal-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;padding-top:2px}
+.modal-title{font-size:16px;font-weight:800;letter-spacing:-.3px;line-height:1.35;color:var(--t)}
+.modal-badges{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.mbadge{display:inline-flex;align-items:center;gap:3px;font-size:9px;font-weight:800;text-transform:uppercase;padding:3px 8px;border-radius:6px}
+.mbadge.prem{background:var(--goldb);color:var(--gold);border:1px solid rgba(245,158,11,.25)}
+.mbadge.free{background:var(--greenb);color:var(--green);border:1px solid rgba(34,197,94,.25)}
+.mbadge.watched{background:var(--pg2);color:var(--p2);border:1px solid rgba(124,58,237,.22)}
+.mbadge.isnew{background:var(--ag);color:var(--a);border:1px solid rgba(6,214,160,.22)}
+.modal-acts{display:flex;gap:8px;margin-top:auto;padding-top:8px}
+.modal-play{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;background:var(--p);color:#fff;border:none;border-radius:11px;padding:11px;font-size:13px;font-weight:800;cursor:pointer;transition:all .18s}
+.modal-play:active{transform:scale(.96);background:var(--p2)}
+.modal-play svg{width:14px;height:14px;fill:#fff}
+.modal-ico-btn{width:44px;height:44px;border-radius:11px;background:var(--card);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .18s;flex-shrink:0}
+.modal-ico-btn svg{width:18px;height:18px;fill:none;stroke:var(--t3);stroke-width:1.8;transition:all .18s}
+.modal-ico-btn.share-btn svg{fill:var(--t3);stroke:none}
+.modal-ico-btn.fav-on{background:var(--pg2);border-color:var(--p)}
+.modal-ico-btn.fav-on svg{fill:var(--p2);stroke:var(--p2)}
+.modal-ico-btn:active{transform:scale(.92)}
+.modal-divider{height:1px;background:var(--border);margin:0 16px}
+.modal-section{padding:14px 16px}
+.modal-sec-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--t3);margin-bottom:10px}
+.rel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.rel-card{border-radius:10px;overflow:hidden;background:var(--card);border:1px solid var(--border);cursor:pointer;transition:transform .16s}
+.rel-card:active{transform:scale(.94)}
+.rel-card .poster{aspect-ratio:2/3}
+.rel-title{font-size:10px;font-weight:700;padding:6px;color:var(--t);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* HISTORY LIST */
+.hist-list{display:flex;flex-direction:column;padding:10px 14px}
+.hitem{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:opacity .15s}
+.hitem:last-child{border-bottom:none}
+.hitem:active{opacity:.7}
+.hthumb{width:46px;height:64px;border-radius:9px;background:var(--bg2);overflow:hidden;flex-shrink:0}
+.hthumb.shimmer{animation:shim 1.5s infinite linear;background:linear-gradient(90deg,var(--sh1) 0%,var(--sh2) 45%,var(--sh1) 100%);background-size:220% 100%}
+.hthumb img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s}
+.hthumb img.rdy{opacity:1}
+.hinfo{flex:1;min-width:0}
+.hinfo-title{font-size:13px;font-weight:700;color:var(--t);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.hbadge{display:inline-flex;align-items:center;gap:3px;font-size:9.5px;font-weight:800;text-transform:uppercase;padding:2px 6px;border-radius:5px;margin-top:5px}
+.hbadge.prem{background:var(--goldb);color:var(--gold)}
+.hbadge.free{background:var(--greenb);color:var(--green)}
+.hplay{width:32px;height:32px;border-radius:9px;background:var(--p);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .18s}
+.hplay svg{width:12px;height:12px;fill:#fff}
+.hplay:active{transform:scale(.9);background:var(--p2)}
+
+/* EMPTY */
+.empty{display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:55px 28px;gap:11px}
+.empty.show{display:flex}
+.empty-ico{width:62px;height:62px;border-radius:18px;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin-bottom:4px}
+.empty-ico svg{width:28px;height:28px;fill:var(--t3)}
+.empty h3{font-size:15px;font-weight:800;color:var(--t2)}
+.empty p{font-size:12.5px;color:var(--t3);line-height:1.6;max-width:250px}
+.empty-btn{margin-top:4px;display:flex;align-items:center;gap:6px;background:var(--p);color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:13px;font-weight:700;cursor:pointer;transition:all .18s}
+.empty-btn:active{transform:scale(.95)}
+.empty-btn svg{width:14px;height:14px;fill:#fff}
+
+/* PAGINATION */
+.pager{display:none;flex-direction:column;align-items:center;gap:13px;padding:14px 14px 20px}
+.pager.show{display:flex}
+.pctr{display:flex;align-items:baseline;gap:5px;font-size:15px;font-weight:800}
+.pctr .slash{color:var(--t3);font-weight:400;font-size:13px}
+.pctr .tot{color:var(--t3);font-size:13px;font-weight:500}
+.dots{display:flex;gap:5px;align-items:center}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--t3);opacity:.32;transition:all .28s}
+.dot.on{width:20px;border-radius:3px;background:var(--a);opacity:1}
+.page-acts{display:flex;gap:9px;width:100%;max-width:310px}
+.pbtn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:12px;border-radius:12px;border:1.5px solid var(--border);background:var(--card);color:var(--t);font-size:13px;font-weight:700;cursor:pointer;transition:all .18s}
+.pbtn.next{background:var(--p);border-color:var(--p);color:#fff;box-shadow:0 4px 12px var(--pg)}
+.pbtn:disabled{opacity:.3;cursor:not-allowed;box-shadow:none}
+.pbtn:not(:disabled):active{transform:scale(.95)}
+.pbtn svg{width:15px;height:15px;fill:currentColor;flex-shrink:0}
+
+/* BOTTOM NAV */
+.bnav{position:fixed;bottom:0;left:0;right:0;height:calc(var(--nav) + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);background:rgba(8,5,26,.93);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-top:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-around;z-index:500;transition:background .3s}
+body.light .bnav{background:rgba(238,235,255,.96)}
+.nitem{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding-top:9px;flex:1;height:var(--nav);cursor:pointer;color:var(--t3);font-size:10px;font-weight:700;position:relative;transition:color .22s;-webkit-user-select:none;user-select:none}
+.nitem::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:0;height:3px;border-radius:0 0 4px 4px;background:var(--p2);box-shadow:0 0 8px var(--pg);transition:width .22s}
+.nitem.on::before{width:26px}
+.nitem.on{color:var(--p2)}
+.nwrap{width:40px;height:30px;border-radius:10px;display:flex;align-items:center;justify-content:center;transition:background .22s;position:relative}
+.nitem.on .nwrap{background:var(--pg2)}
+.nitem svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;transition:stroke .22s}
+.nbadge{position:absolute;top:-3px;right:1px;min-width:16px;height:16px;border-radius:8px;background:var(--red);color:#fff;font-size:8.5px;font-weight:800;display:none;align-items:center;justify-content:center;padding:0 3px;border:2px solid var(--bg);line-height:1}
+body.light .nbadge{border-color:var(--bg)}
+.nbadge.show{display:flex}
+
+/* INFO TAB */
+.info-inner{padding:14px}
+.icard{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:11px}
+.icard-title{font-size:13px;font-weight:800;color:var(--t2);margin-bottom:11px;display:flex;align-items:center;gap:7px}
+.icard-title svg{width:14px;height:14px;fill:var(--p2)}
+.irow{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)}
+.irow:last-child{border-bottom:none;padding-bottom:0}
+.irow-l{font-size:12px;font-weight:600;color:var(--t3);display:flex;align-items:center;gap:6px}
+.irow-l svg{width:13px;height:13px;fill:var(--t3)}
+.irow-v{font-size:13px;font-weight:800;color:var(--t)}
+.irow-v.gold{color:var(--gold)}.irow-v.grn{color:var(--green)}.irow-v.blu{color:var(--blue)}.irow-v.pur{color:var(--p2)}
+.pb-wrap{margin-top:9px}
+.pb-lbl{display:flex;justify-content:space-between;font-size:10.5px;font-weight:600;color:var(--t3);margin-bottom:5px}
+.pb-track{height:6px;background:var(--bg2);border-radius:4px;overflow:hidden}
+.pb-fill{height:100%;border-radius:4px;transition:width 1.1s cubic-bezier(.22,.61,.36,1)}
+.pb-prem{background:linear-gradient(90deg,var(--gold),#ffb800)}
+.pb-free{background:linear-gradient(90deg,var(--green),var(--a))}
+.pb-fav{background:linear-gradient(90deg,var(--p),var(--p2))}
+.pb-hist{background:linear-gradient(90deg,var(--blue),#60a5fa)}
+.about-row{display:flex;align-items:center;gap:10px;padding:8px 0}
+.aico{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--p),var(--a));display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 10px var(--pg)}
+.aico svg{width:16px;height:16px;fill:#fff}
+.atxt{flex:1}.atxt-h{font-size:13px;font-weight:800;color:var(--t)}.atxt-s{font-size:11px;font-weight:500;color:var(--t3);margin-top:1px}
+.vbadge{font-size:10px;font-weight:800;color:var(--p2);background:var(--pg2);border:1px solid rgba(124,58,237,.22);border-radius:6px;padding:3px 8px}
+
+/* ONLINE DOT */
+.odot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0;animation:pdot 2.5s infinite;box-shadow:0 0 0 0 rgba(34,197,94,.5)}
+@keyframes pdot{0%{box-shadow:0 0 0 0 rgba(34,197,94,.5)}70%{box-shadow:0 0 0 5px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
+
+/* SCROLL TOP */
+.stbtn{position:fixed;bottom:calc(var(--nav) + env(safe-area-inset-bottom) + 14px);right:14px;width:42px;height:42px;border-radius:12px;background:var(--p);border:none;cursor:pointer;z-index:490;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px var(--pg);opacity:0;pointer-events:none;transform:translateY(10px);transition:opacity .25s,transform .25s}
+.stbtn.show{opacity:1;pointer-events:auto;transform:none}
+.stbtn svg{width:18px;height:18px;fill:#fff}
+
+@media(max-width:360px){.stats-row{gap:6px}.sc{padding:6px 8px}.scn{font-size:13px}.grid{grid-template-columns:repeat(auto-fill,minmax(138px,1fr));gap:10px;padding:10px 12px}}
+@media(min-width:600px){.hero,.sw,.pills,.stats-row,.drow,.sec-hdr,.rbar,.qacts,.hist-list,.info-inner{padding-left:18px;padding-right:18px}.hero{margin-left:18px;margin-right:18px}.grid{padding:14px 18px}}
+</style>
 </head>
 <body>
 
-    <!-- HEADER -->
-    <header class="header">
-        <div class="header-left">
-            <div class="logo-wrap">
-                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-            </div>
-            <span class="app-title" id="botTitle">Katalog Drama</span>
-        </div>
-        <div class="header-right">
-            <!-- Sort Button -->
-            <div class="icon-btn" id="sortBtn" onclick="toggleSortDropdown()" title="Urutkan">
-                <svg viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z" fill="currentColor"/></svg>
-            </div>
-            <!-- Theme Toggle -->
-            <div class="icon-btn" id="themeBtn" onclick="toggleTheme()">
-                <svg id="themeIcon" viewBox="0 0 24 24">
-                    <path d="M12 3a9 9 0 109 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 01-4.4 2.26 5.403 5.403 0 01-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
-                </svg>
-            </div>
-            <!-- User Chip -->
-            <div class="user-chip" id="userProfile">
-                <img id="userAvatar" class="user-avatar" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="">
-                <div class="user-meta">
-                    <span class="user-name" id="userName">Guest</span>
-                    <span class="user-id" id="userId">ID: —</span>
-                </div>
-            </div>
-        </div>
-    </header>
+<div id="lbar"></div>
+<div id="toast"><div class="tico" id="tico"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div><span id="ttxt">—</span></div>
 
-    <!-- SORT DROPDOWN -->
-    <div class="sort-dropdown" id="sortDropdown">
-        <div class="sort-label-title">Urutkan berdasarkan</div>
-        <div class="sort-option active" data-sort="default" onclick="setSort('default')">
-            <svg viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/></svg>
-            Default
-            <span class="sort-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>
+<!-- DETAIL MODAL -->
+<div class="modal-ov" id="modalOv">
+  <div class="modal" id="modal">
+    <div class="modal-drag"></div>
+    <div class="modal-scroll">
+      <div class="modal-hero">
+        <div class="modal-poster"><img id="mImg" src="" alt=""></div>
+        <div class="modal-info">
+          <div class="modal-title" id="mTitle">—</div>
+          <div class="modal-badges" id="mBadges"></div>
+          <div class="modal-acts">
+            <button class="modal-play" id="mPlay"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Tonton Sekarang</button>
+            <div class="modal-ico-btn" id="mFav"><svg viewBox="0 0 24 24"><path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3zm-4.4 15.55l-.1.1-.1-.1C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05z"/></svg></div>
+            <div class="modal-ico-btn share-btn" id="mShare"><svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"/></svg></div>
+          </div>
         </div>
-        <div class="sort-option" data-sort="az" onclick="setSort('az')">
-            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5.02 14H12.5l-1-2.6H8.5L7.5 17H6.02L9 9h2l3.98 8zm-5.5-4h2L9.5 10.4 8.48 13z"/></svg>
-            A – Z
-            <span class="sort-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>
-        </div>
-        <div class="sort-option" data-sort="za" onclick="setSort('za')">
-            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14l-4-4v3H8v-6h2v3l4-4v8z"/></svg>
-            Z – A
-            <span class="sort-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>
-        </div>
-        <div class="sort-option" data-sort="prem_first" onclick="setSort('prem_first')">
-            <svg viewBox="0 0 24 24"><path d="M12 2L2 9l3 13h14l3-13-10-7zm0 2.5l6.5 4.5-3.5 1-3-3.5-3 3.5-3.5-1 6.5-4.5z"/></svg>
-            Premium Dulu
-            <span class="sort-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>
-        </div>
-        <div class="sort-option" data-sort="free_first" onclick="setSort('free_first')">
-            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
-            Gratis Dulu
-            <span class="sort-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>
-        </div>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="modal-section" id="mRelSec" style="display:none">
+        <div class="modal-sec-title">Drama Serupa</div>
+        <div class="rel-grid" id="mRel"></div>
+      </div>
     </div>
+  </div>
+</div>
 
-    <!-- LOADING BAR -->
-    <div class="loading-bar" id="loadingBar"></div>
-
-    <!-- TOAST -->
-    <div class="toast" id="toastMsg">
-        <span class="toast-dot"></span>
-        <span id="toastText">—</span>
+<!-- HEADER -->
+<header class="hdr">
+  <div class="hdr-l">
+    <div class="logo"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+    <span class="app-name" id="appName">Katalog Drama</span>
+  </div>
+  <div class="hdr-r">
+    <div class="ico-btn" id="sortBtn"><svg viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z" fill="currentColor"/></svg></div>
+    <div class="ico-btn" id="themeBtn"><svg id="themeIco" viewBox="0 0 24 24"><path d="M12 3a9 9 0 109 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 01-4.4 2.26 5.403 5.403 0 01-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg></div>
+    <div class="uchip">
+      <img id="uavatar" class="uavatar" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="">
+      <div><div class="uname" id="uname">Guest</div><div class="uid-el" id="uid-el">ID: —</div></div>
     </div>
+  </div>
+</header>
 
-    <!-- HOME TAB -->
-    <div id="view-home" class="view-section active">
+<!-- SORT DROPDOWN -->
+<div class="sdd" id="sdd">
+  <div class="sdd-head">Urutkan</div>
+  <div class="si on" data-s="def"><svg viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/></svg>Default<span class="si-ck"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span></div>
+  <div class="si" data-s="az"><svg viewBox="0 0 24 24"><path d="M4 6h8v2H4zm0 4h8v2H4zm0 4h8v2H4zm10-9l4 4h-3v9h-2V5h-3l4-4z"/></svg>A – Z<span class="si-ck"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span></div>
+  <div class="si" data-s="za"><svg viewBox="0 0 24 24"><path d="M4 6h8v2H4zm0 4h6v2H4zm0 4h4v2H4zm10 3l4-4h-3V5h-2v8h-3l4 4z"/></svg>Z – A<span class="si-ck"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span></div>
+  <div class="si" data-s="prem"><svg viewBox="0 0 24 24"><path d="M12 2L2 9l3 13h14l3-13-10-7z"/></svg>Premium Dulu<span class="si-ck"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span></div>
+  <div class="si" data-s="free"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>Gratis Dulu<span class="si-ck"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span></div>
+</div>
 
-        <!-- Hero Banner -->
-        <div class="hero-banner" id="heroBanner">
-            <div class="hero-text">
-                <div class="hero-label" style="display:flex;align-items:center;gap:5px;">
-                    <span class="online-dot"></span> <span>Live</span>
-                </div>
-                <div class="hero-title" id="heroTitle">Temukan Drama Favoritmu</div>
-                <div class="hero-sub" id="heroSub">Pilih &amp; tonton langsung via Telegram</div>
-            </div>
-            <div class="hero-stat">
-                <span class="hero-stat-num" id="heroStatNum">—</span>
-                <span class="hero-stat-label">Judul</span>
-            </div>
-        </div>
-
-        <!-- Stats Row -->
-        <div class="stats-row" id="statsRow">
-            <div class="stat-chip">
-                <div class="stat-chip-icon all-icon">
-                    <svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
-                </div>
-                <div class="stat-chip-info">
-                    <span class="stat-chip-num" id="statTotal">—</span>
-                    <span class="stat-chip-label">Total</span>
-                </div>
-            </div>
-            <div class="stat-chip">
-                <div class="stat-chip-icon prem-icon">
-                    <svg viewBox="0 0 24 24"><path d="M12 2L2 9l3 13h14l3-13-10-7zm0 2.5l6.5 4.5-3.5 1-3-3.5-3 3.5-3.5-1 6.5-4.5z"/></svg>
-                </div>
-                <div class="stat-chip-info">
-                    <span class="stat-chip-num" id="statPrem">—</span>
-                    <span class="stat-chip-label">Premium</span>
-                </div>
-            </div>
-            <div class="stat-chip">
-                <div class="stat-chip-icon free-icon">
-                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
-                </div>
-                <div class="stat-chip-info">
-                    <span class="stat-chip-num" id="statFree">—</span>
-                    <span class="stat-chip-label">Gratis</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Search -->
-        <div class="search-wrap">
-            <div class="search-box">
-                <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-                <input type="text" id="searchInput" placeholder="Cari judul film atau serial…" autocomplete="off" spellcheck="false">
-                <button class="search-clear" id="searchClear">
-                    <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-                </button>
-            </div>
-        </div>
-
-        <div class="filter-row">
-            <button class="filter-pill active" data-filter="all">
-                <span class="pill-dot"></span> Semua
-            </button>
-            <button class="filter-pill" data-filter="prem">
-                <svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor"><path d="M12 2L2 9l3 13h14l3-13-10-7zm0 2.5l6.5 4.5-3.5 1-3-3.5-3 3.5-3.5-1 6.5-4.5z"/></svg>
-                Premium
-            </button>
-            <button class="filter-pill" data-filter="free">
-                <svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
-                Gratis
-            </button>
-        </div>
-
-        <!-- Result Info (shown when searching/sorting) -->
-        <div class="result-info" id="resultInfo">
-            <span class="result-text">Menampilkan <strong id="resultCount">0</strong> hasil</span>
-            <span class="result-keyword" id="resultKeyword"></span>
-        </div>
-
-        <!-- Divider + Sort chip -->
-        <div class="section-divider" id="homeDivider" style="flex-wrap:wrap;gap:8px;">
-            <div class="divider-line"></div>
-            <span class="divider-label" id="dividerLabel">Semua Drama</span>
-            <div class="divider-line"></div>
-            <span class="sort-info-chip" id="sortInfoChip" onclick="toggleSortDropdown()">
-                <svg viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/></svg>
-                <span id="sortChipLabel">Default</span>
-            </span>
-        </div>
-
-        <div class="grid" id="homeGrid"></div>
-
-        <div id="homeEmpty" class="empty-state">
-            <div class="empty-icon">
-                <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-            </div>
-            <div class="empty-title">Tidak Ditemukan</div>
-            <div class="empty-sub">Drama yang kamu cari tidak ada di database.</div>
-        </div>
-
-        <div class="pagination" id="homePagination">
-            <div class="page-counter">
-                <span id="pageCurrentHome">1</span>
-                <span class="slash">/</span>
-                <span id="pageTotalHome" class="total">1</span>
-            </div>
-            <div class="dots-row" id="homeDots"></div>
-            <div class="page-actions">
-                <button class="page-btn" id="prevHome" onclick="changePage('home',-1)">
-                    <svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>
-                    Sebelumnya
-                </button>
-                <button class="page-btn next-btn" id="nextHome" onclick="changePage('home',1)">
-                    Berikutnya
-                    <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
-                </button>
-            </div>
-        </div>
+<!-- HOME TAB -->
+<div id="sec-home" class="sec act">
+  <div class="hero">
+    <div class="hero-txt">
+      <div class="hero-lbl"><span class="odot"></span><span>Live</span></div>
+      <div class="hero-h" id="heroH">Temukan Drama Favoritmu</div>
+      <div class="hero-sub" id="heroSub">Pilih &amp; tonton via Telegram</div>
     </div>
+    <div class="hero-stat"><span class="hero-num" id="heroNum">—</span><span class="hero-statlbl">Judul</span></div>
+  </div>
 
-    <!-- FAV TAB -->
-    <div id="view-fav" class="view-section">
-        <div class="section-head">
-            <div class="section-title">
-                <div class="title-icon">
-                    <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                </div>
-                Koleksi Tersimpan
-            </div>
-            <div style="display:flex;align-items:center;gap:7px;">
-                <span class="count-badge" id="favCountBadge">0 judul</span>
-                <button class="section-action-btn green-btn" id="clearFavBtn" onclick="clearFavorites()" style="display:none;">
-                    <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-                    Hapus Semua
-                </button>
-            </div>
-        </div>
-        <div class="section-divider">
-            <div class="divider-line"></div>
-            <span class="divider-label">Drama Pilihan Kamu</span>
-            <div class="divider-line"></div>
-        </div>
-        <div class="grid" id="favGrid"></div>
-        <div id="favEmpty" class="empty-state">
-            <div class="empty-icon">
-                <svg viewBox="0 0 24 24"><path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3zm-4.4 15.55l-.1.1-.1-.1C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05z"/></svg>
-            </div>
-            <div class="empty-title">Koleksi Kosong</div>
-            <div class="empty-sub">Tekan ikon ❤️ pada kartu film untuk menyimpan ke koleksi.</div>
-        </div>
-        <div class="pagination" id="favPagination">
-            <div class="page-counter">
-                <span id="pageCurrentFav">1</span>
-                <span class="slash">/</span>
-                <span id="pageTotalFav" class="total">1</span>
-            </div>
-            <div class="dots-row" id="favDots"></div>
-            <div class="page-actions">
-                <button class="page-btn" id="prevFav" onclick="changePage('fav',-1)">
-                    <svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>
-                    Sebelumnya
-                </button>
-                <button class="page-btn next-btn" id="nextFav" onclick="changePage('fav',1)">
-                    Berikutnya
-                    <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
-                </button>
-            </div>
-        </div>
+  <div class="stats-row">
+    <div class="sc"><div class="sci all"><svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg></div><div><div class="scn" id="stAll">—</div><div class="scl">Total</div></div></div>
+    <div class="sc"><div class="sci prem"><svg viewBox="0 0 24 24"><path d="M12 2L2 9l3 13h14l3-13-10-7z"/></svg></div><div><div class="scn" id="stPrem">—</div><div class="scl">Premium</div></div></div>
+    <div class="sc"><div class="sci free"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg></div><div><div class="scn" id="stFree">—</div><div class="scl">Gratis</div></div></div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="qacts">
+    <button class="qbtn qrnd" id="btnRand"><svg viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>Acak Drama</button>
+    <button class="qbtn qnew" id="btnNew"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>Baru Ditambah</button>
+    <button class="qbtn qpop" id="btnPop"><svg viewBox="0 0 24 24"><path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7"/></svg>Terpopuler</button>
+  </div>
+
+  <!-- Search -->
+  <div class="sw" style="position:relative">
+    <div class="sbox">
+      <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      <input class="sinput" id="sinput" type="text" placeholder="Cari judul drama…" autocomplete="off" spellcheck="false">
+      <button class="sclear" id="sclear"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
     </div>
+    <div class="sug-box" id="sugBox"></div>
+  </div>
 
-    <!-- HISTORY TAB -->
-    <div id="view-hist" class="view-section">
-        <div class="section-head">
-            <div class="section-title">
-                <div class="title-icon">
-                    <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
-                </div>
-                Tontonan Terakhir
-            </div>
-            <div style="display:flex;align-items:center;gap:7px;">
-                <span class="count-badge" id="histCountBadge">0 judul</span>
-                <button class="section-action-btn" id="clearHistBtn" onclick="clearHistory()" style="display:none;">
-                    <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
-                    Hapus
-                </button>
-            </div>
-        </div>
-        <div class="section-divider">
-            <div class="divider-line"></div>
-            <span class="divider-label">Riwayat Aktivitas</span>
-            <div class="divider-line"></div>
-        </div>
-        <div class="grid" id="histGrid"></div>
-        <div id="histEmpty" class="empty-state">
-            <div class="empty-icon">
-                <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
-            </div>
-            <div class="empty-title">Belum Ada Riwayat</div>
-            <div class="empty-sub">Riwayat tontonan kamu akan muncul otomatis di sini.</div>
-        </div>
-        <div class="pagination" id="histPagination">
-            <div class="page-counter">
-                <span id="pageCurrentHist">1</span>
-                <span class="slash">/</span>
-                <span id="pageTotalHist" class="total">1</span>
-            </div>
-            <div class="dots-row" id="histDots"></div>
-            <div class="page-actions">
-                <button class="page-btn" id="prevHist" onclick="changePage('hist',-1)">
-                    <svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>
-                    Sebelumnya
-                </button>
-                <button class="page-btn next-btn" id="nextHist" onclick="changePage('hist',1)">
-                    Berikutnya
-                    <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
-                </button>
-            </div>
-        </div>
+  <!-- Filter Pills -->
+  <div class="pills">
+    <button class="pill on" data-f="all"><svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm2 5h12v2H6zm4 5h4v2h-4z"/></svg>Semua</button>
+    <button class="pill prem" data-f="prem"><svg viewBox="0 0 24 24"><path d="M12 2L2 9l3 13h14l3-13-10-7z"/></svg>Premium</button>
+    <button class="pill free" data-f="free"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>Gratis</button>
+    <button class="pill" data-f="watched"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Sudah Ditonton</button>
+    <button class="pill" data-f="unwatched"><svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>Belum Ditonton</button>
+    <button class="pill" data-f="fav"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>Koleksi</button>
+  </div>
+
+  <div class="rbar" id="rbar"><span class="rbar-txt">Tampil <strong id="rcount">0</strong> hasil</span><span class="rbar-kw" id="rkw" style="display:none"></span></div>
+
+  <div class="drow">
+    <div class="dline"></div><span class="dlbl" id="divLbl">Semua Drama</span><div class="dline"></div>
+    <span class="sort-chip" id="sortChip"><svg viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/></svg><span id="sortChipTxt">Default</span></span>
+  </div>
+
+  <div class="grid" id="homeGrid"></div>
+  <div class="empty" id="homeEmpty">
+    <div class="empty-ico"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></div>
+    <h3>Tidak Ditemukan</h3><p id="homeEmptyMsg">Drama yang dicari tidak ada.</p>
+    <button class="empty-btn" id="homeEmptyBtn" style="display:none"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>Reset Filter</button>
+  </div>
+  <div class="pager" id="homePager">
+    <div class="pctr"><span id="hCur">1</span><span class="slash">/</span><span class="tot" id="hTot">1</span></div>
+    <div class="dots" id="hDots"></div>
+    <div class="page-acts">
+      <button class="pbtn" id="hPrev"><svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>Sebelumnya</button>
+      <button class="pbtn next" id="hNext">Berikutnya<svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></button>
     </div>
+  </div>
+</div>
 
-    <!-- INFO TAB (NEW) -->
-    <div id="view-info" class="view-section">
-        <div class="view-info-inner">
+<!-- FAV TAB -->
+<div id="sec-fav" class="sec">
+  <div class="sec-hdr">
+    <div class="sec-title"><div class="title-ico"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>Koleksi Saya</div>
+    <div class="sec-acts"><span class="cnt-badge" id="favBadge">0 judul</span><button class="act-btn red" id="clrFav" style="display:none"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>Hapus Semua</button></div>
+  </div>
+  <div class="drow"><div class="dline"></div><span class="dlbl">Drama Tersimpan</span><div class="dline"></div></div>
+  <div class="grid" id="favGrid"></div>
+  <div class="empty" id="favEmpty"><div class="empty-ico"><svg viewBox="0 0 24 24"><path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3zm-4.4 15.55l-.1.1-.1-.1C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05z"/></svg></div><h3>Koleksi Kosong</h3><p>Tekan ❤ pada kartu untuk menyimpan.</p></div>
+  <div class="pager" id="favPager">
+    <div class="pctr"><span id="fCur">1</span><span class="slash">/</span><span class="tot" id="fTot">1</span></div><div class="dots" id="fDots"></div>
+    <div class="page-acts"><button class="pbtn" id="fPrev"><svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>Sebelumnya</button><button class="pbtn next" id="fNext">Berikutnya<svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></button></div>
+  </div>
+</div>
 
-            <!-- About Card -->
-            <div class="info-card">
-                <div class="about-row">
-                    <div class="about-icon-wrap">
-                        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                    </div>
-                    <div class="about-text">
-                        <div class="about-text-title" id="infoAppName">Katalog Drama</div>
-                        <div class="about-text-sub">Powered by Fsub Builder Dracin</div>
-                    </div>
-                    <span class="version-badge">v4.0</span>
-                </div>
-            </div>
+<!-- HISTORY TAB -->
+<div id="sec-hist" class="sec">
+  <div class="sec-hdr">
+    <div class="sec-title"><div class="title-ico"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg></div>Riwayat</div>
+    <div class="sec-acts"><span class="cnt-badge" id="histBadge">0 judul</span><button class="act-btn red" id="clrHist" style="display:none"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>Hapus</button></div>
+  </div>
+  <div class="drow"><div class="dline"></div><span class="dlbl">Terakhir Ditonton</span><div class="dline"></div></div>
+  <div class="hist-list" id="histList"></div>
+  <div class="empty" id="histEmpty"><div class="empty-ico"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg></div><h3>Belum Ada Riwayat</h3><p>Riwayat tontonan muncul otomatis di sini.</p></div>
+  <div class="pager" id="histPager">
+    <div class="pctr"><span id="hiCur">1</span><span class="slash">/</span><span class="tot" id="hiTot">1</span></div><div class="dots" id="hiDots"></div>
+    <div class="page-acts"><button class="pbtn" id="hiPrev"><svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>Sebelumnya</button><button class="pbtn next" id="hiNext">Berikutnya<svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></button></div>
+  </div>
+</div>
 
-            <!-- Catalog Stats Card -->
-            <div class="info-card">
-                <div class="info-card-title">
-                    <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-                    Statistik Katalog
-                </div>
-                <div class="info-row">
-                    <span class="info-row-label">
-                        <svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
-                        Total Judul
-                    </span>
-                    <span class="info-row-value" id="infoTotal">—</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-row-label">
-                        <svg viewBox="0 0 24 24"><path d="M12 2L2 9l3 13h14l3-13-10-7z"/></svg>
-                        Premium
-                    </span>
-                    <span class="info-row-value gold" id="infoPrem">—</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-row-label">
-                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
-                        Gratis
-                    </span>
-                    <span class="info-row-value green" id="infoFree">—</span>
-                </div>
-                <!-- Progress bars -->
-                <div class="progress-bar-wrap">
-                    <div class="progress-bar-label">
-                        <span style="color:var(--gold);">⭐ Premium</span>
-                        <span id="infoPremPct">0%</span>
-                    </div>
-                    <div class="progress-bar-track">
-                        <div class="progress-bar-fill pb-prem" id="pbPrem" style="width:0%"></div>
-                    </div>
-                </div>
-                <div class="progress-bar-wrap" style="margin-top:8px;">
-                    <div class="progress-bar-label">
-                        <span style="color:var(--green);">▶ Gratis</span>
-                        <span id="infoFreePct">0%</span>
-                    </div>
-                    <div class="progress-bar-track">
-                        <div class="progress-bar-fill pb-free" id="pbFree" style="width:0%"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Activity Card -->
-            <div class="info-card">
-                <div class="info-card-title">
-                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
-                    Aktivitas Kamu
-                </div>
-                <div class="info-row">
-                    <span class="info-row-label">
-                        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                        Koleksi
-                    </span>
-                    <span class="info-row-value" id="infoFavCount" style="color:var(--primary2);">0 judul</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-row-label">
-                        <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
-                        Riwayat Tonton
-                    </span>
-                    <span class="info-row-value" id="infoHistCount" style="color:var(--blue);">0 judul</span>
-                </div>
-                <div class="progress-bar-wrap">
-                    <div class="progress-bar-label">
-                        <span style="color:var(--primary2);">❤ Koleksi tersimpan</span>
-                        <span id="infoFavPct">0%</span>
-                    </div>
-                    <div class="progress-bar-track">
-                        <div class="progress-bar-fill pb-fav" id="pbFav" style="width:0%"></div>
-                    </div>
-                </div>
-                <div class="progress-bar-wrap" style="margin-top:8px;">
-                    <div class="progress-bar-label">
-                        <span style="color:var(--blue);">🕐 Sudah ditonton</span>
-                        <span id="infoHistPct">0%</span>
-                    </div>
-                    <div class="progress-bar-track">
-                        <div class="progress-bar-fill pb-hist" id="pbHist" style="width:0%"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Bot Info Card -->
-            <div class="info-card">
-                <div class="info-card-title">
-                    <svg viewBox="0 0 24 24"><path d="M21 9V7c0-1.1-.9-2-2-2h-2V3H7v2H5c-1.1 0-2 .9-2 2v2c0 1.8 1.2 3.3 2.9 3.8C6.6 15.3 8.5 17 11 17.5V20H8v2h8v-2h-3v-2.5c2.5-.5 4.4-2.2 5.1-4.7 1.7-.5 2.9-2 2.9-3.8zm-14 2V9h2v2H7zm10 0h-2V9h2v2z"/></svg>
-                    Info Bot
-                </div>
-                <div class="info-row">
-                    <span class="info-row-label">
-                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-                        Nama Bot
-                    </span>
-                    <span class="info-row-value" id="infoBotName">—</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-row-label">
-                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-                        Status
-                    </span>
-                    <span class="info-row-value green" style="display:flex;align-items:center;gap:5px;">
-                        <span class="online-dot"></span> Online
-                    </span>
-                </div>
-                <div class="info-row">
-                    <span class="info-row-label">
-                        <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
-                        Builder
-                    </span>
-                    <span class="info-row-value" style="color:var(--accent);">Dracin</span>
-                </div>
-            </div>
-
-        </div>
+<!-- INFO TAB -->
+<div id="sec-info" class="sec">
+  <div class="info-inner">
+    <div class="icard"><div class="about-row"><div class="aico"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><div class="atxt"><div class="atxt-h" id="infoName">Katalog Drama</div><div class="atxt-s">Fsub Builder Dracin</div></div><span class="vbadge">v4.0</span></div></div>
+    <div class="icard">
+      <div class="icard-title"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>Statistik Katalog</div>
+      <div class="irow"><span class="irow-l"><svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>Total</span><span class="irow-v" id="iTotal">—</span></div>
+      <div class="irow"><span class="irow-l"><svg viewBox="0 0 24 24"><path d="M12 2L2 9l3 13h14l3-13-10-7z"/></svg>Premium</span><span class="irow-v gold" id="iPrem">—</span></div>
+      <div class="irow"><span class="irow-l"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>Gratis</span><span class="irow-v grn" id="iFree">—</span></div>
+      <div class="pb-wrap"><div class="pb-lbl"><span style="color:var(--gold)">⭐ Premium</span><span id="iPremPct">0%</span></div><div class="pb-track"><div class="pb-fill pb-prem" id="pbPrem" style="width:0"></div></div></div>
+      <div class="pb-wrap" style="margin-top:7px"><div class="pb-lbl"><span style="color:var(--green)">▶ Gratis</span><span id="iFreePct">0%</span></div><div class="pb-track"><div class="pb-fill pb-free" id="pbFree" style="width:0"></div></div></div>
     </div>
-
-    <!-- BOTTOM NAV -->
-    <nav class="bottom-nav">
-        <div class="nav-item active" data-tab="home">
-            <div class="nav-icon-wrap">
-                <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-            </div>
-            <span>Beranda</span>
-        </div>
-        <div class="nav-item" data-tab="fav">
-            <div class="nav-icon-wrap">
-                <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                <span class="nav-badge" id="navBadgeFav"></span>
-            </div>
-            <span>Koleksi</span>
-        </div>
-        <div class="nav-item" data-tab="hist">
-            <div class="nav-icon-wrap">
-                <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
-                <span class="nav-badge" id="navBadgeHist"></span>
-            </div>
-            <span>Riwayat</span>
-        </div>
-        <div class="nav-item" data-tab="info">
-            <div class="nav-icon-wrap">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-            </div>
-            <span>Info</span>
-        </div>
-    </nav>
-
-    <!-- SCROLL TOP -->
-    <button class="scroll-top-btn" id="scrollTopBtn" onclick="scrollToTop()">
-        <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
-    </button>
-
-    <script>
-        const tg = window.Telegram.WebApp;
-        tg.expand();
-        tg.ready();
-
-        // ── STATE ──
-        let botToken = "";
-        let dynamicBotUsername = "Bot";
-        let catalogData = [];
-        let currentFilter = 'all';
-        let currentSort   = 'default';
-        const ITEMS_PER_PAGE = 8;
-        const pageState = { home: 1, fav: 1, hist: 1 };
-        let favorites  = JSON.parse(localStorage.getItem('fav_v3'))  || [];
-        let historyList= JSON.parse(localStorage.getItem('hist_v3')) || [];
-        let isDark = localStorage.getItem('theme_v3') === null ? true : localStorage.getItem('theme_v3') === 'dark';
-        let sortDropdownOpen = false;
-
-        // ── THEME ──
-        function applyTheme() {
-            document.body.classList.toggle('light', !isDark);
-            document.getElementById('themeIcon').innerHTML = isDark
-                ? `<path d="M12 3a9 9 0 109 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 01-4.4 2.26 5.403 5.403 0 01-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>`
-                : `<path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8 11h-2v2.95h2V21.5zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8zM12 5.5c-3.58 0-6.5 2.92-6.5 6.5s2.92 6.5 6.5 6.5 6.5-2.92 6.5-6.5-2.92-6.5-6.5-6.5zm0 11c-2.48 0-4.5-2.02-4.5-4.5S9.52 7.5 12 7.5s4.5 2.02 4.5 4.5-2.02 4.5-4.5 4.5z"/>`;
-            try {
-                if (tg.setHeaderColor)     tg.setHeaderColor(isDark ? '#060412' : '#f0eeff');
-                if (tg.setBackgroundColor) tg.setBackgroundColor(isDark ? '#060412' : '#f0eeff');
-            } catch(e) {}
-        }
-
-        function toggleTheme() {
-            hapticLight();
-            isDark = !isDark;
-            localStorage.setItem('theme_v3', isDark ? 'dark' : 'light');
-            applyTheme();
-        }
-
-        applyTheme();
-
-        // ── HAPTIC ──
-        const hapticLight = () => { try { if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light'); } catch(e){} };
-        const hapticHeavy = () => { try { if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('heavy'); } catch(e){} };
-
-        // ── STORAGE ──
-        function updateStorage() {
-            localStorage.setItem('fav_v3',  JSON.stringify(favorites));
-            localStorage.setItem('hist_v3', JSON.stringify(historyList));
-        }
-
-        // ── LOADING BAR ──
-        function loadingStart() {
-            const bar = document.getElementById('loadingBar');
-            bar.style.width = '0%';
-            bar.style.opacity = '1';
-            let w = 0;
-            bar._iv = setInterval(() => {
-                w = Math.min(w + Math.random() * 14, 85);
-                bar.style.width = w + '%';
-            }, 180);
-        }
-        function loadingDone() {
-            const bar = document.getElementById('loadingBar');
-            clearInterval(bar._iv);
-            bar.style.width = '100%';
-            setTimeout(() => { bar.style.opacity = '0'; bar.style.width = '0%'; }, 400);
-        }
-
-        // ── TOAST ──
-        let _toastTimer = null;
-        function showToast(msg) {
-            const t = document.getElementById('toastMsg');
-            document.getElementById('toastText').textContent = msg;
-            t.classList.add('show');
-            clearTimeout(_toastTimer);
-            _toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
-        }
-
-        // ── SORT DROPDOWN ──
-        function toggleSortDropdown() {
-            hapticLight();
-            sortDropdownOpen = !sortDropdownOpen;
-            document.getElementById('sortDropdown').classList.toggle('show', sortDropdownOpen);
-            document.getElementById('sortBtn').classList.toggle('sort-active', sortDropdownOpen);
-        }
-
-        function closeSortDropdown() {
-            sortDropdownOpen = false;
-            document.getElementById('sortDropdown').classList.remove('show');
-            document.getElementById('sortBtn').classList.remove('sort-active');
-        }
-
-        document.addEventListener('click', (e) => {
-            if (sortDropdownOpen && !e.target.closest('#sortDropdown') && !e.target.closest('#sortBtn')) {
-                closeSortDropdown();
-            }
-        });
-
-        function setSort(val) {
-            hapticLight();
-            currentSort = val;
-            closeSortDropdown();
-            pageState.home = 1;
-            // Update active state in dropdown
-            document.querySelectorAll('.sort-option').forEach(o => {
-                o.classList.toggle('active', o.dataset.sort === val);
-            });
-            // Update sort chip
-            const labels = { default: 'Default', az: 'A–Z', za: 'Z–A', prem_first: 'Premium Dulu', free_first: 'Gratis Dulu' };
-            document.getElementById('sortChipLabel').textContent = labels[val] || 'Default';
-            const chip = document.getElementById('sortInfoChip');
-            chip.classList.toggle('show', val !== 'default');
-            renderTabHome();
-        }
-
-        // ── APPLY SORT ──
-        function applySortToData(data) {
-            const d = [...data];
-            if (currentSort === 'az')         return d.sort((a,b) => a.t.localeCompare(b.t));
-            if (currentSort === 'za')         return d.sort((a,b) => b.t.localeCompare(a.t));
-            if (currentSort === 'prem_first') return d.sort((a,b) => (b.is_prem||0) - (a.is_prem||0));
-            if (currentSort === 'free_first') return d.sort((a,b) => (a.is_prem||0) - (b.is_prem||0));
-            return d;
-        }
-
-        // ── UPDATE STATS CHIPS ──
-        function updateStats() {
-            const total = catalogData.length;
-            const prem  = catalogData.filter(i => i.is_prem === 1).length;
-            const free  = total - prem;
-            document.getElementById('heroStatNum').textContent = total > 0 ? total : '—';
-            document.getElementById('statTotal').textContent   = total > 0 ? total : '—';
-            document.getElementById('statPrem').textContent    = prem  > 0 ? prem  : '—';
-            document.getElementById('statFree').textContent    = free  > 0 ? free  : '—';
-            updateInfoTab(total, prem, free);
-        }
-
-        // ── UPDATE INFO TAB ──
-        function updateInfoTab(total, prem, free) {
-            document.getElementById('infoTotal').textContent = total || '—';
-            document.getElementById('infoPrem').textContent  = prem  || '—';
-            document.getElementById('infoFree').textContent  = free  || '—';
-            const premPct = total > 0 ? Math.round((prem/total)*100) : 0;
-            const freePct = total > 0 ? Math.round((free/total)*100) : 0;
-            document.getElementById('infoPremPct').textContent = premPct + '%';
-            document.getElementById('infoFreePct').textContent = freePct + '%';
-            setTimeout(() => {
-                document.getElementById('pbPrem').style.width = premPct + '%';
-                document.getElementById('pbFree').style.width = freePct + '%';
-            }, 300);
-            updateInfoActivity();
-        }
-
-        function updateInfoActivity() {
-            const total = catalogData.length;
-            const favCount  = favorites.length;
-            const histCount = historyList.length;
-            document.getElementById('infoFavCount').textContent  = favCount  + ' judul';
-            document.getElementById('infoHistCount').textContent = histCount + ' judul';
-            const favPct  = total > 0 ? Math.min(100, Math.round((favCount/total)*100))  : 0;
-            const histPct = total > 0 ? Math.min(100, Math.round((histCount/total)*100)) : 0;
-            document.getElementById('infoFavPct').textContent  = favPct  + '%';
-            document.getElementById('infoHistPct').textContent = histPct + '%';
-            setTimeout(() => {
-                document.getElementById('pbFav').style.width  = favPct  + '%';
-                document.getElementById('pbHist').style.width = histPct + '%';
-            }, 300);
-        }
-
-        // ── UPDATE HERO GREETING ──
-        function updateHeroGreeting(name) {
-            if (name && name !== 'Guest') {
-                document.getElementById('heroTitle').textContent = 'Halo, ' + name.split(' ')[0] + '! 👋';
-                document.getElementById('heroSub').textContent   = 'Pilih & tonton drama favoritmu';
-            }
-        }
-
-        // ── UPDATE RESULT INFO BAR ──
-        function updateResultInfo(count, query, filter) {
-            const bar    = document.getElementById('resultInfo');
-            const cntEl  = document.getElementById('resultCount');
-            const keyEl  = document.getElementById('resultKeyword');
-            const divLbl = document.getElementById('dividerLabel');
-            const hasSearch = query.trim().length > 0;
-            const hasFilter = filter !== 'all';
-            if (hasSearch || hasFilter) {
-                bar.classList.add('show');
-                cntEl.textContent = count;
-                if (hasSearch) {
-                    keyEl.style.display = 'inline-flex';
-                    keyEl.textContent   = '"' + query.trim() + '"';
-                } else {
-                    keyEl.style.display = 'none';
-                }
-                if (filter === 'prem')      divLbl.textContent = 'Drama Premium';
-                else if (filter === 'free') divLbl.textContent = 'Drama Gratis';
-                else                        divLbl.textContent = 'Hasil Pencarian';
-            } else {
-                bar.classList.remove('show');
-                keyEl.style.display = 'none';
-                divLbl.textContent  = 'Semua Drama';
-            }
-        }
-
-        // ── UPDATE TAB COUNT BADGES ──
-        function updateTabBadges() {
-            const favBadge  = document.getElementById('favCountBadge');
-            const histBadge = document.getElementById('histCountBadge');
-            if (favBadge)  favBadge.textContent  = favorites.length   + ' judul';
-            if (histBadge) histBadge.textContent  = historyList.length + ' judul';
-
-            // Nav badges (red dots)
-            const nbFav  = document.getElementById('navBadgeFav');
-            const nbHist = document.getElementById('navBadgeHist');
-            if (nbFav)  { nbFav.textContent  = favorites.length  > 9 ? '9+' : favorites.length;   nbFav.classList.toggle('show',  favorites.length  > 0); }
-            if (nbHist) { nbHist.textContent = historyList.length > 9 ? '9+' : historyList.length; nbHist.classList.toggle('show', historyList.length > 0); }
-
-            // Clear buttons
-            const clearFav  = document.getElementById('clearFavBtn');
-            const clearHist = document.getElementById('clearHistBtn');
-            if (clearFav)  clearFav.style.display  = favorites.length   > 0 ? 'flex' : 'none';
-            if (clearHist) clearHist.style.display = historyList.length > 0 ? 'flex' : 'none';
-
-            updateInfoActivity();
-        }
-
-        // ── CLEAR HISTORY ──
-        function clearHistory() {
-            hapticHeavy();
-            historyList = [];
-            updateStorage();
-            updateTabBadges();
-            renderTabHist();
-            showToast('🗑 Riwayat berhasil dihapus');
-        }
-
-        // ── CLEAR FAVORITES ──
-        function clearFavorites() {
-            hapticHeavy();
-            favorites = [];
-            updateStorage();
-            updateTabBadges();
-            renderTabFav();
-            renderTabHome();
-            showToast('🗑 Semua koleksi dihapus');
-        }
-
-        // ── SEARCH CLEAR BUTTON ──
-        const searchInput = document.getElementById('searchInput');
-        const searchClear = document.getElementById('searchClear');
-
-        searchInput.addEventListener('input', () => {
-            searchClear.classList.toggle('show', searchInput.value.length > 0);
-            pageState.home = pageState.fav = pageState.hist = 1;
-            renderAllTabs();
-        });
-
-        searchClear.addEventListener('click', () => {
-            searchInput.value = '';
-            searchClear.classList.remove('show');
-            pageState.home = pageState.fav = pageState.hist = 1;
-            renderAllTabs();
-            searchInput.focus();
-        });
-
-        // ── SCROLL TOP ──
-        const scrollTopBtn = document.getElementById('scrollTopBtn');
-        window.addEventListener('scroll', () => {
-            scrollTopBtn.classList.toggle('show', window.scrollY > 300);
-        }, { passive: true });
-
-        function scrollToTop() {
-            hapticLight();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // ── INIT ──
-        async function initApp() {
-            loadingStart();
-            const user = tg.initDataUnsafe?.user;
-            if (user) {
-                const fullName = user.first_name + (user.last_name ? ' ' + user.last_name : '');
-                document.getElementById('userName').textContent = fullName;
-                document.getElementById('userId').textContent   = 'ID: ' + user.id;
-                document.getElementById('userAvatar').src = user.photo_url ||
-                    `https://ui-avatars.com/api/?name=${encodeURIComponent(user.first_name)}&background=${isDark?'1a1040':'e0d8ff'}&color=${isDark?'fff':'1a1232'}&bold=true`;
-                updateHeroGreeting(fullName);
-            }
-
-            const urlParams = new URLSearchParams(window.location.search);
-            const encodedPayload = urlParams.get('token');
-
-            if (encodedPayload) {
-                try {
-                    const decoded = atob(encodedPayload.replace(/-/g, '+').replace(/_/g, '/'));
-                    const parts   = decoded.split('|');
-                    botToken      = parts[0];
-                    const tgPath  = parts[1] || '';
-
-                    if (tgPath) {
-                        if (tgPath.startsWith('B64_')) {
-                            const b64 = tgPath.replace('B64_', '').replace(/-/g, '+').replace(/_/g, '/');
-                            catalogData = JSON.parse(decodeURIComponent(escape(atob(b64))));
-                        } else {
-                            const res  = await fetch(`https://api.telegra.ph/getPage/${tgPath}?return_content=true`);
-                            const json = await res.json();
-                            if (json.ok) {
-                                let str = '';
-                                json.result.content.forEach(n => { if (n.children) str += n.children[0]; });
-                                catalogData = JSON.parse(str);
-                            }
-                        }
-                    }
-
-                    fetch(`https://api.telegram.org/bot${botToken}/getMe`)
-                        .then(r => r.json())
-                        .then(j => {
-                            if (j.ok) {
-                                dynamicBotUsername = j.result.username;
-                                const name = j.result.first_name;
-                                document.getElementById('botTitle').textContent  = name;
-                                document.getElementById('infoAppName').textContent = name;
-                                document.getElementById('infoBotName').textContent  = name + ' (@' + j.result.username + ')';
-                            }
-                        }).catch(() => {});
-
-                    renderAllTabs();
-                    updateStats();
-                    updateTabBadges();
-                    loadingDone();
-                } catch (e) {
-                    loadingDone();
-                    showError('Kesalahan dekripsi payload.');
-                }
-            } else {
-                loadingDone();
-                showError('Parameter keamanan tidak lengkap.');
-            }
-        }
-
-        function showError(msg) {
-            const el = document.getElementById('homeEmpty');
-            el.querySelector('.empty-title').textContent = 'Terjadi Kesalahan';
-            el.querySelector('.empty-sub').textContent   = msg;
-            el.style.display = 'flex';
-        }
-
-        // ── IMAGE FETCH ──
-        async function fetchImage(fileId) {
-            if (!fileId || !botToken) return null;
-            const key    = `tg_img_${fileId}`;
-            const cached = sessionStorage.getItem(key);
-            if (cached) return cached;
-            try {
-                const res  = await fetch(`https://api.telegram.org/bot${botToken}/getFile?file_id=${fileId}`);
-                const json = await res.json();
-                if (json.ok && json.result.file_path) {
-                    const url = `https://api.telegram.org/file/bot${botToken}/${json.result.file_path}`;
-                    sessionStorage.setItem(key, url);
-                    return url;
-                }
-            } catch (e) {}
-            return null;
-        }
-
-        // ── CREATE CARD ──
-        function createCard(item, containerId) {
-            const card = document.createElement('div');
-            card.className = 'movie-card';
-
-            const isFav   = favorites.includes(item.id);
-            const isPrem  = item.is_prem === 1;
-            const isNew   = item.is_new === 1; // NEW flag support
-            const badgeHtml = isPrem
-                ? `<span class="poster-badge badge-prem"><svg viewBox="0 0 24 24"><path d="M12 2L2 9l3 13h14l3-13-10-7zm0 2.5l6.5 4.5-3.5 1-3-3.5-3 3.5-3.5-1 6.5-4.5z"/></svg>Premium</span>`
-                : `<span class="poster-badge badge-free"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>Gratis</span>`;
-
-            const newRibbon = isNew ? `<span class="new-ribbon">Baru</span>` : '';
-
-            const favPath_active = "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z";
-            const favPath_empty  = "M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3zm-4.4 15.55l-.1.1-.1-.1C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05z";
-
-            card.innerHTML = `
-                <div class="poster-wrap shimmer" id="shimmer-${containerId}-${item.id}">
-                    <img id="img-${containerId}-${item.id}" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="">
-                    ${badgeHtml}
-                    ${newRibbon}
-                </div>
-                <div class="card-body">
-                    <div class="card-title">${item.t}</div>
-                    <div class="card-footer">
-                        <button class="fav-btn ${isFav ? 'active' : ''}" id="btn-fav-${containerId}-${item.id}">
-                            <svg viewBox="0 0 24 24"><path d="${isFav ? favPath_active : favPath_empty}"/></svg>
-                        </button>
-                        <button class="play-btn-mini">
-                            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                            Tonton
-                        </button>
-                    </div>
-                </div>
-            `;
-
-            // Play (poster + play button)
-            const handlePlay = () => {
-                hapticHeavy();
-                historyList = [item.id, ...historyList.filter(i => i !== item.id)].slice(0, 30);
-                updateStorage();
-                updateTabBadges();
-                tg.openTelegramLink(`https://t.me/${dynamicBotUsername}?start=mp_${item.id}`);
-                tg.close();
-            };
-
-            card.querySelector('.poster-wrap').addEventListener('click', handlePlay);
-            card.querySelector('.play-btn-mini').addEventListener('click', handlePlay);
-
-            // Fav button
-            const favBtn = card.querySelector(`#btn-fav-${containerId}-${item.id}`);
-            favBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                hapticLight();
-                const path = favBtn.querySelector('path');
-                if (favorites.includes(item.id)) {
-                    favorites = favorites.filter(id => id !== item.id);
-                    favBtn.classList.remove('active');
-                    path.setAttribute('d', favPath_empty);
-                    showToast('Dihapus dari koleksi');
-                } else {
-                    favorites.unshift(item.id);
-                    favBtn.classList.add('active');
-                    path.setAttribute('d', favPath_active);
-                    showToast('Ditambahkan ke koleksi ❤️');
-                }
-                updateStorage();
-                updateTabBadges();
-                renderAllTabs();
-            });
-
-            document.getElementById(containerId).appendChild(card);
-
-            // Load image
-            fetchImage(item.p).then(url => {
-                if (!url) return;
-                const img = document.getElementById(`img-${containerId}-${item.id}`);
-                if (!img) return;
-                img.src = url;
-                img.onload = () => {
-                    img.classList.add('loaded');
-                    const shimmer = document.getElementById(`shimmer-${containerId}-${item.id}`);
-                    if (shimmer) shimmer.classList.remove('shimmer');
-                };
-            });
-        }
-
-        // ── FILTER & PAGINATE ──
-        function getFiltered(source) {
-            const q = searchInput.value.toLowerCase();
-            return source.filter(item =>
-                item.t.toLowerCase().includes(q) &&
-                (currentFilter === 'all' || (currentFilter === 'prem' && item.is_prem === 1) || (currentFilter === 'free' && item.is_prem === 0))
-            );
-        }
-
-        function paginate(data, page) {
-            return data.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
-        }
-
-        // ── PAGINATION UI ──
-        function updatePagination(tabId, currentPage, total) {
-            const totalPages = Math.ceil(total / ITEMS_PER_PAGE) || 1;
-            const cap        = s => s.charAt(0).toUpperCase() + s.slice(1);
-            const pagination = document.getElementById(`${tabId}Pagination`);
-            const prevBtn    = document.getElementById(`prev${cap(tabId)}`);
-            const nextBtn    = document.getElementById(`next${cap(tabId)}`);
-            const curEl      = document.getElementById(`pageCurrent${cap(tabId)}`);
-            const totEl      = document.getElementById(`pageTotal${cap(tabId)}`);
-            const dotsCon    = document.getElementById(`${tabId}Dots`);
-
-            if (total <= ITEMS_PER_PAGE) { pagination.style.display = 'none'; return; }
-
-            pagination.style.display = 'flex';
-            curEl.textContent = currentPage;
-            totEl.textContent = totalPages;
-            prevBtn.disabled  = currentPage === 1;
-            nextBtn.disabled  = currentPage === totalPages;
-
-            dotsCon.innerHTML = '';
-            const start = Math.max(1, currentPage - 2);
-            const end   = Math.min(totalPages, start + 4);
-            for (let i = start; i <= end; i++) {
-                const d = document.createElement('div');
-                d.className = i === currentPage ? 'dot active' : 'dot';
-                dotsCon.appendChild(d);
-            }
-        }
-
-        function changePage(tabId, dir) {
-            hapticLight();
-            pageState[tabId] += dir;
-            if (tabId === 'home') renderTabHome();
-            if (tabId === 'fav')  renderTabFav();
-            if (tabId === 'hist') renderTabHist();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // ── RENDER TABS ──
-        function renderTabHome() {
-            const grid  = document.getElementById('homeGrid');
-            const empty = document.getElementById('homeEmpty');
-            grid.innerHTML = '';
-            empty.style.display = 'none';
-            const filtered = getFiltered(applySortToData(catalogData));
-            updateResultInfo(filtered.length, searchInput.value, currentFilter);
-            if (!filtered.length) { empty.style.display = 'flex'; document.getElementById('homePagination').style.display = 'none'; return; }
-            paginate(filtered, pageState.home).forEach(item => createCard(item, 'homeGrid'));
-            updatePagination('home', pageState.home, filtered.length);
-        }
-
-        function renderTabFav() {
-            const grid  = document.getElementById('favGrid');
-            const empty = document.getElementById('favEmpty');
-            grid.innerHTML = '';
-            empty.style.display = 'none';
-            const raw      = catalogData.filter(i => favorites.includes(i.id)).sort((a,b) => favorites.indexOf(a.id) - favorites.indexOf(b.id));
-            const filtered = getFiltered(raw);
-            if (!filtered.length) { empty.style.display = 'flex'; document.getElementById('favPagination').style.display = 'none'; return; }
-            const max = Math.ceil(filtered.length / ITEMS_PER_PAGE);
-            if (pageState.fav > max) pageState.fav = max;
-            paginate(filtered, pageState.fav).forEach(item => createCard(item, 'favGrid'));
-            updatePagination('fav', pageState.fav, filtered.length);
-        }
-
-        function renderTabHist() {
-            const grid  = document.getElementById('histGrid');
-            const empty = document.getElementById('histEmpty');
-            grid.innerHTML = '';
-            empty.style.display = 'none';
-            const raw      = catalogData.filter(i => historyList.includes(i.id)).sort((a,b) => historyList.indexOf(a.id) - historyList.indexOf(b.id));
-            const filtered = getFiltered(raw);
-            if (!filtered.length) { empty.style.display = 'flex'; document.getElementById('histPagination').style.display = 'none'; return; }
-            const max = Math.ceil(filtered.length / ITEMS_PER_PAGE);
-            if (pageState.hist > max) pageState.hist = max;
-            paginate(filtered, pageState.hist).forEach(item => createCard(item, 'histGrid'));
-            updatePagination('hist', pageState.hist, filtered.length);
-        }
-
-        function renderAllTabs() {
-            renderTabHome();
-            if (document.getElementById('view-fav').classList.contains('active'))  renderTabFav();
-            if (document.getElementById('view-hist').classList.contains('active')) renderTabHist();
-        }
-
-        // ── NAV ──
-        document.querySelectorAll('.nav-item').forEach(nav => {
-            nav.addEventListener('click', () => {
-                hapticLight();
-                document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-                nav.classList.add('active');
-                const tab = nav.dataset.tab;
-                document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
-                document.getElementById(`view-${tab}`).classList.add('active');
-                if (tab === 'home') renderTabHome();
-                if (tab === 'fav')  renderTabFav();
-                if (tab === 'hist') renderTabHist();
-                if (tab === 'info') { updateInfoActivity(); }
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                closeSortDropdown();
-            });
-        });
-
-        // ── FILTER PILLS ──
-        document.querySelectorAll('.filter-pill').forEach(btn => {
-            btn.addEventListener('click', () => {
-                hapticLight();
-                document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentFilter = btn.dataset.filter;
-                pageState.home = pageState.fav = pageState.hist = 1;
-                renderAllTabs();
-            });
-        });
-
-        // ── BOOT ──
-        initApp();
-    </script>
+    <div class="icard">
+      <div class="icard-title"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>Aktivitasku</div>
+      <div class="irow"><span class="irow-l"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>Koleksi</span><span class="irow-v pur" id="iFavC">0 judul</span></div>
+      <div class="irow"><span class="irow-l"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>Ditonton</span><span class="irow-v blu" id="iHistC">0 judul</span></div>
+      <div class="pb-wrap"><div class="pb-lbl"><span style="color:var(--p2)">❤ Koleksi</span><span id="iFavPct">0%</span></div><div class="pb-track"><div class="pb-fill pb-fav" id="pbFav" style="width:0"></div></div></div>
+      <div class="pb-wrap" style="margin-top:7px"><div class="pb-lbl"><span style="color:var(--blue)">🕐 Ditonton</span><span id="iHistPct">0%</span></div><div class="pb-track"><div class="pb-fill pb-hist" id="pbHist" style="width:0"></div></div></div>
+    </div>
+    <div class="icard">
+      <div class="icard-title"><svg viewBox="0 0 24 24"><path d="M21 9V7c0-1.1-.9-2-2-2h-2V3H7v2H5c-1.1 0-2 .9-2 2v2c0 1.8 1.2 3.3 2.9 3.8C6.6 15.3 8.5 17 11 17.5V20H8v2h8v-2h-3v-2.5c2.5-.5 4.4-2.2 5.1-4.7 1.7-.5 2.9-2 2.9-3.8zm-14 2V9h2v2H7zm10 0h-2V9h2v2z"/></svg>Info Bot</div>
+      <div class="irow"><span class="irow-l"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>Nama</span><span class="irow-v" id="iBotName">—</span></div>
+      <div class="irow"><span class="irow-l"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>Status</span><span class="irow-v grn" style="display:flex;align-items:center;gap:5px"><span class="odot"></span>Online</span></div>
+      <div class="irow"><span class="irow-l"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/></svg>Username</span><span class="irow-v" id="iBotUser" style="color:var(--a)">—</span></div>
+      <div class="irow"><span class="irow-l"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>Builder</span><span class="irow-v" style="color:var(--a)">Dracin</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bnav">
+  <div class="nitem on" data-tab="home"><div class="nwrap"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></div><span>Beranda</span></div>
+  <div class="nitem" data-tab="fav"><div class="nwrap"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><span class="nbadge" id="nbFav"></span></div><span>Koleksi</span></div>
+  <div class="nitem" data-tab="hist"><div class="nwrap"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg><span class="nbadge" id="nbHist"></span></div><span>Riwayat</span></div>
+  <div class="nitem" data-tab="info"><div class="nwrap"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></div><span>Info</span></div>
+</nav>
+<button class="stbtn" id="stbtn"><svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg></button>
+
+<script>
+const tg=window.Telegram.WebApp;tg.expand();tg.ready();
+const $=id=>document.getElementById(id);
+
+let catalog=[],botToken='',botUsername='Bot';
+let favorites=JSON.parse(localStorage.getItem('fav4'))||[];
+let watchHist=JSON.parse(localStorage.getItem('hist4'))||[];
+let clickCounts=JSON.parse(localStorage.getItem('clicks4'))||{};
+let curFilter='all',curSort='def';
+let isDark=localStorage.getItem('theme4')!=='light';
+const PER=8,pages={home:1,fav:1,hist:1};
+let modalItem=null;
+
+/* THEME */
+function applyTheme(){
+  document.body.classList.toggle('light',!isDark);
+  $('themeIco').innerHTML=isDark?`<path d="M12 3a9 9 0 109 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 01-4.4 2.26 5.403 5.403 0 01-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>`:
+    `<path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8 11h-2v2.95h2V21.5zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8zM12 5.5c-3.58 0-6.5 2.92-6.5 6.5s2.92 6.5 6.5 6.5 6.5-2.92 6.5-6.5-2.92-6.5-6.5-6.5zm0 11c-2.48 0-4.5-2.02-4.5-4.5S9.52 7.5 12 7.5s4.5 2.02 4.5 4.5-2.02 4.5-4.5 4.5z"/>`;
+  try{if(tg.setHeaderColor)tg.setHeaderColor(isDark?'#08051a':'#eeebff');if(tg.setBackgroundColor)tg.setBackgroundColor(isDark?'#08051a':'#eeebff');}catch(e){}
+}
+$('themeBtn').onclick=()=>{isDark=!isDark;localStorage.setItem('theme4',isDark?'dark':'light');applyTheme();haptic('l');};
+applyTheme();
+
+const haptic=t=>{try{tg.HapticFeedback&&tg.HapticFeedback.impactOccurred(t==='h'?'heavy':'light');}catch(e){}};
+
+/* LOADING BAR */
+const lb=$('lbar');let _iv;
+function lbStart(){lb.style.width='0';lb.style.opacity='1';let w=0;_iv=setInterval(()=>{w=Math.min(w+Math.random()*13,84);lb.style.width=w+'%';},180);}
+function lbDone(){clearInterval(_iv);lb.style.width='100%';setTimeout(()=>{lb.style.opacity='0';lb.style.width='0';},380);}
+
+/* TOAST */
+let _tt;
+function toast(msg,type='ok'){
+  const c={ok:'#22c55e',err:'#ef4444',info:'#7c3aed'};
+  const p={ok:'M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z',err:'M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z',info:'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z'};
+  $('tico').style.background=c[type]||c.ok;
+  $('tico').innerHTML=`<svg viewBox="0 0 24 24"><path d="${p[type]||p.ok}"/></svg>`;
+  $('ttxt').textContent=msg;
+  const el=$('toast');el.classList.add('show');
+  clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('show'),2400);
+}
+
+/* SORT DROPDOWN */
+const sdd=$('sdd'),sBtn=$('sortBtn');let ddOpen=false;
+function toggleDD(){ddOpen=!ddOpen;sdd.classList.toggle('open',ddOpen);sBtn.classList.toggle('on',ddOpen);haptic('l');}
+function closeDD(){ddOpen=false;sdd.classList.remove('open');sBtn.classList.remove('on');}
+sBtn.onclick=()=>toggleDD();
+document.addEventListener('click',e=>{if(ddOpen&&!e.target.closest('#sdd')&&!e.target.closest('#sortBtn'))closeDD();});
+const SL={def:'Default',az:'A–Z',za:'Z–A',prem:'Premium Dulu',free:'Gratis Dulu'};
+document.querySelectorAll('.si').forEach(el=>{
+  el.onclick=()=>{haptic('l');curSort=el.dataset.s;document.querySelectorAll('.si').forEach(i=>i.classList.toggle('on',i===el));$('sortChipTxt').textContent=SL[curSort];$('sortChip').classList.toggle('show',curSort!=='def');closeDD();pages.home=1;renderHome();};
+});
+$('sortChip').onclick=()=>toggleDD();
+
+function applySort(arr){
+  const d=[...arr];
+  if(curSort==='az')return d.sort((a,b)=>a.t.localeCompare(b.t,'id'));
+  if(curSort==='za')return d.sort((a,b)=>b.t.localeCompare(a.t,'id'));
+  if(curSort==='prem')return d.sort((a,b)=>(b.is_prem||0)-(a.is_prem||0));
+  if(curSort==='free')return d.sort((a,b)=>(a.is_prem||0)-(b.is_prem||0));
+  return d;
+}
+
+/* FILTER */
+function filtered(src){
+  const q=$('sinput').value.toLowerCase().trim();
+  return src.filter(i=>{
+    const mq=i.t.toLowerCase().includes(q);
+    if(curFilter==='all')return mq;
+    if(curFilter==='prem')return mq&&i.is_prem===1;
+    if(curFilter==='free')return mq&&i.is_prem===0;
+    if(curFilter==='fav')return mq&&favorites.includes(i.id);
+    if(curFilter==='watched')return mq&&watchHist.includes(i.id);
+    if(curFilter==='unwatched')return mq&&!watchHist.includes(i.id);
+    return mq;
+  });
+}
+
+/* IMAGE */
+async function getImg(fid){
+  if(!fid||!botToken)return null;
+  const k='img4_'+fid,c=sessionStorage.getItem(k);
+  if(c)return c;
+  try{const r=await fetch(`https://api.telegram.org/bot${botToken}/getFile?file_id=${fid}`);const j=await r.json();if(j.ok&&j.result.file_path){const u=`https://api.telegram.org/file/bot${botToken}/${j.result.file_path}`;sessionStorage.setItem(k,u);return u;}}catch(e){}
+  return null;
+}
+function loadImg(fid,img,shim){
+  getImg(fid).then(url=>{
+    if(!url)return;img.src=url;
+    img.onload=()=>{img.classList.add('rdy');if(shim)shim.classList.remove('shimmer');};
+    img.onerror=()=>{if(shim)shim.classList.remove('shimmer');};
+  });
+}
+
+/* HEART */
+const HON="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z";
+const HOFF="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3zm-4.4 15.55l-.1.1-.1-.1C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05z";
+
+/* SAVE */
+function save(){localStorage.setItem('fav4',JSON.stringify(favorites));localStorage.setItem('hist4',JSON.stringify(watchHist));localStorage.setItem('clicks4',JSON.stringify(clickCounts));}
+
+/* PLAY */
+function playItem(item){
+  haptic('h');
+  clickCounts[item.id]=(clickCounts[item.id]||0)+1;
+  watchHist=[item.id,...watchHist.filter(i=>i!==item.id)].slice(0,50);
+  save();updateBadges();
+  tg.openTelegramLink(`https://t.me/${botUsername}?start=mp_${item.id}`);
+  tg.close();
+}
+
+/* TOGGLE FAV */
+function toggleFav(item){
+  haptic('l');
+  if(favorites.includes(item.id)){favorites=favorites.filter(i=>i!==item.id);toast('Dihapus dari koleksi','info');}
+  else{favorites.unshift(item.id);toast('Ditambahkan ke koleksi ❤');}
+  save();updateBadges();
+  return favorites.includes(item.id);
+}
+
+/* MODAL */
+function openModal(item){
+  haptic('l');modalItem=item;
+  const isPrem=item.is_prem===1,isNew=!!item.is_new,isWatched=watchHist.includes(item.id),isFav=favorites.includes(item.id);
+  $('mTitle').textContent=item.t;
+  const b=$('mBadges');b.innerHTML='';
+  [{cls:isPrem?'prem':'free',txt:isPrem?'⭐ Premium':'▶ Gratis'},...(isNew?[{cls:'isnew',txt:'🆕 Baru'}]:[]),...(isWatched?[{cls:'watched',txt:'✅ Ditonton'}]:[])].forEach(x=>{const s=document.createElement('span');s.className='mbadge '+x.cls;s.textContent=x.txt;b.appendChild(s);});
+  const mi=$('mImg');mi.src='';mi.classList.remove('rdy');
+  if(item.p)loadImg(item.p,mi,null);
+  // fav btn
+  const mf=$('mFav');
+  mf.className='modal-ico-btn'+(isFav?' fav-on':'');
+  mf.querySelector('path').setAttribute('d',isFav?HON:HOFF);
+  // play
+  $('mPlay').onclick=()=>{closeModal();setTimeout(()=>playItem(item),180);};
+  // fav
+  mf.onclick=()=>{const nf=toggleFav(item);mf.classList.toggle('fav-on',nf);mf.querySelector('path').setAttribute('d',nf?HON:HOFF);if($('sec-fav').classList.contains('act'))renderFav();};
+  // share
+  $('mShare').onclick=()=>{
+    haptic('l');
+    const url=`https://t.me/${botUsername}?start=mp_${item.id}`;
+    try{tg.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent('🎬 '+item.t)}`);}
+    catch(e){try{navigator.clipboard.writeText(url);}catch(e2){}toast('Link disalin ✓');}
+  };
+  // related
+  const rel=catalog.filter(i=>i.id!==item.id&&i.is_prem===item.is_prem).slice(0,6);
+  const rs=$('mRelSec'),rg=$('mRel');rg.innerHTML='';
+  if(rel.length){rs.style.display='block';rel.forEach(ri=>{const rc=document.createElement('div');rc.className='rel-card';rc.innerHTML=`<div class="poster shimmer" id="rps${ri.id}"><img id="rpi${ri.id}" src="" alt=""></div><div class="rel-title">${ri.t}</div>`;rc.onclick=()=>openModal(ri);rg.appendChild(rc);if(ri.p)loadImg(ri.p,document.getElementById('rpi'+ri.id),document.getElementById('rps'+ri.id));else{const s=document.getElementById('rps'+ri.id);if(s)s.classList.remove('shimmer');}});}
+  else rs.style.display='none';
+  $('modalOv').classList.add('open');document.body.style.overflow='hidden';
+}
+function closeModal(){$('modalOv').classList.remove('open');document.body.style.overflow='';modalItem=null;}
+$('modalOv').addEventListener('click',e=>{if(e.target===$('modalOv'))closeModal();});
+let _ty=0;
+$('modal').addEventListener('touchstart',e=>{_ty=e.touches[0].clientY;},{passive:true});
+$('modal').addEventListener('touchmove',e=>{if(e.touches[0].clientY-_ty>70&&$('modal').scrollTop===0)closeModal();},{passive:true});
+
+/* SEARCH SUGGESTIONS */
+const sugBox=$('sugBox');let _st;
+$('sinput').addEventListener('input',()=>{
+  const q=$('sinput').value.trim();
+  $('sclear').classList.toggle('show',q.length>0);
+  clearTimeout(_st);
+  if(q.length<2){sugBox.classList.remove('show');sugBox.innerHTML='';renderHome();return;}
+  _st=setTimeout(()=>{
+    const m=catalog.filter(i=>i.t.toLowerCase().includes(q.toLowerCase())).slice(0,6);
+    if(!m.length){sugBox.classList.remove('show');renderHome();return;}
+    sugBox.innerHTML=m.map(i=>`<div class="sug-item" data-id="${i.id}"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>${i.t}<span class="sug-badge ${i.is_prem===1?'p':'f'}">${i.is_prem===1?'Premium':'Gratis'}</span></div>`).join('');
+    sugBox.classList.add('show');
+    sugBox.querySelectorAll('.sug-item').forEach(el=>{el.addEventListener('click',()=>{const f=catalog.find(i=>i.id===el.dataset.id);if(f){$('sinput').value=f.t;$('sclear').classList.add('show');sugBox.classList.remove('show');pages.home=1;renderHome();}});});
+    pages.home=1;renderHome();
+  },200);
+});
+$('sclear').onclick=()=>{$('sinput').value='';$('sclear').classList.remove('show');sugBox.classList.remove('show');sugBox.innerHTML='';pages.home=pages.fav=pages.hist=1;renderHome();if($('sec-fav').classList.contains('act'))renderFav();if($('sec-hist').classList.contains('act'))renderHist();$('sinput').focus();};
+document.addEventListener('click',e=>{if(!e.target.closest('.sw'))sugBox.classList.remove('show');});
+
+/* FILTER PILLS */
+const FLAB={all:'Semua Drama',prem:'Drama Premium',free:'Drama Gratis',fav:'Koleksi Saya',watched:'Sudah Ditonton',unwatched:'Belum Ditonton'};
+document.querySelectorAll('.pill').forEach(btn=>{
+  btn.addEventListener('click',()=>{haptic('l');document.querySelectorAll('.pill').forEach(b=>b.classList.remove('on'));btn.classList.add('on');curFilter=btn.dataset.f;pages.home=1;$('divLbl').textContent=FLAB[curFilter]||'Drama';renderHome();});
+});
+
+/* QUICK ACTIONS */
+$('btnRand').addEventListener('click',()=>{if(!catalog.length)return;haptic('l');openModal(catalog[Math.floor(Math.random()*catalog.length)]);});
+$('btnNew').addEventListener('click',()=>{
+  haptic('l');
+  const ni=catalog.filter(i=>i.is_new===1);
+  const src=ni.length?ni:[...catalog].slice(-Math.min(8,catalog.length)).reverse();
+  if(!src.length){toast('Tidak ada data','info');return;}
+  openModal(src[0]);
+});
+$('btnPop').addEventListener('click',()=>{
+  haptic('l');
+  const sorted=[...catalog].sort((a,b)=>(clickCounts[b.id]||0)-(clickCounts[a.id]||0));
+  if(!sorted.length){toast('Belum ada data','info');return;}
+  document.querySelectorAll('.pill').forEach(b=>b.classList.remove('on'));
+  document.querySelector('.pill[data-f="all"]').classList.add('on');
+  curFilter='all';curSort='def';
+  document.querySelectorAll('.si').forEach(i=>i.classList.toggle('on',i.dataset.s==='def'));
+  $('sortChip').classList.remove('show');$('divLbl').textContent='Drama Terpopuler';
+  $('homeGrid').innerHTML='';$('homeEmpty').classList.remove('show');$('homePager').classList.remove('show');
+  $('rbar').classList.add('show');$('rcount').textContent=sorted.length;$('rkw').style.display='none';
+  sorted.slice(0,PER).forEach((item,i)=>{mkCard(item,'homeGrid');});
+});
+
+/* RESULT BAR */
+function updateRbar(count,q,filter){
+  const rbar=$('rbar'),rkw=$('rkw'),hasQ=q.length>0,hasF=filter!=='all'&&filter!=='prem'&&filter!=='free';
+  const show=hasQ||curFilter!=='all';
+  rbar.classList.toggle('show',show);
+  if(show){$('rcount').textContent=count;if(hasQ){rkw.style.display='inline-flex';rkw.textContent=`"${q}"`;}else rkw.style.display='none';}
+}
+
+/* PAGINATION */
+function renderPager(pid,cid,tid,did,pvid,nxid,page,total,onPrev,onNext){
+  const tp=Math.ceil(total/PER)||1,pager=$(pid);
+  if(total<=PER){pager.classList.remove('show');return;}
+  pager.classList.add('show');$(cid).textContent=page;$(tid).textContent=tp;
+  $(pvid).disabled=page===1;$(nxid).disabled=page===tp;
+  const dc=$(did);dc.innerHTML='';
+  const st=Math.max(1,page-2),en=Math.min(tp,st+4);
+  for(let i=st;i<=en;i++){const d=document.createElement('div');d.className='dot'+(i===page?' on':'');dc.appendChild(d);}
+  $(pvid).onclick=()=>{haptic('l');onPrev();window.scrollTo({top:0,behavior:'smooth'});};
+  $(nxid).onclick=()=>{haptic('l');onNext();window.scrollTo({top:0,behavior:'smooth'});};
+}
+
+/* MAKE CARD */
+function mkCard(item,gid){
+  const isFav=favorites.includes(item.id),isPrem=item.is_prem===1,isNew=!!item.is_new,isWatched=watchHist.includes(item.id);
+  const w=document.createElement('div');
+  w.className='card'+(isWatched?' watched':'');
+  w.innerHTML=`
+    <div class="poster shimmer" id="ps${gid}${item.id}">
+      <img id="pi${gid}${item.id}" src="" alt="">
+      <div class="pbadge ${isPrem?'prem':'free'}">${isPrem?`<svg viewBox="0 0 24 24"><path d="M12 2L2 9l3 13h14l3-13-10-7z"/></svg>Premium`:`<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>Gratis`}</div>
+      ${isNew?`<div class="new-rib">Baru</div>`:''}
+      <div class="watched-ov"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg><span>Ditonton</span></div>
+    </div>
+    <div class="cbody">
+      <div class="ctitle">${item.t}</div>
+      <div class="cfoot">
+        <div class="fav-btn ${isFav?'on':''}" id="fb${gid}${item.id}"><svg viewBox="0 0 24 24"><path d="${isFav?HON:HOFF}"/></svg></div>
+        <button class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Tonton</button>
+      </div>
+    </div>`;
+  w.querySelector('.poster').addEventListener('click',()=>openModal(item));
+  w.querySelector('.play-btn').addEventListener('click',e=>{e.stopPropagation();playItem(item);});
+  const fb=w.querySelector('.fav-btn');
+  fb.addEventListener('click',e=>{
+    e.stopPropagation();const nf=toggleFav(item);
+    fb.classList.toggle('on',nf);fb.querySelector('path').setAttribute('d',nf?HON:HOFF);
+    if($('sec-fav').classList.contains('act'))renderFav();
+  });
+  document.getElementById(gid).appendChild(w);
+  const img=document.getElementById(`pi${gid}${item.id}`),ps=document.getElementById(`ps${gid}${item.id}`);
+  if(item.p)loadImg(item.p,img,ps);else if(ps)ps.classList.remove('shimmer');
+  return w;
+}
+
+/* MAKE HIST ITEM */
+function mkHistItem(item){
+  const isPrem=item.is_prem===1,el=document.createElement('div');
+  el.className='hitem';
+  el.innerHTML=`
+    <div class="hthumb shimmer" id="ht${item.id}"><img id="hi${item.id}" src="" alt=""></div>
+    <div class="hinfo">
+      <div class="hinfo-title">${item.t}</div>
+      <div class="hbadge ${isPrem?'prem':'free'}">${isPrem?'⭐ Premium':'▶ Gratis'}</div>
+    </div>
+    <button class="hplay"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>`;
+  el.addEventListener('click',()=>openModal(item));
+  el.querySelector('.hplay').addEventListener('click',e=>{e.stopPropagation();playItem(item);});
+  $('histList').appendChild(el);
+  const img=document.getElementById('hi'+item.id),ht=document.getElementById('ht'+item.id);
+  if(item.p)loadImg(item.p,img,ht);else if(ht)ht.classList.remove('shimmer');
+}
+
+/* RENDER HOME */
+function renderHome(){
+  const grid=$('homeGrid'),empty=$('homeEmpty');
+  grid.innerHTML='';empty.classList.remove('show');$('homePager').classList.remove('show');
+  sugBox.classList.remove('show');
+  const data=filtered(applySort(catalog));
+  const q=$('sinput').value.trim();
+  updateRbar(data.length,q,curFilter);
+  if(!data.length){
+    empty.classList.add('show');
+    const btn=$('homeEmptyBtn');
+    if(q.length>0||curFilter!=='all'){$('homeEmptyMsg').textContent='Tidak ada hasil untuk filter ini.';btn.style.display='flex';btn.onclick=()=>{$('sinput').value='';$('sclear').classList.remove('show');document.querySelectorAll('.pill').forEach(b=>b.classList.remove('on'));document.querySelector('.pill[data-f="all"]').classList.add('on');curFilter='all';pages.home=1;$('divLbl').textContent='Semua Drama';renderHome();};}
+    else{$('homeEmptyMsg').textContent='Drama yang dicari tidak ada.';btn.style.display='none';}
+    return;
+  }
+  const page=pages.home;
+  data.slice((page-1)*PER,page*PER).forEach(i=>mkCard(i,'homeGrid'));
+  renderPager('homePager','hCur','hTot','hDots','hPrev','hNext',page,data.length,()=>{pages.home--;renderHome();},()=>{pages.home++;renderHome();});
+}
+
+/* RENDER FAV */
+function renderFav(){
+  const grid=$('favGrid'),empty=$('favEmpty');
+  grid.innerHTML='';empty.classList.remove('show');$('favPager').classList.remove('show');
+  const raw=catalog.filter(i=>favorites.includes(i.id)).sort((a,b)=>favorites.indexOf(a.id)-favorites.indexOf(b.id));
+  const data=filtered(raw);
+  if(!data.length){empty.classList.add('show');return;}
+  const page=Math.min(pages.fav,Math.ceil(data.length/PER)||1);pages.fav=page;
+  data.slice((page-1)*PER,page*PER).forEach(i=>mkCard(i,'favGrid'));
+  renderPager('favPager','fCur','fTot','fDots','fPrev','fNext',page,data.length,()=>{pages.fav--;renderFav();},()=>{pages.fav++;renderFav();});
+}
+
+/* RENDER HIST */
+function renderHist(){
+  const list=$('histList'),empty=$('histEmpty');
+  list.innerHTML='';empty.classList.remove('show');$('histPager').classList.remove('show');
+  const raw=catalog.filter(i=>watchHist.includes(i.id)).sort((a,b)=>watchHist.indexOf(a.id)-watchHist.indexOf(b.id));
+  const data=filtered(raw);
+  if(!data.length){empty.classList.add('show');return;}
+  const page=Math.min(pages.hist,Math.ceil(data.length/PER)||1);pages.hist=page;
+  data.slice((page-1)*PER,page*PER).forEach(i=>mkHistItem(i));
+  renderPager('histPager','hiCur','hiTot','hiDots','hiPrev','hiNext',page,data.length,()=>{pages.hist--;renderHist();},()=>{pages.hist++;renderHist();});
+}
+
+/* STATS & BADGES */
+function updateStats(){
+  const total=catalog.length,prem=catalog.filter(i=>i.is_prem===1).length,free=total-prem;
+  $('heroNum').textContent=total||'—';$('stAll').textContent=total||'—';$('stPrem').textContent=prem||'—';$('stFree').textContent=free||'—';
+  $('iTotal').textContent=total||'—';$('iPrem').textContent=prem||'—';$('iFree').textContent=free||'—';
+  if(total>0){const pp=Math.round(prem/total*100),fp=Math.round(free/total*100);$('iPremPct').textContent=pp+'%';$('iFreePct').textContent=fp+'%';setTimeout(()=>{$('pbPrem').style.width=pp+'%';$('pbFree').style.width=fp+'%';},300);}
+}
+function updateBadges(){
+  $('favBadge').textContent=favorites.length+' judul';$('histBadge').textContent=watchHist.length+' judul';
+  $('clrFav').style.display=favorites.length?'flex':'none';$('clrHist').style.display=watchHist.length?'flex':'none';
+  const nf=$('nbFav'),nh=$('nbHist');
+  nf.textContent=favorites.length>9?'9+':favorites.length;nf.classList.toggle('show',favorites.length>0);
+  nh.textContent=watchHist.length>9?'9+':watchHist.length;nh.classList.toggle('show',watchHist.length>0);
+  const total=catalog.length||1,fc=favorites.length,hc=watchHist.length;
+  $('iFavC').textContent=fc+' judul';$('iHistC').textContent=hc+' judul';
+  const fp=Math.min(100,Math.round(fc/total*100)),hp=Math.min(100,Math.round(hc/total*100));
+  $('iFavPct').textContent=fp+'%';$('iHistPct').textContent=hp+'%';
+  setTimeout(()=>{$('pbFav').style.width=fp+'%';$('pbHist').style.width=hp+'%';},300);
+}
+
+/* CLEAR */
+$('clrFav').onclick=()=>{haptic('h');favorites=[];save();updateBadges();renderFav();renderHome();toast('Semua koleksi dihapus','info');};
+$('clrHist').onclick=()=>{haptic('h');watchHist=[];save();updateBadges();renderHist();toast('Riwayat dihapus','info');};
+
+/* BOTTOM NAV */
+const TAB={home:renderHome,fav:renderFav,hist:renderHist,info:()=>updateBadges()};
+document.querySelectorAll('.nitem').forEach(n=>{
+  n.addEventListener('click',()=>{
+    haptic('l');closeDD();closeModal();
+    document.querySelectorAll('.nitem').forEach(i=>i.classList.remove('on'));n.classList.add('on');
+    const tab=n.dataset.tab;
+    document.querySelectorAll('.sec').forEach(s=>s.classList.remove('act'));$('sec-'+tab).classList.add('act');
+    TAB[tab]&&TAB[tab]();window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+
+/* SCROLL TOP */
+const stbtn=$('stbtn');
+window.addEventListener('scroll',()=>stbtn.classList.toggle('show',scrollY>300),{passive:true});
+stbtn.onclick=()=>{haptic('l');window.scrollTo({top:0,behavior:'smooth'});};
+
+/* BOOT */
+async function boot(){
+  lbStart();
+  const user=tg.initDataUnsafe?.user;
+  if(user){
+    const fn=user.first_name+(user.last_name?' '+user.last_name:'');
+    $('uname').textContent=fn;$('uid-el').textContent='ID: '+user.id;
+    $('uavatar').src=user.photo_url||`https://ui-avatars.com/api/?name=${encodeURIComponent(user.first_name)}&background=7c3aed&color=fff&bold=true`;
+    $('heroH').textContent=`Halo, ${fn.split(' ')[0]}! 👋`;$('heroSub').textContent='Pilih & tonton drama favoritmu';
+  }
+  const params=new URLSearchParams(location.search),raw=params.get('token');
+  if(!raw){lbDone();showFatal('Parameter tidak lengkap.','Buka melalui bot Telegram.');return;}
+  try{
+    const decoded=atob(raw.replace(/-/g,'+').replace(/_/g,'/'));
+    const parts=decoded.split('|');botToken=parts[0];const tgPath=parts[1]||'';
+    if(tgPath){
+      if(tgPath.startsWith('B64_')){const b64=tgPath.replace('B64_','').replace(/-/g,'+').replace(/_/g,'/');catalog=JSON.parse(decodeURIComponent(escape(atob(b64))));}
+      else{const r=await fetch(`https://api.telegra.ph/getPage/${tgPath}?return_content=true`);const j=await r.json();if(j.ok){let s='';j.result.content.forEach(n=>{if(n.children)s+=n.children[0];});catalog=JSON.parse(s);}}
+    }
+    fetch(`https://api.telegram.org/bot${botToken}/getMe`).then(r=>r.json()).then(j=>{if(j.ok){botUsername=j.result.username;const bn=j.result.first_name;$('appName').textContent=bn;$('infoName').textContent=bn;$('iBotName').textContent=bn;$('iBotUser').textContent='@'+j.result.username;}}).catch(()=>{});
+    renderHome();updateStats();updateBadges();lbDone();
+  }catch(e){lbDone();showFatal('Gagal memuat katalog.',e.message||'Coba lagi.');}
+}
+function showFatal(t,s){$('homeGrid').innerHTML='';$('homeEmpty').classList.add('show');$('homeEmpty').querySelector('h3').textContent=t;$('homeEmptyMsg').textContent=s;$('homeEmptyBtn').style.display='none';}
+boot();
+</script>
 </body>
 </html>
