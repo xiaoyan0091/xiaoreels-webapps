@@ -114,23 +114,23 @@ button,input{font-family:inherit}
 .sort-chip{display:none;align-items:center;gap:4px;font-size:10px;font-weight:600;color:var(--p2);background:var(--pg2);border-radius:4px;padding:2px 7px;cursor:pointer}
 .sort-chip.show{display:inline-flex}
 .sort-chip svg{width:10px;height:10px;fill:var(--p2)}
-.hero{margin:10px 12px;border-radius:10px;background:var(--card);border:1px solid var(--border);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px}
-.hero-txt{flex:1;min-width:0}
-.hero-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--a);margin-bottom:3px;display:flex;align-items:center;gap:4px}
-.hero-h{font-size:14px;font-weight:700;line-height:1.3;color:var(--t)}
-.hero-sub{font-size:11px;color:var(--t3);margin-top:2px}
-.hero-stat{display:flex;flex-direction:column;align-items:center;gap:1px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;flex-shrink:0}
-.hero-num{font-size:20px;font-weight:800;line-height:1;color:var(--p2)}
-.hero-statlbl{font-size:9px;font-weight:600;color:var(--t3);text-transform:uppercase}
-.stats-row{display:flex;gap:7px;padding:0 12px 10px}
-.sc{display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:7px 10px;flex:1;min-width:0}
-.sci{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.sci svg{width:12px;height:12px;fill:currentColor}
-.sci.all{background:var(--pg2);color:var(--p2)}
-.sci.prem{background:var(--goldb);color:var(--gold)}
-.sci.free{background:var(--greenb);color:var(--green)}
-.scn{font-size:14px;font-weight:800;line-height:1.1;color:var(--t)}
-.scl{font-size:9px;font-weight:600;color:var(--t3);text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .sec-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;gap:8px}
 .sec-title{font-size:15px;font-weight:700;display:flex;align-items:center;gap:7px;color:var(--t)}
 .title-ico{width:26px;height:26px;border-radius:6px;background:var(--p);display:flex;align-items:center;justify-content:center}
@@ -152,8 +152,7 @@ button,input{font-family:inherit}
 @keyframes shim{0%{background-position:220% 0}100%{background-position:-220% 0}}
 .poster img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s}
 .poster img.rdy{opacity:1}
-.pbadge{position:absolute;top:6px;left:6px;z-index:2;display:flex;align-items:center;gap:2px;font-size:8px;font-weight:700;text-transform:uppercase;padding:2px 6px;border-radius:4px;backdrop-filter:blur(4px)}
-.pbadge.prem{background:rgba(245,158,11,.2);color:var(--gold)}
+.pbadge{position:absolute;top:6px;left:6px;z-index:2;display:flex;align-items:center;gap:2px;font-size:8px;font-weight:700;text-transform:uppercase;padding:2px 6px;border-radius:4pxcolor:var(--gold)}
 .pbadge.free{background:rgba(34,197,94,.2);color:var(--green)}
 .pbadge svg{width:8px;height:8px;fill:currentColor}
 .watched-ov{position:absolute;bottom:0;left:0;right:0;height:22px;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;gap:3px;opacity:0;z-index:2}
@@ -278,13 +277,13 @@ button,input{font-family:inherit}
 .aico svg{width:14px;height:14px;fill:#fff}
 .atxt{flex:1}.atxt-h{font-size:12px;font-weight:700;color:var(--t)}.atxt-s{font-size:10px;color:var(--t3);margin-top:1px}
 .vbadge{font-size:9px;font-weight:700;color:var(--p2);background:var(--pg2);border-radius:4px;padding:2px 7px}
-.odot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;animation:pdot 2.5s infinite}
-@keyframes pdot{0%,100%{opacity:1}50%{opacity:.4}}
+
+
 .stbtn{position:fixed;bottom:calc(var(--nav) + env(safe-area-inset-bottom) + 12px);right:12px;width:36px;height:36px;border-radius:8px;background:var(--p);border:none;cursor:pointer;z-index:490;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .22s,transform .22s}
 .stbtn.show{opacity:1;pointer-events:auto;transform:none}
 .stbtn svg{width:16px;height:16px;fill:#fff}
-@media(max-width:360px){.stats-row{gap:5px}.sc{padding:5px 7px}.scn{font-size:12px}.grid{grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:9px;padding:0 10px 10px}}
-@media(min-width:600px){.hero,.sw,.pills,.stats-row,.drow,.sec-hdr,.rbar,.qacts,.hist-list,.info-inner{padding-left:16px;padding-right:16px}.hero{margin-left:16px;margin-right:16px}.grid{padding:0 16px 16px}}
+@media(max-width:360px){.sc{padding:5px 7px}.scn{font-size:12px}.grid{grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:9px;padding:0 10px 10px}}
+@media(min-width:600px){.sw,.pills,.drow,.sec-hdr,.rbar,.qacts,.hist-list,.info-inner{padding-left:16px;padding-right:16px}.grid{padding:0 16px 16px}}
 </style>
 </head>
 <body>
@@ -322,7 +321,7 @@ button,input{font-family:inherit}
 <header class="hdr">
   <div class="hdr-l">
     <div class="logo"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-    <span class="app-name" id="appName">Katalog Drama</span>
+    <span class="app-name" id="appName">Cari Drama</span>
   </div>
   <div class="hdr-r">
     <div class="ico-btn" id="sortBtn"><svg viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z" fill="currentColor"/></svg></div>
@@ -346,20 +345,7 @@ button,input{font-family:inherit}
 
 <!-- HOME TAB -->
 <div id="sec-home" class="sec act">
-  <div class="hero">
-    <div class="hero-txt">
-      <div class="hero-lbl"><span class="odot"></span><span>Live</span></div>
-      <div class="hero-h" id="heroH">Temukan Drama Favoritmu</div>
-      <div class="hero-sub" id="heroSub">Pilih &amp; tonton via Telegram</div>
-    </div>
-    <div class="hero-stat"><span class="hero-num" id="heroNum">—</span><span class="hero-statlbl">Judul</span></div>
-  </div>
 
-  <div class="stats-row">
-    <div class="sc"><div class="sci all"><svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg></div><div><div class="scn" id="stAll">—</div><div class="scl">Total</div></div></div>
-    <div class="sc"><div class="sci prem"><svg viewBox="0 0 24 24"><path d="M12 2L2 9l3 13h14l3-13-10-7z"/></svg></div><div><div class="scn" id="stPrem">—</div><div class="scl">Premium</div></div></div>
-    <div class="sc"><div class="sci free"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg></div><div><div class="scn" id="stFree">—</div><div class="scl">Gratis</div></div></div>
-  </div>
 
   <!-- Quick Actions -->
   <div class="qacts">
@@ -527,7 +513,7 @@ function toggleDD(){ddOpen=!ddOpen;sdd.classList.toggle('open',ddOpen);sBtn.clas
 function closeDD(){ddOpen=false;sdd.classList.remove('open');sBtn.classList.remove('on');}
 sBtn.onclick=()=>toggleDD();
 document.addEventListener('click',e=>{if(ddOpen&&!e.target.closest('#sdd')&&!e.target.closest('#sortBtn'))closeDD();});
-const SL={def:'Default',az:'A–Z',za:'Z–A',prem:'Premium Dulu',free:'Gratis Dulu'};
+const SL={def:'Terbaru',az:'A–Z',za:'Z–A',prem:'Premium Dulu',free:'Gratis Dulu'};
 document.querySelectorAll('.si').forEach(el=>{
   el.onclick=()=>{haptic('l');curSort=el.dataset.s;document.querySelectorAll('.si').forEach(i=>i.classList.toggle('on',i===el));$('sortChipTxt').textContent=SL[curSort];$('sortChip').classList.toggle('show',curSort!=='def');closeDD();pages.home=1;renderHome();};
 });
@@ -808,7 +794,7 @@ function renderHist(){
 /* STATS & BADGES */
 function updateStats(){
   const total=catalog.length,prem=catalog.filter(i=>i.is_prem===1).length,free=total-prem;
-  $('heroNum').textContent=total||'—';$('stAll').textContent=total||'—';$('stPrem').textContent=prem||'—';$('stFree').textContent=free||'—';
+  // hero+stats removed
   $('iTotal').textContent=total||'—';$('iPrem').textContent=prem||'—';$('iFree').textContent=free||'—';
   if(total>0){const pp=Math.round(prem/total*100),fp=Math.round(free/total*100);$('iPremPct').textContent=pp+'%';$('iFreePct').textContent=fp+'%';setTimeout(()=>{$('pbPrem').style.width=pp+'%';$('pbFree').style.width=fp+'%';},300);}
 }
@@ -854,7 +840,6 @@ async function boot(){
     const fn=user.first_name+(user.last_name?' '+user.last_name:'');
     $('uname').textContent=fn;$('uid-el').textContent='ID: '+user.id;
     $('uavatar').src=user.photo_url||`https://ui-avatars.com/api/?name=${encodeURIComponent(user.first_name)}&background=7c3aed&color=fff&bold=true`;
-    $('heroH').textContent=`Halo, ${fn.split(' ')[0]}! 👋`;$('heroSub').textContent='Pilih & tonton drama favoritmu';
   }
   const params=new URLSearchParams(location.search),raw=params.get('token');
   if(!raw){lbDone();showFatal('Parameter tidak lengkap.','Buka melalui bot Telegram.');return;}
