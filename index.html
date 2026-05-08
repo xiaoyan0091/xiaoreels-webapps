@@ -321,7 +321,7 @@ button,input{font-family:inherit}
 <header class="hdr">
   <div class="hdr-l">
     <div class="logo"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-    <span class="app-name" id="appName">Cari Drama</span>
+    <span class="app-name" id="appName">Drama China</span>
   </div>
   <div class="hdr-r">
     <div class="ico-btn" id="sortBtn"><svg viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z" fill="currentColor"/></svg></div>
@@ -527,7 +527,7 @@ function applySort(arr){
   if(curSort==='free')return d.sort((a,b)=>(a.is_prem||0)-(b.is_prem||0));
   // Default: is_new=1 di atas, lalu urutan terbalik (index terakhir=terbaru)
   return d.sort((a,b)=>{
-    const an=a.is_new===1?1:0,bn=b.is_new===1?1:0;
+    const an=(a.is_new===1||a.is_new==='1'||a.is_new===true)?1:0,bn=(b.is_new===1||b.is_new==='1'||b.is_new===true)?1:0;
     if(bn!==an)return bn-an;
     return catalog.indexOf(b)-catalog.indexOf(a);
   });
@@ -698,14 +698,14 @@ function renderPager(pid,cid,tid,did,pvid,nxid,page,total,onPrev,onNext){
 
 /* MAKE CARD */
 function mkCard(item,gid){
-  const isFav=favorites.includes(item.id),isPrem=item.is_prem===1,isNew=!!item.is_new,isWatched=watchHist.includes(item.id);
+  const isFav=favorites.includes(item.id),isPrem=item.is_prem===1,isNew=(item.is_new===1||item.is_new==='1'||item.is_new===true),isWatched=watchHist.includes(item.id);
   const w=document.createElement('div');
   w.className='card'+(isWatched?' watched':'');
   w.innerHTML=`
+    ${isNew?`<div class="new-rib">Baru</div>`:''}
     <div class="poster shimmer" id="ps${gid}${item.id}">
       <img id="pi${gid}${item.id}" src="" alt="">
       <div class="pbadge ${isPrem?'prem':'free'}">${isPrem?`<svg viewBox="0 0 24 24"><path d="M12 2L2 9l3 13h14l3-13-10-7z"/></svg>Premium`:`<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>Gratis`}</div>
-      ${isNew?`<div class="new-rib">Baru</div>`:''}
       <div class="watched-ov"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg><span>Ditonton</span></div>
     </div>
     <div class="cbody">
