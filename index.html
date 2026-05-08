@@ -852,26 +852,19 @@ async function boot(){
       else{const r=await fetch(`https://api.telegra.ph/getPage/${tgPath}?return_content=true`);const j=await r.json();if(j.ok){let s='';j.result.content.forEach(n=>{if(n.children)s+=n.children[0];});catalog=JSON.parse(s);}}
     }
     fetch(`https://api.telegram.org/bot${botToken}/getMe`).then(r=>r.json()).then(j=>{if(j.ok){botUsername=j.result.username;const bn=j.result.first_name;$('appName').textContent=bn;$('infoName').textContent=bn;$('iBotName').textContent=bn;$('iBotUser').textContent='@'+j.result.username;}}).catch(()=>{});
-    // Debug & fallback is_new
 if(catalog.length){
-  const sample=catalog[0];
-  console.log('[DEBUG] catalog sample fields:',Object.keys(sample));
-  console.log('[DEBUG] sample item:',JSON.stringify(sample));
-  // Normalisasi is_new: cek semua kemungkinan field name
-  const hasNew=catalog.some(i=>i.is_new||i.isNew||i['new']||i.isnew||i.NEW||i.Is_New);
-  if(!hasNew){
-    // Fallback: 5 item terakhir ditandai baru
-    const last=catalog.slice(-5);
-    last.forEach(i=>{i.is_new=1;});
-    console.log('[DEBUG] No is_new found, marked last 5 as new');
-  }else{
-    // Normalisasi semua ke is_new=1
-    catalog.forEach(i=>{
-      if(!i.is_new&&(i.isNew||i['new']||i.isnew||i.NEW||i.Is_New)){i.is_new=1;}
-    });
-  }
+  // Normalisasi field is_new dari semua kemungkinan nama field
+  catalog.forEach(i=>{
+    if(!i.is_new&&(i.isNew||i['new']||i.isnew||i.NEW||i.Is_New)){i.is_new=1;}
+  });
 }
 renderHome();updateStats();updateBadges();lbDone();
+    // Auto-hapus label BARU setelah 5 menit
+    setTimeout(()=>{
+      let changed=false;
+      catalog.forEach(i=>{if(i.is_new){i.is_new=0;changed=true;}});
+      if(changed){renderHome();console.log('[INFO] Label BARU dihapus otomatis setelah 5 menit');}
+    },5*60*1000);
   }catch(e){lbDone();showFatal('Gagal memuat katalog.',e.message||'Coba lagi.');}
 }
 function showFatal(t,s){$('homeGrid').innerHTML='';$('homeEmpty').classList.add('show');$('homeEmpty').querySelector('h3').textContent=t;$('homeEmptyMsg').textContent=s;$('homeEmptyBtn').style.display='none';}
