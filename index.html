@@ -28,7 +28,7 @@ body.light{
   --a:#059669;--ag:rgba(5,150,105,.1);
   --gold:#d97706;--goldb:rgba(217,119,6,.08);
   --green:#059669;--greenb:rgba(5,150,105,.08);
-  --red:#dc2626;--redb:rgba(220,38,26,.07);
+  --red:#dc2626;--redb:rgba(220,38,38,.07);
   --blue:#2563eb;--blueb:rgba(37,99,235,.07);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -114,6 +114,23 @@ button,input{font-family:inherit}
 .sort-chip{display:none;align-items:center;gap:4px;font-size:10px;font-weight:600;color:var(--p2);background:var(--pg2);border-radius:4px;padding:2px 7px;cursor:pointer}
 .sort-chip.show{display:inline-flex}
 .sort-chip svg{width:10px;height:10px;fill:var(--p2)}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .sec-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;gap:8px}
 .sec-title{font-size:15px;font-weight:700;display:flex;align-items:center;gap:7px;color:var(--t)}
 .title-ico{width:26px;height:26px;border-radius:6px;background:var(--p);display:flex;align-items:center;justify-content:center}
@@ -261,6 +278,8 @@ button,input{font-family:inherit}
 .aico svg{width:14px;height:14px;fill:#fff}
 .atxt{flex:1}.atxt-h{font-size:12px;font-weight:700;color:var(--t)}.atxt-s{font-size:10px;color:var(--t3);margin-top:1px}
 .vbadge{font-size:9px;font-weight:700;color:var(--p2);background:var(--pg2);border-radius:4px;padding:2px 7px}
+
+
 .stbtn{position:fixed;bottom:calc(var(--nav) + env(safe-area-inset-bottom) + 12px);right:12px;width:36px;height:36px;border-radius:8px;background:var(--p);border:none;cursor:pointer;z-index:490;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .22s,transform .22s}
 .stbtn.show{opacity:1;pointer-events:auto;transform:none}
 .stbtn svg{width:16px;height:16px;fill:#fff}
@@ -273,6 +292,7 @@ button,input{font-family:inherit}
 <div id="lbar"></div>
 <div id="toast"><div class="tico" id="tico"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div><span id="ttxt">—</span></div>
 
+<!-- DETAIL MODAL -->
 <div class="modal-ov" id="modalOv">
   <div class="modal" id="modal">
     <div class="modal-drag"></div>
@@ -298,6 +318,7 @@ button,input{font-family:inherit}
   </div>
 </div>
 
+<!-- HEADER -->
 <header class="hdr">
   <div class="hdr-l">
     <div class="logo"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
@@ -313,6 +334,7 @@ button,input{font-family:inherit}
   </div>
 </header>
 
+<!-- SORT DROPDOWN -->
 <div class="sdd" id="sdd">
   <div class="sdd-head">Urutkan</div>
   <div class="si on" data-s="def"><svg viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/></svg>Terbaru<span class="si-ck"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span></div>
@@ -322,12 +344,18 @@ button,input{font-family:inherit}
   <div class="si" data-s="free"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>Gratis Dulu<span class="si-ck"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span></div>
 </div>
 
+<!-- HOME TAB -->
 <div id="sec-home" class="sec act">
+
+
+  <!-- Quick Actions -->
   <div class="qacts">
     <button class="qbtn qrnd" id="btnRand"><svg viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>Acak Drama</button>
     <button class="qbtn qnew" id="btnNew"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>Baru Ditambah</button>
     <button class="qbtn qpop" id="btnPop"><svg viewBox="0 0 24 24"><path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7"/></svg>Terpopuler</button>
   </div>
+
+  <!-- Search -->
   <div class="sw" style="position:relative">
     <div class="sbox">
       <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
@@ -336,6 +364,8 @@ button,input{font-family:inherit}
     </div>
     <div class="sug-box" id="sugBox"></div>
   </div>
+
+  <!-- Filter Pills -->
   <div class="pills">
     <button class="pill on" data-f="all"><svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm2 5h12v2H6zm4 5h4v2h-4z"/></svg>Semua</button>
     <button class="pill prem" data-f="prem"><svg viewBox="0 0 24 24"><path d="M12 2L2 9l3 13h14l3-13-10-7z"/></svg>Premium</button>
@@ -344,1468 +374,524 @@ button,input{font-family:inherit}
     <button class="pill" data-f="unwatched"><svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>Belum Ditonton</button>
     <button class="pill" data-f="fav"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>Koleksi</button>
   </div>
+
   <div class="rbar" id="rbar"><span class="rbar-txt">Tampil <strong id="rcount">0</strong> hasil</span><span class="rbar-kw" id="rkw" style="display:none"></span></div>
-  <div class="drow"><div class="dline"></div><span class="dlbl" id="divLbl">Semua Drama</span><div class="dline"></div><span class="sort-chip" id="sortChip"><svg viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/></svg><span id="sortChipTxt">Default</span></span></div>
+
+  <div class="drow">
+    <div class="dline"></div><span class="dlbl" id="divLbl">Semua Drama</span><div class="dline"></div>
+    <span class="sort-chip" id="sortChip"><svg viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/></svg><span id="sortChipTxt">Default</span></span>
+  </div>
+
   <div class="grid" id="homeGrid"></div>
-  <div class="empty" id="homeEmpty"><div class="empty-ico"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></div><h3>Tidak Ditemukan</h3><p id="homeEmptyMsg">Drama yang dicari tidak ada.</p><button class="empty-btn" id="homeEmptyBtn" style="display:none"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>Reset Filter</button></div>
-  <div class="pager" id="homePager"><div class="pctr"><span id="hCur">1</span><span class="slash">/</span><span class="tot" id="hTot">1</span></div><div class="dots" id="hDots"></div><div class="page-acts"><button class="pbtn" id="hPrev"><svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>Sebelumnya</button><button class="pbtn next" id="hNext">Berikutnya<svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></button></div></div>
+  <div class="empty" id="homeEmpty">
+    <div class="empty-ico"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></div>
+    <h3>Tidak Ditemukan</h3><p id="homeEmptyMsg">Drama yang dicari tidak ada.</p>
+    <button class="empty-btn" id="homeEmptyBtn" style="display:none"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>Reset Filter</button>
+  </div>
+  <div class="pager" id="homePager">
+    <div class="pctr"><span id="hCur">1</span><span class="slash">/</span><span class="tot" id="hTot">1</span></div>
+    <div class="dots" id="hDots"></div>
+    <div class="page-acts">
+      <button class="pbtn" id="hPrev"><svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>Sebelumnya</button>
+      <button class="pbtn next" id="hNext">Berikutnya<svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></button>
+    </div>
+  </div>
 </div>
 
+<!-- FAV TAB -->
 <div id="sec-fav" class="sec">
-  <div class="sec-hdr"><div class="sec-title"><div class="title-ico"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>Koleksi Saya</div><div class="sec-acts"><span class="cnt-badge" id="favBadge">0 judul</span><button class="act-btn red" id="clrFav" style="display:none"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>Hapus Semua</button></div></div>
+  <div class="sec-hdr">
+    <div class="sec-title"><div class="title-ico"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>Koleksi Saya</div>
+    <div class="sec-acts"><span class="cnt-badge" id="favBadge">0 judul</span><button class="act-btn red" id="clrFav" style="display:none"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>Hapus Semua</button></div>
+  </div>
   <div class="drow"><div class="dline"></div><span class="dlbl">Drama Tersimpan</span><div class="dline"></div></div>
   <div class="grid" id="favGrid"></div>
   <div class="empty" id="favEmpty"><div class="empty-ico"><svg viewBox="0 0 24 24"><path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3zm-4.4 15.55l-.1.1-.1-.1C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05z"/></svg></div><h3>Koleksi Kosong</h3><p>Tekan ❤ pada kartu untuk menyimpan.</p></div>
-  <div class="pager" id="favPager"><div class="pctr"><span id="fCur">1</span><span class="slash">/</span><span class="tot" id="fTot">1</span></div><div class="dots" id="fDots"></div><div class="page-acts"><button class="pbtn" id="fPrev"><svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>Sebelumnya</button><button class="pbtn next" id="fNext">Berikutnya<svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></button></div></div>
+  <div class="pager" id="favPager">
+    <div class="pctr"><span id="fCur">1</span><span class="slash">/</span><span class="tot" id="fTot">1</span></div><div class="dots" id="fDots"></div>
+    <div class="page-acts"><button class="pbtn" id="fPrev"><svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>Sebelumnya</button><button class="pbtn next" id="fNext">Berikutnya<svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></button></div>
+  </div>
 </div>
 
+<!-- HISTORY TAB -->
 <div id="sec-hist" class="sec">
-  <div class="sec-hdr"><div class="sec-title"><div class="title-ico"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg></div>Riwayat</div><div class="sec-acts"><span class="cnt-badge" id="histBadge">0 judul</span><button class="act-btn red" id="clrHist" style="display:none"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>Hapus</button></div></div>
+  <div class="sec-hdr">
+    <div class="sec-title"><div class="title-ico"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg></div>Riwayat</div>
+    <div class="sec-acts"><span class="cnt-badge" id="histBadge">0 judul</span><button class="act-btn red" id="clrHist" style="display:none"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>Hapus</button></div>
+  </div>
   <div class="drow"><div class="dline"></div><span class="dlbl">Terakhir Ditonton</span><div class="dline"></div></div>
   <div class="hist-list" id="histList"></div>
   <div class="empty" id="histEmpty"><div class="empty-ico"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg></div><h3>Belum Ada Riwayat</h3><p>Riwayat tontonan muncul otomatis di sini.</p></div>
-  <div class="pager" id="histPager"><div class="pctr"><span id="hiCur">1</span><span class="slash">/</span><span class="tot" id="hiTot">1</span></div><div class="dots" id="hiDots"></div><div class="page-acts"><button class="pbtn" id="hiPrev"><svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>Sebelumnya</button><button class="pbtn next" id="hiNext">Berikutnya<svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></button></div></div>
+  <div class="pager" id="histPager">
+    <div class="pctr"><span id="hiCur">1</span><span class="slash">/</span><span class="tot" id="hiTot">1</span></div><div class="dots" id="hiDots"></div>
+    <div class="page-acts"><button class="pbtn" id="hiPrev"><svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>Sebelumnya</button><button class="pbtn next" id="hiNext">Berikutnya<svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></button></div>
+  </div>
 </div>
 
+<!-- INFO TAB -->
 <div id="sec-info" class="sec">
   <div class="info-inner">
     <div class="icard"><div class="about-row"><div class="aico"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><div class="atxt"><div class="atxt-h" id="infoName">Katalog Drama</div><div class="atxt-s">Fsub Builder Dracin</div></div><span class="vbadge">v4.0</span></div></div>
-    <div class="icard"><div class="icard-title"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>Statistik Katalog</div><div class="irow"><span class="irow-l"><svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm4zm0 5h4zm0 5h0 16v16v2H5h16v2H4zm2H44zm0 5h0 5hzm0 5h16v2H16v2H4z"/></16v2H4z"/></4z"/svg>Total</span><span classsvg>Total</span><span class></svg>Total</span><span class="irow-v" id="i="irow-v" id="iTotal">—</="irow-v" id="iTotal">Total">span></div—</span></div—</span></div><div class="irow><div class="i><div class="i"><span class="irow"><span class="irow-lrow"><span class="irow-lrow-l"><svg"><svg"><svg viewBox viewBox="0 0 viewBox="0="0 0 24 24 0 24 24 24 24"><path"><path d="M12"><path d="M12 d="M12 2L2 9l 2L2 9l3 13h14l3- 2L2 9l3 13h14l3-13-10-73 13h14l3-13-1013-10z"/-7z"/-7z"/></svg>Premium></svg>Premium</span></svg>Premium</span><span</span><span><span class="irow-v gold class="irow-v gold class="irow-v gold" id" id="iPrem">—</" id="iPrem">—</="iPrem">—</span></div><div class="irow"><span class="ispan></div><div class="irow"><span class="ispan></div><div class="irow"><span classrow-l"><svgrow-l"><svg="irow-l"><svg viewBox="0 viewBox="0 viewBox="0 0 24 0 24 24 0 24 24"><path d=""><path d=" 24"><pathM12 2 d="M12 2C6.48 2M12 2C6C6.48 2 2 6.48 2.48 2 2 6.48 2 6.48 12s4.48 2 12s4 2 12s4.48 10 10.48 10 10 10 10 10 10 10 10 10 10-4.48-4.48 10-10S17.52-4.48 10-10S17.52 10-10S17 2 12 2 12.52 2 12 2zm-2 14 2zm-2  2zm-2 14.5v-9.5v-914.5v-9l6 4.5-6 4l6 4.5-6 4l6 4.5-6 4.5z"/></svg>G.5z"/.5z"/ratis></svg>Gratis></svg>Gratis</span><span class="irow</span><span class="irow</span><span class="-v grn" id="-v grn" id="irow-v grn" id="iFree">—iFree">—iFree">—</span></div><div</span></div><div class="</span></div><div class=" class="pb-wrappb-wrap"><div class="pb-wrap"><div class=""><div class="pb-lbl"><pb-lbl"><span style="color:var(--gold)">⭐ Premiumpb-lbl"><span style="color:var(--gold)">⭐ Premiumspan style="color:var(--gold)">⭐ Premium</span</span><span id="</span><span id="iPrem><span id="iPremPct">0Pct">0iPremPct">0%</%</span></div><div%</span></div><div classspan></div class="pb-track"><div class="pb="pb-track"><div class="pb-fill><div class="pb-track"><div class="pb-fill pb-prem" id pb-prem" id-fill pb-prem" id="pb="pb="pbPrem"Prem" style="width:Prem" style="width: style="width:0"></div></div></div><div class="pb0"></div></div></div><div class="pb0"></div></div></div><div class-wrap" style="margin-top-wrap" style="margin-top:7px"><div class="pb-wrap" style="margin-top:7px"><div class:7px"><div class="pb-lbl"><span="pb-lbl"><span="pb-lbl"><span style="color:var(-- style="color:var(-- style="color:var(--green)green)green)">▶ Gratis</span><span id="iFree">▶ Gratis</span><span id="iFree">▶ Gratis</span><span id="iFreePctPct">0Pct">0%</span></">0%</span></div><div class="pb-track%</span></div><div class="pb-trackdiv><div class="pb-track"><div class="pb"><div class="pb-fill pb-free"><div class="pb-fill pb-free" id="pbFree" style="width:0"></-fill pb-free" id="pbFree" style="width:0"></div></div" id="pbFree" style="width:0"></div></div></div></div>
-    <div class="icard></div></div>
-    <div class="icard"><div classdiv></div></div></div>
-    <div class="icard"><div class="icard-title="icard-title"><"><div class="icard-title"><svg viewBox="0 0 24"><svg viewBox="0 0 24svg viewBox="0 0 24"><path 24"><path d=" 24 24"><path d=" d="M12 2C6M12 2C6M12 2C6..48 2.48 248 2 2 6.48 2 2 6.48 2 2 6.48 2 12s4 12s4 12s4.48.48 10 10.48 10 10 10 10 10 10-4.48 10-10 10 10 10-4.48 10-10 10-4.48 10-10S17.52 S17.52 2S17.52 22 12 2 12 2 12 2zm-1 zm-1 zm-1 14H9V8h2v14H9V8h2v14H9V8h2v8zm4 8zm4 8zm0h-2V80h-2V84 0h-2h2v8z"/></svgh2v8z"/V8h2v8z"/></svg>Akt></svg>Aktivitasku</div>Aktivitasku</divivitasku</div><div class="irow><div class="i><div class="i"><span class="irow"><span classrow"><span class="i="irow-l"><svg viewBoxrow-l"><svg viewBoxrow-l"><svg viewBox="0 0="0 0 24="0 0 24 24 24 24 24"><path d="M12"><path d=""><path d="M12 21.35M12 21.35 21.35l-1.45-l-1.45-1.32Cl-1.45-11.32C5.4 15.5.4 15..32C5.4 15.36 2 12.36 2 12.28 2 36 2 12.28 2 28 8.5 8.5 2 8.2 5.42 2 5.42 5 2 5.4.42 3 4.42 3 42 4.42 3 7.5 3c1.7.5 3c1.7.5 3c1.74 0 3.41.81 74 0 3.41.81 74 0 3.41.81 4.4.4.5 2.09C5 2.09C5 2.13.09 3.13.09 3.09C13.09 3.81 14.8181 14.76 3 16. 14.76 3 76 3 16.5 16.5 3 19.5 3 3 19.58 3 58 3 19.58 3 22 5.42 22 5.22 5.42 22 8.5c0 42 22 8.5c0 22 8.5c0 3.78-3.78-3.78-3.3.3.4 6.86-8.55 11.54L12 4 6.86-8.55 11.54L12 4 6.86-8.55 11.54L12 21.35z"/></21.35z"/></21.35zsvg>Kolesvg>Kole"/></svg>Koleksi</span><span classksi</span><span classksi</span><span class="irow-v pur" id="iFavC">0 judul</span></div="irow-v pur" id="iFavC">0 judul</span="irow-v pur" id="iFavC">0 judul</span><div></div><div></div><div class="irow"><span class="irow"><span class="irow"><span class="irow class="irow class="irow-l"><svg viewBox="0 -l"><svg viewBox="0 -l"><svg viewBox="0 0 24 24"><path d0 24 24"><path d0 24 24"><="M11.="M11.path d="M11.99 2C99 2C99 2C6.47 2 2 6.47 2 2 6.47 2 2 6.48 6.48 6.48 2 12s4.47 10 2 12s4.47 10 2 12s4.47 10 9.9.99 9.99 10C99 10C17.52 17.52 10C17.22 22 1722 22 17.52 22 22 17..52 22 12S17.52 22 12S17.52 2 52 22 12S17.52 252 2 11.99 2zM12 11.99 11.99 2zM12 20c-2zM12 20 20c-4.42 0-c-4.42 0-4.42 0-8-8-3.58-8-3.58-8-8s3.58-8 8-8s3.58-8 3.58-8-8s3.58-88-8 8-8  8-8 8 3.58 8 3.8 3.58 8 8-3.58 58 8 8-3.58 8 8-3.58 8-8 8zm8-8 8zm8-8 8zm.5-13H11.5-13H11.5-13H11v6l5v6l5.25v6l5.25 3.15 3.15.25 3.15..75.75-175-1.23-1.23-4.5-2.67.23-4.5-2.67-4.5-2.z"/></svg>Ditontonz"/></svg>Ditonton67z"/></svg>Dit</span</span><span class="irow-v blonton</span><span class="irow><span class="irow-v blu" id="iHist-v blu" id="iHistu" id="C">0 judul</C">0 judul</iHistC">0 judul</span></div><div class="pbspan></div><div class="pb-wrapspan></div><div class="pb-wrap"><div class-wrap"><div class"><div class="pb-lbl"><span style="="pb-lbl"><span style="color:="pb-lbl"><span style="color:color:var(--p2)">❤ Kvar(--p2)">var(--p2)">❤ Koleksi</spanoleksi</span><span❤ Koleksi</span><span><span id="iF id="iF id="iFavPct">0%</spanavPct">0%</span></divavPct">0%</span></div><div></div><div class="><div class="pb-track"><div class="pb-track"><divpb-track class="pb-f class="pb-f"><div class="pb-fill pb-fav" idill pb-fav" idill pb-fav" id="pbFav" style="width:0="pbFav" style="width="pbFav" style="width:0"></div></div></div"></div></div></div:0"></div></div></div><div class="><div class="pb-wrap><div class="pb-wrap" style="margin-top:" style="margin-top:pb-wrap" style="margin-top:7px"><div7px"><div7px"><div class="pb-lbl"><span style="color class="pb-lbl"><span style="color class="pb-lbl"><span style="color:var(--blue:var(--blue:var(--blue)">🕐 Dit)">🕐 Ditonton)">🕐 Ditonton</span><span id="</span><span id="onton</span><span id="iHistPctiHistPct">0iHistPct">0%</span></">0%</span></%</span></divdiv><div class="pbdiv><div class="pb><div class="pb-track"><div class-track"><div class="pb-fill pb-hist" id-track"><div class="pb-fill pb-hist" id="pb-fill pb-hist" id="pbHist" style="="pbHist" style="="pbHist" style="width:0"></div></width:0"></div></width:0"></div></div></div></div>
-    <div class="icard"><div classdiv></div></div>
-    <div class="icard"><div class="icdiv></div></div>
-    <div class="icard"><div class="ic="icard-title"><svgard-titleard-title"><svg viewBox"><svg viewBox="0 viewBox="0 0 24 0="0 0 24 24"><path 24 24 24"><path d="M21"><path d="M21 d="M21 9V7c0 9V7 9V7c0-1.1c0-1.1-1.1-.9-2-2-2h-2V-.9-2-2-2h-2V-.9-2-2-2h-2V3H7v3H7v3H7v2H2H5c-12H5c-15c-1.1.1 0.1 0 0-2 .9-2 2-2 .9-2 2-2 .9-2v2c0v2c0 2v2c0 1.8 1.8 1 1.8 1.2.2 3.3 1.2 3.3 2 3.3 2.9 2.9.9 3.8C6.6 3.8C6.6 15 3.8C6.6 15.3 15.3 8.3 8.5 17 8.5 17.5 17 11 17 11 17 11 17.5V20H8v2h8.5V20H8v2h8.5V20H8v2h8v-v-2hv-2h-3v-2h-3v--3v-2.2.2.5c5c2.5-.5 4.4-5c2.5-.5 4.4-2.5-.5 4.4-2.2.2.2 2 5.1-4.2 5.1-4.5.1-4.7 1.7 1.7 1.7-.5 7-.5 7-.5 2.9-2 2.9-2 2.9-2 2.9-3.8zm-142.9-3.8zm-142.9-3.8zm-14 2V9h2v2 2V9h2 2V9h2v2H7H7zm10v2H7zm10 0h-zm10 0h-2V 0h-2V9h2V9h2v2z9h2v2v"/></svg>Info Bot</div2z"/></svg>Info Bot2z"/></svg>Info Bot><div class="irow"><span class="</div><div class="irow"><span</div><div class="irow"><span class="irow-l class="irow-l"><svg viewirow-l"><svg viewBox="0 Box="0 "><svg viewBox="0 0 24 24"><path d0 24 24"><path d="M0 24 24"><path d="M12 ="M12 2C12 2C6.48 2C6.6.48 2 22 2 48 2  6.48 6.48 2 6.48 2 2 2 12s4.48 10 12s4.48 10 12s4.48 10 10 10 10-4.48 10 10 10-4.48 10-10 10 10-4.48 10-10S17.10-10S17.10S17.52 2 12 52 2 12 2zm52 2 12 2zm2zm0 3c1.0 3c1.0 3c1.66 0 3 66 0 3 66 0 3 1.34 3 1.34 3 1.34 3s3s-1.34 3-33 3s-1.34 3-1.34 3-3 3-3-3 3 3-3-1.34-3-1.34-3-3-3-1.34-3-3-3 1.34 1.34 1.34--3 3-3-3 3-33 3-3zm0 14.2zm0 14.2c-zm0 14.2c-c-2.2.5 0-2.5 0-4.71-1.4.71-1.5 0-4.71-1.28-28-28-6-6-3.6-3.3.22.03-1.99 4-3.08 6-22.03-1.99 4-3.08 6-22.03-1.99 4-3.08 6-3.3.3.08 08 1.99 0 508 1.99 1.99 0 .97 1.0 5.97 1.5.97 1.0909 6 3.09 6 3 6 3.08-1.29 1..08-1.29 08-1.29 94-3.1.94-1.94-5 3.3.5 3.3.5 3.22-6 3.22z22-6 3.22z"/></22-6 3.22z"/></"/></svg>Namasvg>Namasvg>Nama</span</span><span</span><span class="><span class="irow-v" id="iBot class="irow-v" id="iBotName">—</irow-v" id="iBotName">—</span></Name">—</span></div><div classspan></div><div classdiv><div class="irow="irow="irow"><span class"><span class="irow-l"><svg viewBox="0"><span class="irow-l"><svg viewBox="0="irow-l"><svg viewBox="0 0 24 24 0 24 24 0 24 24"><path d="M12"><path d="M12"><path d="M12 2C6.48 2 2 6.48 2C6.48 2 2 6 2C6.48 2 2 6 2 12.48 2 12s4.48 2 12s4s4.48.48 10 10 10 10.48 10 10 10 10 10 10 10 10-4.48 10-10S17.52 2 12-4.48 10-10S17.52 2-4.48 10-10S17.52 2 12 2zm1 12 2zm1 15h- 2zm1 15h- 15h-2v-62v-6h22v-6h2h2v6zm0-8v6zm0-8v6zm0-8h-2Vh-2V7h2v2zh-2V7h2v2z7h2v2z"/></svg>Status</"/></svg>"/></svg>Status</span><span class="irow-vspan><span class="irow-vStatus</span><span class="irow-v grn" style="display:flex grn" style="display:flex;align-items: grn" style="display:flex;align-items:center;;align-items:center;gap:5px"><spancenter;gap:5px"><spangap:5px"><span class="odot"></span>Online</span></div class="odot"></span>Online</span></div class="odot"></span>Online</span></div><div class="irow"><span class><div class="irow"><span><div class="irow"><span="irow-l class="irow-l class="irow-l"><svg viewBox="0 0 24"><svg viewBox="0 0 24"><svg viewBox="0 0 24 24"><path 24"><path d="M20 4 24"><path d="M20 4H4c-H4c d="M20 4H4c-1.1 0-2 .-1.1 0-2 .1.1 0-2 .9-2 2v12c9-2 2v12c9-2 2v12c0 1.1.9 2 0 1.0 1.1.9 2 2 2 2h16c1.9 2 2 2h16c1.2h16c1.1 0 2-.9 1 0 2-.1.1 0 22-2V6c9 2-2V6c-.9 2-2V6c0-1.1-.9-0-1.1-.0-1.1-.2-2-9-2-2-2zm9-2-2-2zm2zm0 14H4V8l0 14H4V80 14H4V8l8 8 5 8l8 5 8-5v10zm-85 8-5v10zm-8-5v10zm-8-7L4 6-7L4 6h16-7L4 6h16h16l-l-8 5z"/></svg>Username</l-8 5z"/></svg>Username</8 5z"/></svg>Username</span><span class="irow-vspan><span class="irow-v" id="iBotUser" style="color:var(--a)">—</span></div><div class="ispan><span class="irow-v" id="iBotUser" style="color:var(--a)">—</span></div><div class="i" id="iBotUser" style="color:var(--a)">—</span></div><div class="irow"><span class="irow-lrow"><span class="irow-lrow"><span class="irow-l"><svg viewBox="0 0 24 24"><path"><svg viewBox="0 0 24"><svg viewBox="0 0 24 24"><path d="M12 1L3 d="M12 1L3 5 24"><path d="M12 1L3 5v6c0 5 5v6c0 5v6c0 5.55 3.84 10.74 9 12 5.55 3.84 10.74 9 12.55 3.84 10.74 9 12 5.16-1.26 9-6 5.16-1.26 9.16-1.26 9-6.45 9-12V5-6.45 9-12V5.45 9-12V5l-9-4z"/></l-9-4z"/></l-9-4z"/></svg>Builder</svg>Builder</svg>Builder</span><span class="irow-v" style="colorspan><span class="irow-v" style="colorspan><span class="irow-v" style="color:var(--a)">Dracin</:var(--a)">Drac:var(--a)">Dracspan></div></divin</span></div></divin</span></div></div>
-  </div>
-</div>
-  </div>
-</div>
+    <div class="icard">
+      <div class="icard-title"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>Statistik Katalog</div>
+      <div class="irow"><span class="irow-l"><svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>Total</span><span class="irow-v" id="iTotal">—</span></div>
+      <div class="irow"><span class="irow-l"><svg viewBox="0 0 24 24"><path d="M12 2L2 9l3 13h14l3-13-10-7z"/></svg>Premium</span><span class="irow-v gold" id="iPrem">—</span></div>
+      <div class="irow"><span class="irow-l"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>Gratis</span><span class="irow-v grn" id="iFree">—</span></div>
+      <div class="pb-wrap"><div class="pb-lbl"><span style="color:var(--gold)">⭐ Premium</span><span id="iPremPct">0%</span></div><div class="pb-track"><div class="pb-fill pb-prem" id="pbPrem" style="width:0"></div></div></div>
+      <div class="pb-wrap" style="margin-top:7px"><div class="pb-lbl"><span style="color:var(--green)">▶ Gratis</span><span id="iFreePct">0%</span></div><div class="pb-track"><div class="pb-fill pb-free" id="pbFree" style="width:0"></div></div></div>
+    </div>
+    <div class="icard">
+      <div class="icard-title"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>Aktivitasku</div>
+      <div class="irow"><span class="irow-l"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>Koleksi</span><span class="irow-v pur" id="iFavC">0 judul</span></div>
+      <div class="irow"><span class="irow-l"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>Ditonton</span><span class="irow-v blu" id="iHistC">0 judul</span></div>
+      <div class="pb-wrap"><div class="pb-lbl"><span style="color:var(--p2)">❤ Koleksi</span><span id="iFavPct">0%</span></div><div class="pb-track"><div class="pb-fill pb-fav" id="pbFav" style="width:0"></div></div></div>
+      <div class="pb-wrap" style="margin-top:7px"><div class="pb-lbl"><span style="color:var(--blue)">🕐 Ditonton</span><span id="iHistPct">0%</span></div><div class="pb-track"><div class="pb-fill pb-hist" id="pbHist" style="width:0"></div></div></div>
+    </div>
+    <div class="icard">
+      <div class="icard-title"><svg viewBox="0 0 24 24"><path d="M21 9V7c0-1.1-.9-2-2-2h-2V3H7v2H5c-1.1 0-2 .9-2 2v2c0 1.8 1.2 3.3 2.9 3.8C6.6 15.3 8.5 17 11 17.5V20H8v2h8v-2h-3v-2.5c2.5-.5 4.4-2.2 5.1-4.7 1.7-.5 2.9-2 2.9-3.8zm-14 2V9h2v2H7zm10 0h-2V9h2v2z"/></svg>Info Bot</div>
+      <div class="irow"><span class="irow-l"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>Nama</span><span class="irow-v" id="iBotName">—</span></div>
+      <div class="irow"><span class="irow-l"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>Status</span><span class="irow-v grn" style="display:flex;align-items:center;gap:5px"><span class="odot"></span>Online</span></div>
+      <div class="irow"><span class="irow-l"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/></svg>Username</span><span class="irow-v" id="iBotUser" style="color:var(--a)">—</span></div>
+      <div class="irow"><span class="irow-l"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>Builder</span><span class="irow-v" style="color:var(--a)">Dracin</span></div>
+    </div>
   </div>
 </div>
 
+<!-- BOTTOM NAV -->
 <nav class="bnav">
- >
-
-<nav class="bnav">
- >
-
-<nav class="bnav">
-  <div class="n <div class="nitem on" data-tab <div class="nitem on" data-tabitem on" data-tab="home"><div class="="home"><div class="="home"><div class="nwrapnwrap"><svg viewBox="0 0 24nwrap"><svg viewBox="0 0 24"><svg viewBox="0 0 24 24"><path d=" 24"><path d=" 24"><path d="M10 20v-M10 20v-M10 20v-6h4v6h6h4v6h6h4v6h5v5v-85v-8h3L12-8h3L12 3h3L12 3 2 12h3 3 2 12h3 2 12h3v8z"/></svgv8z"/></svg></divv8z"/></svg></div><span>Beranda><span>Ber></div><span>Ber</span></divanda</span></div>
- anda</span></div>
- >
-  <div class="n <div class="nitem" <div class="nitem"item" data-tab="fav data-tab="fav data-tab="fav"><div class"><div class="nwrap"><svg viewBox="0 0 24 "><div class="nwrap"><svg viewBox="0 0 ="nwrap"><svg viewBox="0 0 24 2424 2424"><path d="M12 "><path d="M12 21."><path d="M12 21.35l21.35l-135l-1.45-1.-1.45-1.32.45-1.32C532C5.4C5.4.4 15.36 2 12 15.36 2 12 15.36 2 12.28.28 2.28 2 8 2 8.5 2 5.42 4.42 3 8.5 2 5.42 4.42.5 2 5.42 4.42 3 7 3 7.5 7.5.5 3c 3c1 3c1.74 01.74 0.74 0 3.41.81 3.41.81 4 3.41.81 4.5 4.5 2.5 2 2.09.09.09CC13.09C13.09 313.09 3.81 14 3.81 14.76 3 16.5.81 14.76 3 16.5 3 .76 3 16.5 3 19.58 3 22 5 3 19.58 3 2219.58 3 22 5.42 22.42 22 5.42 8.5c0 8.5c0 22 8.5c0 3.78-3.4 3.78-3.4 3.78-3.4 6.86 6.86-8 6.86-8.55 11.54L12 21.35z"/.55 11.54L12 21.35z"/-8.55 11.54L12 21.35z></svg><span></svg><span"/></svg><span class=" class=" class="nbadnbadnbadge" id="nbFge" id="nbFge" id="nbFav"></span></av"></span></av"></span></div><span>Kolediv><span>Koleksi</div><span>Koleksi</ksi</span></divspan></divspan></div>
- >
-  <div class=">
-  <div class="n <div class="nnitem" data-tab="item" data-tab="hist"><div class="nwrapitem" data-tab="hist"><div class="nhist"><div class="nwrap"><svg viewBox=""><svg viewBox="wrap"><svg viewBox="0 0 0 24 0 0 24 0 24 24"><path d24"><path d="M11.99 24"><path d="M11.99 ="M11.2C6.2C6.99 2C6.47 47 47 22 2 6.48 2 12s4.2 2 6.48 2 12s4.47  2 6.48 2 12s4.47 10 9.9947 10 10 9.99 10C17. 10C17.52 22 9.99 10C17.52 22 52 22 22 17.52 22 12S22 17.52 22 22 17.52 22 12S17.52 17.52 12S17.52 2 11.99 2 11.99 2 11.99 2zM12 20c-4.2zM12 20c-4.42 2zM12 20c-4.42 0-8-3.58-8-42 0-8-3.58-8-0-8-3.58-8-8s3.58-88s3.8s3.58-8  8-8 58-8 8-8 8-8 8 8 3.58 8 3.58 8 8-8 8-3.58 3.58 8 8-3.58 3.58 8-8 8zm8-8 8zm8-8 8zm.5-13H11v6l5.5-13H11v6.5-13H11v6l5.25 3l5.25.25 3.15.75-1.23 3.15.75-1.15.75-1.23-4.5-2.23-4.5-2-4.5-2.67z"/></svg><span.67z"/.67z"/></svg><span class="nbad></svg><span class="nbadge" id="nbHist class="nbadge" id="nbge" id="nbHist"></span></div><span>RiwayatHist"></span></div><span>Ri"></span></div><span>Riwayat</span></div>
- wayat</span></div>
- </span></div>
-  <div <div class="nitem <div class="nitem" data class="nitem" data-tab" data-tab="info-tab="info="info"><div class="nwrap"><svg"><div class="nwrap"><svg viewBox"><div class="nwrap"><svg viewBox="0 0="0 0 viewBox="0 0 24 24"><path 24 24 24 24"><path d=""><path d="M12 2 d="M12 2M12 2C6.48 2C6.48 2C6.48 2 2 6.48 2 6.48 2 6.48 2 12s4.48 2 12s4.48 2 12s4.48 10 10 10 10-4.48 10 10 10 10-4.48 10- 10 10 10 10-4.48 10 1010S17.52 2-10S17.52 2 12-10S17.52 2 12 2zm1 15h-2v 12 2zm1 15h-2v 2zm1 15h-2v-6h2v6zm0-6h2v6zm0-8h-6h2v6zm0-8h--8h-2V7h2v-2V7h2v2V7h2z"/></svg></div><span>2z"/></svg></div><span>2v2z"/></svg></div><span>Info</span></Info</span></div>
-</navInfo</span></div>
-</navdiv>
+  <div class="nitem on" data-tab="home"><div class="nwrap"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></div><span>Beranda</span></div>
+  <div class="nitem" data-tab="fav"><div class="nwrap"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><span class="nbadge" id="nbFav"></span></div><span>Koleksi</span></div>
+  <div class="nitem" data-tab="hist"><div class="nwrap"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg><span class="nbadge" id="nbHist"></span></div><span>Riwayat</span></div>
+  <div class="nitem" data-tab="info"><div class="nwrap"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></div><span>Info</span></div>
 </nav>
-<button class="st>
-<button class>
-<button classbtn" id="stbtn="st="stbtn" id"><svg viewBox="0 0 24btn" id="stbtn"><svg viewBox="0 0="stbtn"><svg viewBox="0 0 24"><path 24 24"><path 24 24"><path d="M7.41 15 d="M7.41 d="M7.41.41L12 10 15.41L12 10 15.41L12 10.83l4.83l4.59 4.83l4.59 4.59 4.58L18 14.58L18 14.58L18 14l-6-6-6 l-6-6-6 l-6-6-6 6z"/></6z"/></6z"/></svg></button>
-
-<scriptsvg></button>
+<button class="stbtn" id="stbtn"><svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg></button>
 
 <script>
-constsvg></button>
-
-<script>
-const>
-const tg= tg=window.Telegram.Web tg=window.Telegram.WebAppwindow.Telegram.WebApp; tg.expandApp; tg.expand(); tg; tg.expand(); tg(); tg.ready();
-const.ready();
-const.ready();
+const tg=window.Telegram.WebApp;tg.expand();tg.ready();
 const $=id=>document.getElementById(id);
 
-let catalog=[], botToken='', $=id=>document.getElementById(id);
+let catalog=[],botToken='',botUsername='Bot';
+let favorites=JSON.parse(localStorage.getItem('fav4'))||[];
+let watchHist=JSON.parse(localStorage.getItem('hist4'))||[];
+let clickCounts=JSON.parse(localStorage.getItem('clicks4'))||{};
+let curFilter='all',curSort='def';
+let isDark=localStorage.getItem('theme4')!=='light';
+const PER=8,pages={home:1,fav:1,hist:1};
+let modalItem=null;
 
-let catalog=[], botToken='', botUsername $=id=>document.getElementById(id);
-
-let catalog=[], botToken='', botUsername botUsername='Bot';
-let favorites=='Bot';
-let favorites=JSON.parse='Bot';
-let favorites=JSON.parse(local(localStorage.getItem('favJSON.parse(localStorage.getItem('favStorage.getItem('fav4'))||[];
-let watch4'))||[];
-let watch4'))||[];
-let watchHist=JSON.parseHist=JSON.parse(localHist=JSON.parse(localStorage.getItem(localStorage.getItem('hist4'))||Storage.getItem('hist4'))||('hist4'))||[];
-let clickCounts=JSON.parse(l[];
-let clickCounts=JSON.parse(l[];
-let clickCounts=JSON.parse(localStorageocalStorage.getItem('clicks4'))ocalStorage.getItem('clicks4'))||{.getItem('clicks4'))||{};
-let curFilter||{};
-let curFilter};
-let curFilter='all', curSort='='all', cur='all', curSort='def';
-let isDark=localStorageSort='def';
-let isDark=localStoragedef';
-let isDark=localStorage.getItem('theme4')!.getItem('theme4')!.getItem('theme4')!=='light';
-const=='light';
-const=='light';
-const PER= PER=8, pages={home:1, PER=8, pages={home:1,8, pages={home:1, fav: fav:1, hist:1 fav:1, hist:1};
-let modal1, hist:1};
-let modalItem=null};
-let modalItem=Item=null;
-
-// ========== THEME;
-
-// ========== THEMEnull;
-
-// ========== THEME ==========
-function applyTheme ==========
+/* THEME */
 function applyTheme(){
-  document.body.classList.t ==========
-function applyTheme(){
-  document.body(){
-  document.body.classList.toggle('light', !is.classList.toggle('light', !isoggle('light', !isDark);
-  const ico =Dark);
-  const ico = $('#Dark);
-  const ico = $('#themeIco');
-  if(isDarkthemeIco');
-  if(isDark $('#themeIco');
-  if(isDark) ico.innerHTML) ico.innerHTML = `<path d="M12) ico.innerHTML = `<path d="M12 = `<path d="M12 3a9 3a9 3a9 9 0 109 9 9 0 109 9c0-.46 9 0 109 9c0-.46c0-.46-.-.04-.92-.1-1.36a5.389-.04-.92-.1-1.36a5.389 504-.92-.1-1.36a5.389 5 5.389 0.389 0.389 0 01 01 01-4-4.4-4.4.4 2.26 2.26 5 2.26 5.403 5.403 5.403 0.403 5.403 0 5.403 0 01-3.14 01-3 01-3-9.8.14-9.8.14-9.8c-.c-.44-.c-.44-.06-.9-.44-.06-.9-.06-.9-.1-1.1-1.36-.1-1.36-.36-.1z"/>`;
-  else1z"/>`;
-  else ico.innerHTML =1z"/>`;
-  else ico ico `<path d=".innerHTML = `<path d="M6.innerHTML = `<path d="M6.76 4.76 4.84lM6.76 4.84.84-1.8-l-1.8-l-1.8-1.79-1.41 1.41 1.79-1.41 1.41 1.79-1.41 1.41 1.79 1.1.79 1.791.79 1.79  1.79 1.1.42-42-42-1.41z1.41zM41.41zM4 10.5H1 10.5H1M4 10.5H1v2h3v-v2h3v-v2h3v-2zm9-9.2zm9-9.2zm9-9.95h95h-295h-2V3-2V3.5h2V3.5h2V.55zm7..5h2V.55zm7.45 3.V.55zm7.45 3.45 3.91l-191l-191l-1.41.41-1.41-1.41-1.79 1-1.41-1.79 1.41-1.79 1.79 1.79 1.79 1.41 1.41.41 1.41 1.79.41 1.41 1.79 1.79-1.79zm-3.21 13.7l-1.79zm-3.21 13.7l-1.79zm-3.21 13.7l1.79 1.1.79 1.79 1.8 8 1.41-1.41-1.8 1.41-1.41-1.41-1.8-1.41-1.8-1.1.8-1.79-79-1.1.79-1.4 1.4z4 1.4z1.4 1.4zM20M20 10M20 10 10.5v2h3v-2h.5v2h3.5v2h3v-2h-3zm-v-2h-3zm-8 -3zm-8 11h11h-2v28 11h-2v2-2v2.95h2.95h2V21.5.95h2V21.5V21.5zm-7.45-3.zm-7.45-zm-7.45-3.91l1.41 3.91l1.41 91l1.41 1.1.41 1.79-1.8-1.41-1.1.41 1.79-1.8-1.41-1.41 1.79-1.8-1.41-1.41-41-1.79 41-1.79 1.79 1.1.1.8z8z8zM12M12 5M12 5 5.5c-3..5c-3..5c-3.58 0-58 0-6.58 0-6.6.5 2.92-5 2.92-5 2.92-6.5 6.5s6.5 6.5s2.92 6.5 6.5s2.92 2.92 6.6.6.5 5 6.5 6.6.5 5 6.5 6.5 6.5 6.6.5 6.5-2.92 5-2.92 6.5-2.92 6.56.5-6.5-5-6.5-2.-6.5-2.92-6.2.92-6.92-6.5-6.5-6.5zm0 11c5-6.5-6.5zm0 5-6.5-6.5zm0 11c-2.4811c-2.48 0-2.48 0 0-4-4.5-4.5.5-2.02-4-2.02-4.5-2.02-4.5.5-4-4-4.5S9.52 7.5 12 .5S9.52 7.5 12.5S9.52 7.5 12 77.5s4.5 7.5s4.5.5s4.5 2.02 4.5 4.5 2.02 4.5 4.5-2.02 4 2.02 4.5 4.5-2.02-2.02 4.5-4.5-4 4.5-4.5.5 4.5z"/>`;
+  document.body.classList.toggle('light',!isDark);
+  $('themeIco').innerHTML=isDark?`<path d="M12 3a9 9 0 109 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 01-4.4 2.26 5.403 5.403 0 01-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>`:
+    `<path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8 11h-2v2.95h2V21.5zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8zM12 5.5c-3.58 0-6.5 2.92-6.5 6.5s2.92 6.5 6.5 6.5 6.5-2.92 6.5-6.5-2.92-6.5-6.5-6.5zm0 11c-2.48 0-4.5-2.02-4.5-4.5S9.52 7.5 12 7.5s4.5 2.02 4.5 4.5-2.02 4.5-4.5 4.5z"/>`;
+  try{if(tg.setHeaderColor)tg.setHeaderColor(isDark?'#08051a':'#eeebff');if(tg.setBackgroundColor)tg.setBackgroundColor(isDark?'#08051a':'#eeebff');}catch(e){}
 }
-$('#.5 4.5z"/>`;
-}
-$('# 4.5z"/>`;
-}
-$('#themeBtnthemeBtnthemeBtn').onclick = ()=>{ isDark=!isDark; localStorage.set').onclick = ()=>{ isDark=!isDark; localStorage.setItem('').onclick = ()=>{ isDark=!isDark; localStorage.setItem('theme4', isDark?'theme4', isDark?'darkItem('theme4', isDark?'dark':'light'); applyTheme':'light'); applyTheme(); hadark':'light'); applyTheme(); ha(); haptic('l'); };
+$('themeBtn').onclick=()=>{isDark=!isDark;localStorage.setItem('theme4',isDark?'dark':'light');applyTheme();haptic('l');};
 applyTheme();
 
-const haptic = t=>{ tryptic('l'); };
-applyTheme();
+const haptic=t=>{try{tg.HapticFeedback&&tg.HapticFeedback.impactOccurred(t==='h'?'heavy':'light');}catch(e){}};
 
-const haptic = t=>ptic('l'); };
-applyTheme();
+/* LOADING BAR */
+const lb=$('lbar');let _iv;
+function lbStart(){lb.style.width='0';lb.style.opacity='1';let w=0;_iv=setInterval(()=>{w=Math.min(w+Math.random()*13,84);lb.style.width=w+'%';},180);}
+function lbDone(){clearInterval(_iv);lb.style.width='100%';setTimeout(()=>{lb.style.opacity='0';lb.style.width='0';},380);}
 
-const haptic = t=>{ try{ tg.HapticFeedback?.{ try{ tg.HapticFeedback?.impactOcc{ tg.HapticFeedback?.impactOccimpactOccurred(t==urred(t==='h'?'heavy':'light'); }catch(e){} };
-
-// ==========urred(t==='h'?'heavy':'light'); }catch(e){} };
-
-// =='h'?'heavy':'light'); }catch(e){} };
-
-// = LOADING BAR========= LOADING BAR ================== LOADING BAR ==========
-const lb=$('#lbar'); let _ ==========
-const lb=$('#lbar'); let _iv;
-function lbStart(){ lb.style=
-const lb=$('#lbar'); let _iv;
-function lbStart(){ lb.style.width='0';iv;
-function lbStart(){ lb.style.width='.width='0'; lb.style.opacity='1'; let w lb.style.opacity='1'; let w=0;0'; lb.style.opacity='1'; let w==0; _iv=setInterval(() _iv=setInterval(()=>{0; _iv=setInterval(()=>{ w=Math.min(w+Math.random=>{ w=Math.min(w+Math.random()*13,84); w=Math.min(w+Math.random()*13,84); lb.style()*13,84); lb.style.width=w+'%'; },180 lb.style.width=w+'%'; },180.width=w+'%'; },180); }
-function lbDone(){ clearInterval(_iv); lb.style.width='100); }
-function lbDone(){ clearInterval(_iv); lb.style.width='100); }
-function lbDone(){ clearInterval(_iv); lb.style.width='100%'; setTimeout(()=>{%'; setTimeout(()=>{ lb.style%'; setTimeout(()=>{ lb.style lb.style.opacity='0.opacity='0'; lb.style.width='0'; },380);.opacity='0'; lb.style.width='0'; },'; lb.style.width='0'; },380); }
-
-// ========== }
-
-//380); }
-
-// ========== TOAST ==========
+/* TOAST */
 let _tt;
-function toast(msg, type=' TOAST ==========
-let _tt;
-function toast(msg, ========== TOAST ==========
-let _tt;
-function toast(msg, type='ok'){
-  const c={ ok:'#22 type='ok'){
-  const c={ ok:'#22c55e', err:'ok'){
-  const c={ ok:'#22c55e', err:'c55e', err:'#ef#ef4444', info#ef44444444', info:'#7c3aed' };
-  const p:'#7c3aed' };
- ', info:'#7c3aed' };
-  const p={ ok:'M9 ={ ok:'M9  const p={ ok:'M9 16.17L4.83 16.17L416.17L4.83 12l-1.42 1.83 12l-1.42 1.41L9 19 21 712l-1.42 1.41L9 19 21 7.41L9 19 21l-1.l-1. 7l-1.41-1.41-1.41z', err:'M19 6.41L41-1.41z', err:'M19 6.41L17.41z', err:'M19 6.41L17.59 5 12 10.59 6.41 5 5 59 5 12 10.59 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 5 6.41 10.59 6.41 10.59 5 17.59 12 5 17.59 6.12 5 17.59 6.41 19 12 13.6.41 19 12 13.41 19 12 13.41 17.59 19 19 17.59 41 17.59 19 19 17.59 41 17.59 19 19 17.59 13.41 12z', info13.41 12z', info:'M12 2C13.41 12z', info:'M12 2C:'M12 2C6.48 2 2 6.48 2 2 6.48 2 2 6.48 2 6.48 2 12s4.48 6.48 2 12s4.48 12s4.48 10 10 10 10-10 10 10 10-10 10 10 10-4.48 10-10S17.52 2 12 4.48 10-10S17.52 2 12 4.48 10-10S17.52 2 12 2zm1 2zm1 15h-22zm1 15h-215h-2v-v-v-6h6h6h2v6zm0-2v6zm0-2v6zm0-8h-2V78h-2V78h-2V7h2v2z' };
-  $('#tico').style.backgroundh2v2z' };
-  $('#tico').styleh2v2z' };
-  $('#tico').style=c[type]||c.ok.background=c[type]||c.ok.background=c[type]||c.ok;
-  $('#tico').innerHTML;
-  $('#tico').innerHTML;
-  $('#tico').innerHTML=`<svg viewBox="0 0 24 =`<svg viewBox="0 0 24 =`<svg viewBox="0 0 24 24"><path d="${p[type]||24"><path d="${p[type]||24"><path d="${pp.ok}"/></svgp.ok}"/></svg>[type]||p.ok}"/></svg>`;
-  $('#ttxt').text>`;
-  $('#ttxt').text`;
-  $('#ttxt').textContent=msg;
-  const el=$('#toast'); el.classList.add('show');
-  clearContent=msg;
-  const el=$('#toast'); el.classList.add('show');
-  clearTimeout(_Content=msg;
-  const el=$('#toast'); el.classList.add('show');
-  clearTimeout(_Timeout(_tt); _tttt); _tttt); _tt=setTimeout(()=>el=setTimeout(()=>el=setTimeout(()=>el.classList.remove('show'),2400);
+function toast(msg,type='ok'){
+  const c={ok:'#22c55e',err:'#ef4444',info:'#7c3aed'};
+  const p={ok:'M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z',err:'M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z',info:'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z'};
+  $('tico').style.background=c[type]||c.ok;
+  $('tico').innerHTML=`<svg viewBox="0 0 24 24"><path d="${p[type]||p.ok}"/></svg>`;
+  $('ttxt').textContent=msg;
+  const el=$('toast');el.classList.add('show');
+  clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('show'),2400);
 }
 
-// =========.classList.remove('show'),2400);
-}
-
-//.classList.remove('show'),2400);
-}
-
-//= SORT DROPD ========== SORT D ========== SORT DROPDOWN ==========
-const sOWN ==========
-const sdd=$ROPDOWN ==========
-const sdd=$dd=$('#sdd'), sBtn=$('#sortBtn'); let ddOpen=false('#sdd'), sBtn=$('#sortBtn'); let ddOpen=false('#sdd'), sBtn=$('#sortBtn'); let ddOpen=false;
-function toggleDD(){;
-function toggleDD(){;
-function toggleDD(){ ddOpen=!ddOpen; sdd.classList ddOpen=!ddOpen; s ddOpen=!ddOpen; sdd.classList.toggle('open',dd.toggle('open',ddOpen);dd.classList.toggle('open',ddOpen); sBtn.classList.toggle('on',ddOpen sBtn.classList.toggle('on',ddOpenOpen); sBtn.classList.toggle('on',ddOpen); haptic('l');); haptic('l');); haptic('l'); }
-function closeDD(){ ddOpen=false; sdd.classList.remove('open'); sBtn.classList.remove }
-function closeDD(){ ddOpen=false; sdd.classList.remove('open'); sBtn.classList.remove }
-function closeDD(){ ddOpen=false; sdd.classList.remove('open'); sBtn.classList.remove('on'); }
-sBtn('on'); }
-sBtn.onclick('on'); }
-sBtn.onclick=toggleDD;
-document.addEventListener('=toggleDD;
-document.addEventListener('.onclick=toggleDD;
-document.addEventListener('click',e=>{ if(ddOpen &&click',e=>{ if(ddOpen && !eclick',e=>{ if(ddOpen && !e.target.closest('#sdd') && !e.target.closest('#sortBtn !e.target.closest('#sdd') && !e.target.closest('#sortBtn.target.closest('#sdd') && !e.target.closest('#sortBtn')) closeDD();')) closeDD();')) closeDD(); });
-const SL={ def:'Terbaru });
-const SL={ def:'Terbaru });
-const SL={ def:'Terbaru', az:'A–Z', za', az:'A–Z', za', az:'A–Z', za:'Z–A', prem:'Premium:'Z–A', prem:'Z–A', prem:'Premium Dulu', free:'Gratis Dulu' };
-document.querySelectorAll('.si').:'Premium Dulu', free:'Gratis Dulu' };
-document.querySelectorAll('.si'). Dulu', free:'Gratis Dulu' };
-document.querySelectorAll('.si').forEach(el=>forEach(el=>{
-  elforEach(el=>{
-  el.onclick=()=>{.onclick=()=>{{
-  el.onclick=()=>{ haptic('l'); curSort= haptic('l'); haptic('l'); curel.dataset.s; document.querySelectorAll('. curSort=el.dataset.s; document.querySelectorAllSort=el.dataset.s; document.querySelectorAllsi').forEach(i=>i.classList.toggle('on',i===el)); $('#sortC('.si').forEach(i=>i.classList.toggle('on',i===el)); $('#sortC('.si').forEach(i=>i.classList.toggle('on',i===el)); $('#sortChipThipTxt').hipTxt').textContentxt').textContent=SL[curSort]; $('#sortCtextContent=SL[curSort]; $('#sortC=SL[curSort]; $('#sortChip').classList.toggle('showhip').classList.toggle('showhip').classList.toggle',curSort!=='def'); close',curSort!=='def('show',curSort!=='def'); closeDD(); pages.home=1; renderHome(); };
+/* SORT DROPDOWN */
+const sdd=$('sdd'),sBtn=$('sortBtn');let ddOpen=false;
+function toggleDD(){ddOpen=!ddOpen;sdd.classList.toggle('open',ddOpen);sBtn.classList.toggle('on',ddOpen);haptic('l');}
+function closeDD(){ddOpen=false;sdd.classList.remove('open');sBtn.classList.remove('on');}
+sBtn.onclick=()=>toggleDD();
+document.addEventListener('click',e=>{if(ddOpen&&!e.target.closest('#sdd')&&!e.target.closest('#sortBtn'))closeDD();});
+const SL={def:'Terbaru',az:'A–Z',za:'Z–A',prem:'Premium Dulu',free:'Gratis Dulu'};
+document.querySelectorAll('.si').forEach(el=>{
+  el.onclick=()=>{haptic('l');curSort=el.dataset.s;document.querySelectorAll('.si').forEach(i=>i.classList.toggle('on',i===el));$('sortChipTxt').textContent=SL[curSort];$('sortChip').classList.toggle('show',curSort!=='def');closeDD();pages.home=1;renderHome();};
 });
-$('#sortChip').DD(); pages.home=1; renderHome(); };
-});
-$('#sortChip').'); closeDD(); pages.home=1; renderHome(); };
-});
-$('#sortChip').onclickonclick=toggleDD;
-
-function applySort(arronclick=toggleDD;
+$('sortChip').onclick=()=>toggleDD();
 
 function applySort(arr){
- =toggleDD;
-
-function applySort(arr){
- ){
   const d=[...arr];
-  if const d=[...arr];
-  if(curSort const d=[...arr];
-  if(curSort==='az') return d(curSort==='az') return d.sort((a,b)=>a.t.loc==='az') return d.sort((a,b)=>a.t.localeCompare.sort((a,b)=>a.t.localeCompare(b.t,'id'));
-  if(curSort==='za') return(b.t,'id'));
-  if(curSort==='za') returnaleCompare(b.t,'id'));
-  if(curSort==='za') return d.sort((a d.sort((a,b d.sort((a,b)=>,b)=>b.t.locale)=>b.t.localeb.t.localeCompare(a.t,'id'));
-  if(curSort==='premCompare(a.t,'id'));
-  if(curSort==='premCompare(a.t,'id'));
-  if(curSort==='prem') return') return d.sort((a,b') return d.sort((a d.sort((a,b)=>(b.is_prem||0)-()=>(b.is_prem||,b)=>(b.is_prem||0)-(a.is_prema.is_prem||0));
- 0)-(a.is_prem||0));
-  if(curSort==||0));
-  if(curSort==='free') return if(curSort==='free') return d.sort='free') return d.sort d.sort((a,b)=>(a.is_pre((a,b)=>(a.is_pre((a,b)=>(a.is_prem||0)-(b.is_prem||0m||0)-(b.is_prem||0m||0)-(b.is_prem||0));
-  // Default: is_new=1 di atas, lalu urutan inde));
-  // Default: is_new=1 di atas, lalu urutan inde));
-  // Default: is_new=1 di atas, lalu urutan indeks terbalikks terbalik (terbaru dari index terks terbalik (terbaru dari index terakhir (terbaru dari index terakhir)
-  returnakhir)
-  return)
+  if(curSort==='az')return d.sort((a,b)=>a.t.localeCompare(b.t,'id'));
+  if(curSort==='za')return d.sort((a,b)=>b.t.localeCompare(a.t,'id'));
+  if(curSort==='prem')return d.sort((a,b)=>(b.is_prem||0)-(a.is_prem||0));
+  if(curSort==='free')return d.sort((a,b)=>(a.is_prem||0)-(b.is_prem||0));
+  // Default: is_new=1 di atas, lalu urutan terbalik (index terakhir=terbaru)
   return d.sort((a,b)=>{
- d.sort((a,b)=>{
-    const an = a.is d.sort((a,b)=>{
-    const an =    const an = a.is_new===1 ?_new===1 ? 1 : 0;
-    const a.is_new===1 ? 1 : 0;
-    const 1 : 0;
-    const bn = b.is_new=== bn = b.is_new===1 ? bn = b.is_new===1 ? 1 : 0 1 : 1 ? 1 : 0;
-    if(bn!==an) return bn-an;
-    return0;
-    if(bn!==an) return bn-an;
-    return;
-    if(bn!==an) return bn-an;
-    return catalog.indexOf(b)-catalog.indexOf(a catalog.indexOf(b)-catalog.indexOf(a catalog.indexOf(b)-catalog.indexOf(a);
+    const an=!!(a.is_new||a.isNew||a.new||a.isnew)?1:0,bn=!!(b.is_new||b.isNew||b.new||b.isnew)?1:0;
+    if(bn!==an)return bn-an;
+    return catalog.indexOf(b)-catalog.indexOf(a);
   });
 }
 
-// ========== FILTER);
-  });
-}
-
-// ==========);
-  });
-}
-
-// ========== FILTER ==========
-function filtered(src FILTER ==========
+/* FILTER */
 function filtered(src){
-  ==========
-function filtered(src){
- ){
-  const q = $('#sinput').value const q = $('#sinput const q = $('#sinput.toLowerCase().trim();
-  return src').value.toLowerCase().trim();
-  return src').value.toLowerCase().trim();
-  return src.filter(i=>.filter(i=>{
-    const.filter(i=>{
-    const{
-    const match = i.t.toLowerCase().includes(q);
-    if(! match = i.t.toLowerCase().includes(q match = i.t.toLowerCase().includes(qmatch) return false;
-   );
-    if(!match) return false;
-    if(curFilter==='all);
-    if(!match) return false;
-    if(curFilter==='all if(curFilter==='all') return true;
-    if(curFilter') return true;
-    if(curFilter==='prem') return true;
-    if(curFilter==='==='prem') return i.is_prem===1;
-   ') return i.is_prem===1;
-   prem') return i.is_prem===1;
-    if(curFilter== if(curFilter== if(curFilter==='free') return i.is_prem===0;
-   ='free')='free') return i.is_prem===0;
-    if(curFilter== if(curFilter==='fav') return favorites.includes(i.id);
-    return i.is_prem===0;
-    if(curFilter==='fav') return favorites.includes(i.id);
-   ='fav') return favorites.includes(i.id);
-    if(curFilter==='watched') return watchHist.includes if(curFilter==='watched') return watchHist.includes(i.id if(curFilter==='watched') return watchHist.includes(i.id);
-   (i.id);
-    if(curFilter==='unwatched);
-    if(curFilter==='un if(curFilter==='unwatched') return !watchHist.includes(i.id);
-   watched') return !watchHist.includes(i.id);
-    return true;
- ') return !watchHist.includes(i.id);
-    return true;
-  });
- return true;
+  const q=$('sinput').value.toLowerCase().trim();
+  return src.filter(i=>{
+    const mq=i.t.toLowerCase().includes(q);
+    if(curFilter==='all')return mq;
+    if(curFilter==='prem')return mq&&i.is_prem===1;
+    if(curFilter==='free')return mq&&i.is_prem===0;
+    if(curFilter==='fav')return mq&&favorites.includes(i.id);
+    if(curFilter==='watched')return mq&&watchHist.includes(i.id);
+    if(curFilter==='unwatched')return mq&&!watchHist.includes(i.id);
+    return mq;
   });
 }
 
-// ========== IMAGE LOAD });
-}
-
-// ========== IMAGE LOAD}
-
-// ========== IMAGE LOADERER ==========
-async function getImg(fidER ==========
+/* IMAGE */
 async function getImg(fid){
-  if(!fid|| ==========
-async function getImg(fid){
-  if(!fid||){
-  if(!fid||!botToken) return null!botToken) return null!botToken) return null;
-  const key='img4_'+f;
-  const key='img4_;
-  const key='img4_'+fid, cached=sessionStorageid, cached=sessionStorage.getItem(key);
-  if(cached)'+fid, cached=sessionStorage.getItem(key);
-  if(cached).getItem(key);
-  if(cached) return cached;
-  try{
-    const res= return cached;
-  try{
-    const res=await fetch(`https://api return cached;
-  try{
-    const res=await fetch(`https://apiawait fetch(`https://api.telegram.org.telegram.org.telegram.org/bot${botToken}/getFile?file_id=${/bot${botToken}/getFile?file_id=${/bot${botToken}/getFile?file_id=${fidfid}`);
-    const jfid}`);
-    const j=await}`);
-    const j=await=await res.json res.json res.json();
-    if(j.ok && j.result.file_path){
-     ();
-    if(j.ok && j.result.file_path){
-      const url=`https://api();
-    if(j.ok && j.result.file_path){
-      const url=`https://api.tele const url=`https://api.tele.telegram.org/file/bot${gram.org/file/bgram.org/file/bot${botTokenbotToken}/${j.result.fileot${botToken}/${j.result.file_path}`}/${j.result.file_path}`;
-      sessionStorage.setItem_path}`;
-      sessionStorage.setItem;
-      sessionStorage.setItem(key,(key, url);
-      return url;
-   (key, url);
-      return url;
-    url);
-      return url }
-  }catch(e){ }
-  }catch(e){}
-  return null;
-    }
-  }catch(e){}
-  return null}
+  if(!fid||!botToken)return null;
+  const k='img4_'+fid,c=sessionStorage.getItem(k);
+  if(c)return c;
+  try{const r=await fetch(`https://api.telegram.org/bot${botToken}/getFile?file_id=${fid}`);const j=await r.json();if(j.ok&&j.result.file_path){const u=`https://api.telegram.org/file/bot${botToken}/${j.result.file_path}`;sessionStorage.setItem(k,u);return u;}}catch(e){}
   return null;
 }
-function loadImg(fid, imgElem, shimmerElem;
-}
-function loadImg(fid, imgElem, shimmer;
-}
-function loadImg(fid, imgElem, shimmerElem){
-  getImg(fid).then(url){
-  getImg(fid).Elem){
-  getImg(fid).=>{
-    if(!url) return;
-    imgElemthen(url=>{
-    if(!url) return;
-   then(url=>{
-    if(!url) return;
-   .src=url;
-    imgElem.onload= imgElem.src=url;
-    imgElem.on imgElem.src=url;
-    imgElem.on()=>{
-      imgElemload=()=>{
-      imgElem.classList.add('rdy');
-      if(shimmerload=()=>{
-      imgElem.classList.add('rdy');
-      if(shimmer.classList.add('rdy');
-      if(shimmerElem) shimmerElem.classList.remove('shimmerElem) shimmerElem.classList.remove('shimmer');
-   Elem) shimmerElem.classList.remove('shimmer');
-    };
-    img };
-    imgElem.on');
-    };
-    imgElem.onElem.onerror=()=>{ if(shimmererror=()=>{ if(shimmererror=()=>{ if(shimmerElem) shimmerElem.classList.remove('shimmer'); };
+function loadImg(fid,img,shim){
+  getImg(fid).then(url=>{
+    if(!url)return;img.src=url;
+    img.onload=()=>{img.classList.add('rdy');if(shim)shim.classList.remove('shimmer');};
+    img.onerror=()=>{if(shim)shim.classList.remove('shimmer');};
   });
 }
 
-// ==========Elem) shimmerElem.classList.remove('shimmer'); };
-  });
-}
+/* HEART */
+const HON="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z";
+const HOFF="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3zm-4.4 15.55l-.1.1-.1-.1C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05z";
 
-// =Elem) shimmerElem.classList.remove('shimmer'); };
-  });
-}
+/* SAVE */
+function save(){localStorage.setItem('fav4',JSON.stringify(favorites));localStorage.setItem('hist4',JSON.stringify(watchHist));localStorage.setItem('clicks4',JSON.stringify(clickCounts));}
 
-// = FAV========= FAV========= FAV ICON ICON PATHS ==========
-const ICON PATHS ==========
-const PATHS ==========
-const HON="M12  HON="M12  HON="M12 21.21.35l-1.45-1.3221.35l-1.45-35l-1.45-1.32C5.4 15C5.4 151.32C5.4 15.36 2 12.28 2 8.5 2 5.36 2 12.28 2 8.5 2 5.36 2 12.28 2 8.5 2 5.42 4.42 3.42 4.42 3 7.42 4.42 3 7.5 3c1.5 3 7.5 3c1.74 0 3.41.81c1.74 0 3.41.81.74 0 3.41.81 4.5 2 4.5 2 4.5 2.09C13.09 3.81 14.76.09C13.09 3.81 14.09C13.09 3.81 14.76 3 16.5 3 19.58 3.76 3 16.5 3 19.58 3 22 3 16.5 3 19.58 3 22 22 5.42 5.42 22 5.42 22 8 22 8.5c0 3 8.5c0 3..5c0 3.78-3.4 6.86-8.55 11.54L1278-3.4 6.86-8.55 11.54L12.78-3.4 6.86-8.55 11.54L12 21 21.35z";
-const HO 21.35z";
-const HO.35z";
-const HOFF="M16.5FF="M16.5FF="M16.5 3c-1.74 0- 3c-1.74 0- 3c-1.74 0-3.41.81-4.3.41.81-4.3.41.81-4.5 2.09C10.91 3.81 9.24 3 5 2.09C10.91 3.81 9.24 3 5 2.09C10.91 3.81 9.24 7.7.5 3 7.5 5 3 3 4.42 3 4.42 4.42 3 2 5.42 3 2 5.42 3 2 5.42 2 8.5c2 8.5c0 2 8.5c0 0 3.78 3.4 3.78 3.3.78 3.6.86 8.55 11.54L4 6.86 8.55 11.54L4 6.86 8.55 11.12 12 21.35l1.54L12 21.35l1.21.35l1.45-45-1.32C18.6 45-1.32C18.6 1.32C18.6 15.36 22 12.15.36 22 15.36 22 1228 22 12.28 22 8..28 22 8.5 22 5.42 19.5 22 5.42 8.5 22 5.42 58 3 16.5 3zm19.58 3 16.5 3zm-4.4 1519.58 3 16.5 3zm-4.4 15-4.4 15.55.55l-.1.1-.1-..55l-.1.1-.1-.l-.1.1-.1-.1C7.14 14.24 4 11.1C7.14 14.24 4 11.1C7.14 14.24 4 11.39 4 8.39 4 8.5 4 6.5 5.5 5 7.5 5c39 4 8.5 4 6.5 5.5 5 7.5 5c5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.1.54 0 3.04.1.54 0 3.04.99 3.57 2.36h99 3.57 2.36h99 3.57 2.36h1.87C13.46 5.99 1.87C13.46 5.99 1.87C13.46 5.99 14.96 5 16.5 5c2 0 14.96 5 16.5 5c2 0 14.96 5 16.5 5c2 0 3.5 3.5 1.3.5 1.5 3.5 3.1.5 3.5 3.5 3.5 3.5 0 2.89-5 0 2.89-3.14 5.74-5 0 2.89-3.14 5.74-3.14 5.74-7.9 10.05z";
-
-function save(){ localStorage.setItem('7.9 10.05z";
-
-function save(){ localStorage.setItem('7.9 10.05z";
-
-function save(){ localStorage.setItem('fav4',JSON.stringify(ffav4',JSON.stringify(favorites));fav4',JSON.stringify(favorites));avorites)); localStorage.setItem('hist4 localStorage.setItem('hist4',JSON localStorage.setItem('hist4',JSON.stringify(w',JSON.stringify(watchHist)); localStorage.setItem.stringify(watchHist)); localStorage.setItematchHist)); localStorage.setItem('clicks4',JSON.stringify(clickCount('clicks4',JSON.stringify(clickCount('clicks4',JSON.stringify(clickCounts));s)); }
+/* PLAY */
 function playItem(item){
   haptic('h');
-  clickCountss)); }
-function playItem(item){
-  haptic('h');
-  clickCounts[item }
-function playItem(item){
-  haptic('h');
-  clickCounts[item[item.id]=(click.id]=(clickCounts.id]=(clickCounts[item.id]||0)+1Counts[item.id]||0)+1[item.id]||0)+1;
-  watchHist =;
-  watchHist =;
-  watchHist = [item.id, ...watchHist [item.id, ...watchHist.filter(i=>i!==item.id)].slice [item.id, ...watchHist.filter(i=>i!==item.id)].slice.filter(i=>i!==item.id)].slice(0,50);
-  save();(0,50);
-  save(); updateBadges();
-  tg(0,50);
-  save(); updateBadges();
-  tg.openTelegramLink updateBadges();
-  tg.openTele.openTelegramLink(`https://t.me/${botUsername(`https://t.me/${botUsernamegramLink(`https://t.me/${}?start=mp_${item.id}?start=mp_${item.idbotUsername}?start=mp_${item.id}`);
+  clickCounts[item.id]=(clickCounts[item.id]||0)+1;
+  watchHist=[item.id,...watchHist.filter(i=>i!==item.id)].slice(0,50);
+  save();updateBadges();
+  tg.openTelegramLink(`https://t.me/${botUsername}?start=mp_${item.id}`);
   tg.close();
 }
-function toggleF}`);
-  tg.close();
-}
+
+/* TOGGLE FAV */
 function toggleFav(item){
-  haptic('}`);
-  tg.close();
-}
-function toggleFav(item){
-  hapticav(item){
   haptic('l');
-  if(favorites.includes(item.id)){
-    favorites = favorites.filter('l');
-  if(favorites.includes(item.id)){
-    favorites = favorites.filterl');
-  if(favorites.includes(item.id)){
-    favorites = favorites.filter(i=>(i=>i!==item.id);
-    toast(i=>i!==item.idi!==item.id('D);
-    toast('Dihapus dari koleksi);
-    toast('Dihapus dari koleksiihapus dari koleksi','info');
-  } else {
-    favorites.unshift','info');
-  } else {
-    favorites.unshift(item','info');
-  } else {
-    favorites.unshift(item.id(item.id);
-    toast('Ditambahkan.id);
-    toast('Ditambahkan ke koleksi ❤');
-  }
-);
-    toast('Ditambahkan ke koleksi ❤');
-  ke koleksi ❤');
-  }
-  save  save(); updateBadges();
-  return favorites.includes(item }
-  save(); updateBadges();
-  return favorites.includes(item.id(); updateBadges();
+  if(favorites.includes(item.id)){favorites=favorites.filter(i=>i!==item.id);toast('Dihapus dari koleksi','info');}
+  else{favorites.unshift(item.id);toast('Ditambahkan ke koleksi ❤');}
+  save();updateBadges();
   return favorites.includes(item.id);
 }
 
-//.id);
-}
-
-// ========== MODAL =========);
-}
-
-// ========== MODAL ========= ========== MODAL ==========
+/* MODAL */
 function openModal(item){
- =
-function openModal(item){
-  haptic=
-function openModal(item){
-  haptic haptic('l'); modalItem=item;
-  const isPrem=item.is_prem===1,('l'); modalItem=item;
-  const isPrem=item.is_prem===('l'); modalItem=item;
-  const isPrem=item.is_prem=== isNew1,1, isNew=item=item.is_new===1, is isNew=item.is_new===1, is.is_new===1, isWatched=watchHist.includes(item.id), isWatched=watchHist.includes(item.id), isFavWatched=watchHist.includes(item.id), isFav=favorites.includes(item.id);
-  $('#m=favorites.includes(item.id);
-  $('#mTitle').textContent=item.tFav=favorites.includes(item.id);
-  $('#mTitle').textContent=Title').textContent=item.t;
-  const b;
-  const bitem.t;
-  const b=$('#=$('#mBadges'); b.innerHTML='';
-  [{cls:=$('#mBadges'); b.innerHTML='';
-  [{cls:ismBadges'); b.innerHTML='';
-  [{cls:isPrem?'prem':'free', txt:Prem?'prem':'free', txt:isPrem?'prem':'free', txt:isPrem?'⭐ Premium':'▶isPrem?'⭐ Premium':'▶ GratisisPrem?'⭐ Premium':'▶ Gratis Gratis'},
-   ...(isNew?[{cls'},
-   ...(isNew?[{cls'},
-   ...(isNew?[{cls:':'isnew', txt:'🆕 Baru'}]:[]),
-   ...(:'isnew', txt:'🆕 Baru'}]:[]),
-   ...(isnew', txt:'🆕 Baru'}]:[]),
-   ...(isWatched?[{clsisWatched?[{cls:'watched', txt:'isWatched?[{cls:'watched', txt:'✅ Dit:'watched', txt:'✅ Dit✅ Ditonton'}]:[])].forEach(x=>{
-    const span=onton'}]:[])].forEach(x=>{
-    const span=document.createElementonton'}]:[])].forEach(x=>{
-    const span=document.createElement('span'); span.className='mb('span'); span.className='mbadge '+document.createElement('span'); span.className='mbadge '+x.cls; span.textContent=xx.cls; span.textContent=xadge '+x.cls; span.textContent=x.txt; b.appendChild(span);
- .txt; b.appendChild(span);
- .txt; b.appendChild(span);
-  });
-  const mi=$('#mImg'); mi.src=' });
-  const mi=$('#mImg'); mi });
-  const mi=$('#mImg'); mi.src=''; mi.classList.remove('rdy');
-'; mi.classList.remove('rdy');
-  if(item.p.src=''; mi.classList.remove('rdy');
-  if(item.p) loadImg(item  if(item.p) loadImg(item) loadImg(item.p, mi, null);
-  const mf.p, mi, null);
-  const mf.p, mi, null);
-  const mf=$('#mFav');
-  mf.class=$('#mFav');
-  mf.className='modal-ico-btn=$('#mFav');
-  mf.className='modal-ico-btn'+(Name='modal-ico-btn'+(isFav?'isFav?' fav-on':'');
-  m'+(isFav?' fav-on':'');
-  m fav-on':'');
-  mf.querySelector('pathf.querySelector('path').setf.querySelector('path').setAttribute('d', isF').setAttribute('Attribute('d', isFav?HON:HOFF);
-  $('#mPlayav?HON:HOFF);
-  $('#d', isFav?HON:HOFF);
-  $('#').onclick=()=>{ closeModal(); setTimeout(()mPlay').onclick=()=>{ closeModal();mPlay').onclick=()=>{ closeModal(); setTimeout(()=>playItem(item setTimeout(()=>playItem(item=>playItem(item),180); };
-  m),180); };
-  mf.onclick=()=>{
-    const n),180); };
-  mf.onclick=()=>{
-    const nf.onclick=()=>{
-    const nf=tf=toggleFav(item);
-    mff=toggleFav(item);
-   oggleFav(item);
-    mf.classList.toggle('.classList.toggle('fav-on mf.classList.toggle('fav-onfav-on',nf);
-    mf.querySelector('path').setAttribute('d', nf?HON',nf);
-    mf.querySelector('path').setAttribute('d', nf?HON',nf);
-    mf.querySelector('path').setAttribute('d', nf?HON:HOFF);
-    if($('#sec-f:HOFF);
-    if($('#sec-fav').classList.contains(':HOFF);
-    if($('#sec-fav').classList.contains('act'))av').classList.contains('act')) renderFav();
-  };
-  $('#mShare').onclick=act')) renderFav();
-  };
-  $('#mShare').onclick=()=> renderFav();
-  };
-  $('#mShare').onclick=()=>()=>{
-    haptic('l{
-    haptic('l{
+  haptic('l');modalItem=item;
+  const isPrem=item.is_prem===1,isNew=!!(item.is_new||item.isNew||item.new||item.isnew),isWatched=watchHist.includes(item.id),isFav=favorites.includes(item.id);
+  $('mTitle').textContent=item.t;
+  const b=$('mBadges');b.innerHTML='';
+  [{cls:isPrem?'prem':'free',txt:isPrem?'⭐ Premium':'▶ Gratis'},...(isNew?[{cls:'isnew',txt:'🆕 Baru'}]:[]),...(isWatched?[{cls:'watched',txt:'✅ Ditonton'}]:[])].forEach(x=>{const s=document.createElement('span');s.className='mbadge '+x.cls;s.textContent=x.txt;b.appendChild(s);});
+  const mi=$('mImg');mi.src='';mi.classList.remove('rdy');
+  if(item.p)loadImg(item.p,mi,null);
+  // fav btn
+  const mf=$('mFav');
+  mf.className='modal-ico-btn'+(isFav?' fav-on':'');
+  mf.querySelector('path').setAttribute('d',isFav?HON:HOFF);
+  // play
+  $('mPlay').onclick=()=>{closeModal();setTimeout(()=>playItem(item),180);};
+  // fav
+  mf.onclick=()=>{const nf=toggleFav(item);mf.classList.toggle('fav-on',nf);mf.querySelector('path').setAttribute('d',nf?HON:HOFF);if($('sec-fav').classList.contains('act'))renderFav();};
+  // share
+  $('mShare').onclick=()=>{
     haptic('l');
-   ');
-    const url=`https://t.me/${');
-    const url=`https://t const url=`https://tbotUsername}?start=mp_${item.id}`;
-    try{.me/${botUsername}?start=mp_${item.id}`;
-   .me/${botUsername}?start=mp_${item.id}`;
-    tg.openTelegramLink(`https://t.me/share/url? try{ tg.openTelegramLink(`https:// try{ tg.openTelegramLink(`https://url=${encodeURIComponent(url)}&text=${encodeURIComponent('🎬t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent('🎬t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent('🎬 '+item.t)}`); }
-    catch(e '+item.t)}`); }
-    '+item.t)}`); }
-   ){ navigator.cl catch(e){ navigator.cl catch(e){ navigator.clipboard?.writeText(url); toast('Link disalin ✓'); }
+    const url=`https://t.me/${botUsername}?start=mp_${item.id}`;
+    try{tg.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent('🎬 '+item.t)}`);}
+    catch(e){try{navigator.clipboard.writeText(url);}catch(e2){}toast('Link disalin ✓');}
   };
-  const rel = catalogipboard?.writeText(url); toast('Link disalin ✓'); }
-  };
-  const rel =ipboard?.writeText(url); toast('Link disalin ✓'); }
-  };
-  const rel = catalog.filter(i=>.filter(i=>i.id catalog.filter(i=>i.idi.id!==!==item.id && i!==item.id && i.is_prem===item.isitem.id && i.is_prem===item.is.is_prem===item.is_pre_prem).slice(0,6);
- _prem).slice(0,6m).slice(0,6);
-  const rs=$('#m);
-  const rs const rs=$('#mRelSec'), rg=$('#mRel'); rg.innerHTML='';
-  if(rel.lengthRelSec'), rg=$('#mRel'); rg.innerHTML='';
-  if(rel=$('#mRelSec'), rg=$('#mRel'); rg.innerHTML='';
-  if(rel){
-    rs.length){
-    rs.style.display='block';
-    rel.forEach.length){
-    rs.style.display='block';
-    rel.forEach.style.display='block';
-    rel.forEach(ri=>{
-      const rc=document.createElement('div(ri=>{
-      const rc=document.createElement('div(ri=>{
-      const rc=document.createElement('div'); rc.className='rel-card'); rc.className='rel'); rc.className='rel-card';
-      rc.innerHTML=`<div class="poster shimmer" id="rps${ri.id}"><img-card';
-      rc.innerHTML=`<div class="poster shimmer" id="rps${ri.id}"><img';
-      rc.innerHTML=`<div class="poster shimmer" id="rps${ri.id} id="rpi${ri.id}" id="rpi${ri.id}" src="" alt=""><img id="rpi${ri.id}" src="" src="" alt=""></div><div class=""></div><div class=" alt=""></div><div class="rel-title">${ri.t}</div>`;
-      rc.onclick=()=>openrel-title">${ri.t}</div>`;
-      rc.onclick=()=>openrel-title">${ri.t}</div>`;
-      rc.onclick=()=>openModal(Modal(ri);
-      rgModal(ri);
-      rg.appendChild(ri);
-      rg.appendChild(rc);
-      if(ri.p) loadImg.appendChild(rc);
-      if(ri.p) loadImgrc);
-      if(ri.p) loadImg(ri(ri.p, document.getElementById('r(ri.p, document.getElementById('rpi'+ri.id.p, document.getElementById('rpi'+ri.id), document.getElementById('rps'+ripi'+ri.id), document.getElementById('rps'+ri.id), document.getElementById('rps'+ri.id));
-      else document.getElementById('rps'+ri.id)?..id));
-      else document.getElementById('rps'+ri.id)?.));
-      else document.getElementById('rps'+ri.id)?.classList.remove('shimmer');
-    });
-  } elseclassList.remove('shimmer');
-    });
-  } else rs.style.display='none';
-  $('#classList.remove('shimmer');
-    });
-  } else rs.style.display='none';
-  $('# rs.style.display='none';
-  $('#modalOv').classmodalOv').classList.add('open'); documentmodalOv').classList.add('open'); documentList.add('open'); document.body.style.overflow='hidden';
+  // related
+  const rel=catalog.filter(i=>i.id!==item.id&&i.is_prem===item.is_prem).slice(0,6);
+  const rs=$('mRelSec'),rg=$('mRel');rg.innerHTML='';
+  if(rel.length){rs.style.display='block';rel.forEach(ri=>{const rc=document.createElement('div');rc.className='rel-card';rc.innerHTML=`<div class="poster shimmer" id="rps${ri.id}"><img id="rpi${ri.id}" src="" alt=""></div><div class="rel-title">${ri.t}</div>`;rc.onclick=()=>openModal(ri);rg.appendChild(rc);if(ri.p)loadImg(ri.p,document.getElementById('rpi'+ri.id),document.getElementById('rps'+ri.id));else{const s=document.getElementById('rps'+ri.id);if(s)s.classList.remove('shimmer');}});}
+  else rs.style.display='none';
+  $('modalOv').classList.add('open');document.body.style.overflow='hidden';
 }
-function closeModal.body.style.overflow='hidden';
-}
-function closeModal(){ $('#modalOv').classList.remove('open'); document.body.body.style.overflow='hidden';
-}
-function closeModal(){ $('#modalOv').classList.remove('open'); document.body(){ $('#modalOv').classList.remove('open'); document.body.style.overflow='.style.overflow='.style.overflow=''; modalItem=null; }
-$('#modal'; modalItem=null; }
-$'; modalItem=null; }
-$('#modalOv').addEventListener('click',e=>{Ov').addEventListener('click',e=>{('#modalOv').addEventListener('click',e=>{ if(e.target===$('#modalOv if(e.target===$('#modalOv if(e.target===$('#')) closeModal(); });
+function closeModal(){$('modalOv').classList.remove('open');document.body.style.overflow='';modalItem=null;}
+$('modalOv').addEventListener('click',e=>{if(e.target===$('modalOv'))closeModal();});
 let _ty=0;
-$('#modal').addEventListener('touchstart',')) closeModal(); });
-let _ty=0;
-$('#modal').addEventListener('touchstart',modalOv')) closeModal(); });
-let _ty=0;
-$('#modal').addEventListener('touchstart',e=>{ _ty=e.touchese=>{ _ty=e.touchese=>{ _ty=e.touches[0].[0].clientY; },{passive:true[0].clientY; },{passive:trueclientY; },{passive:true});
-$('#});
-$('#modal').addEventListener('touchmove',e=>});
-$('#modal').addEventListener('touchmove',modal').addEventListener('touchmove',e=>{ if(e.touches[0].clientY-_e=>{ if(e.touches[0{ if(e.touches[0].clientY-_ty>70 && $('#modal').scrollTop===0) close].clientY-_ty>70 && $('#modal').scrollTop===0) closeModal(); },{passive:ty>70 && $('#modal').scrollTop===0) closeModal(); },{passModal(); },{passive:true});
+$('modal').addEventListener('touchstart',e=>{_ty=e.touches[0].clientY;},{passive:true});
+$('modal').addEventListener('touchmove',e=>{if(e.touches[0].clientY-_ty>70&&$('modal').scrollTop===0)closeModal();},{passive:true});
 
-// ========== SEARCH SUGGESTtrue});
-
-// ========== SEARCH SUGGESTIONS ==========
-const sugive:true});
-
-// ========== SEARCH SUGGESTIONS ==========
-const sugBox=$IONS ==========
-const sugBox=$('#sugBox'); let _st;
-$('#sinput').addEventListener('input',()Box=$('#sugBox'); let _st;
-$('#sinput').addEventListener('input',()('#sugBox'); let _st;
-$('#sinput').addEventListener('input',()=>{
-  const q=$('#sinput').value.trim();
-  $('#sc=>{
-  const q=$('#sinput').value.trim();
-  $('#sc=>{
-  const q=$('#sinput').value.trim();
-  $('#sclear').classList.toggle('show', qlear').classList.toggle('show', q.length>0);
+/* SEARCH SUGGESTIONS */
+const sugBox=$('sugBox');let _st;
+$('sinput').addEventListener('input',()=>{
+  const q=$('sinput').value.trim();
+  $('sclear').classList.toggle('show',q.length>0);
   clearTimeout(_st);
-  if(q.length<2){ sugBox.classListlear').classList.toggle('show', q.length>0);
-  clearTimeout(_st);
-  if(q.length<2){ sugBox.length>0);
-  clearTimeout(_st);
-  if(q.length<2){ sug.remove('.classList.remove('show');Box.classList.remove('show');show'); sugBox.innerHTML=' sugBox.innerHTML=''; render sugBox.innerHTML=''; renderHome(); return;'; renderHome(); return;Home(); return; }
-  _st=setTimeout(() }
-  _st=setTimeout(() }
+  if(q.length<2){sugBox.classList.remove('show');sugBox.innerHTML='';renderHome();return;}
   _st=setTimeout(()=>{
-    const matched = catalog.filter=>{
-    const matched = catalog.filter(i=>i.t.toLowerCase().includes(q.toLowerCase())).slice(0,6=>{
-    const matched = catalog.filter(i=>(i=>i.t.toLowerCase().includes(q.toLowerCase())).slice(0,6);
-    if(!matched.length){ sugBox.classListi.t.toLowerCase().includes(q.toLowerCase())).slice(0,6);
-    if(!matched.length){ sugBox.classList.remove(');
-    if(!matched.length){ sugBox.classList.remove('.remove('show'); renderHomeshow'); renderHome(); return; }
-    sugBox.innerHTMLshow'); renderHome(); return; }
-    sugBox.innerHTML(); return; }
-    sugBox.innerHTML = matched.map(i=>`<div = matched.map(i=>`<div class = matched.map(i=>`<div class="sug-item"="sug-item" data-id="${i.id}"><svg viewBox class="sug-item" data-id="${i.id}"><svg viewBox data-id="${i.id}"><svg viewBox="0 0 24 24"><path d="="0 0 24 24"><path d="="0 0 24 24"><path d="M15.5 14h-.M15.5 14h-.M15.5 14h-.79l-.28-.27A6.47179l-.28-.27A679l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109. 6.471 0 0016 9.5 6.5 6.5 0 109..471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 5 16c1.61 0 3.5 16c1.61 0 3.3.09-.59 4.23-1.57l09-.59 4.23-1.57l09-.59 4.23-1.57l.27.28v.79l5 4..27.28v.79l5 4.99L.27.28v.79l5 4.99L99L20.49 19l-420.49 19l-4.99-5zm-6 0C720.49 19l-4.99-5zm-6 0C7.01 .99-5zm-6 0C7..01 14 5 11.99 14 5 11.99 5 9.5S7.01 14 5 11.99 5 9.5S7.5 9.5S7.01 01 5 9.5 5 14 7.01 14 9.5 01 5 9.5 5 14 7.01 14 9.5 5 9.5 5 14 7.01 14 9.5 11.99 14 9.11.99 14 9.11.99 14 9.5 14z"/></svg>${i.t}<span class="s5 14z"/></svg>${i.t}<span class="sug-badge ${i.is5 14z"/></svg>${i.t}<span class="sug-badge ${i.is_premug-badge ${i.is_prem_prem===1?'p':'f'}">${i.is_prem===1?'Premium':'Gratis'===1?'p':'f'}">${i.is_prem===1?'Premium':'Grat===1?'p':'f'}">${i.is_prem===1?'Premium':'Gratis'}</span></div>`).join('');
-    sugis'}</span></div>`).join('');
-    sug}</span></div>`).join('');
+    const m=catalog.filter(i=>i.t.toLowerCase().includes(q.toLowerCase())).slice(0,6);
+    if(!m.length){sugBox.classList.remove('show');renderHome();return;}
+    sugBox.innerHTML=m.map(i=>`<div class="sug-item" data-id="${i.id}"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>${i.t}<span class="sug-badge ${i.is_prem===1?'p':'f'}">${i.is_prem===1?'Premium':'Gratis'}</span></div>`).join('');
     sugBox.classList.add('show');
-    sugBox.querySelectorAll('.Box.classList.add('show');
-    sugBox.querySelectorAll('.sug-item').forEach(el=>{
-      elBox.classList.add('show');
-    sugBox.querySelectorAll('.sug-item').forEach(el=>{
-      el.addEventListener('sug-item').forEach(el=>{
-      el.addEventListener('.addEventListener('click',()=>{
-        const found =click',()=>{
-        const found =click',()=>{
-        const found = catalog.find(i=>i.id===el.dataset.id catalog.find(i=>i.id===el.dataset.id);
-        if(found){ $('#sinput').value catalog.find(i=>i.id===el.dataset.id);
-        if(found){ $('#sinput').value);
-        if(found){ $('#sinput').value=found.t; $('#sclear').=found.t; $('#sclear').=found.t; $('#sclear').classListclassList.add('show'); sugBox.classList.removeclassList.add('show'); sugBox.classList.remove.add('show'); sugBox.classList.remove('show('show'); pages.home=1; renderHome();('show'); pages.home=1; renderHome();'); pages.home=1; renderHome(); }
-      });
-    });
-    pages.home=1; renderHome }
-      });
-    });
-    pages.home=1; renderHome();
-  },200 }
-      });
-    });
-    pages.home=1; renderHome();
-  },200);
-();
+    sugBox.querySelectorAll('.sug-item').forEach(el=>{el.addEventListener('click',()=>{const f=catalog.find(i=>i.id===el.dataset.id);if(f){$('sinput').value=f.t;$('sclear').classList.add('show');sugBox.classList.remove('show');pages.home=1;renderHome();}});});
+    pages.home=1;renderHome();
   },200);
 });
-$('#sclear').onclick=);
-});
-$('#sclear').onclick=});
-$('#sclear').onclick=()=>{ $('#sinput').value='';()=>{ $('#sinput').value='';()=>{ $('#sinput').value=''; $('#sclear').classList.remove('show'); sugBox.classList.remove('show $('#sclear').classList.remove('show'); sugBox.classList.remove('show $('#sclear').classList.remove('show'); sugBox.classList.remove('show'); sugBox.innerHTML=''; pages.home=pages'); sugBox.innerHTML=''; pages.home=pages'); sugBox.innerHTML=''; pages.home=pages.fav=pages.hist=1; render.fav=pages.hist=1; renderHome(); if($('#sec.fav=pages.hist=1; renderHome(); if($('#secHome(); if($('#sec-fav').classList.contains('act')) renderFav-fav').classList.contains('act')) renderFav(); if($('#sec-hist-fav').classList.contains('act')) renderFav(); if($('#sec-hist').class(); if($('#sec-hist').classList.contains('act')) render').classList.contains('act')) renderList.contains('act')) renderHist(); $('#sinput').focus(); };
-document.addEventListener('click',Hist(); $('#sinput').focus(); };
-document.addEventListener('click',e=>{ if(!e.target.closest('.Hist(); $('#sinput').focus(); };
-document.addEventListener('click',e=>{ if(!e.target.cle=>{ if(!e.target.closest('.sw')) sugBox.classList.remove('show');sw')) sugBox.classList.remove('show');osest('.sw')) sugBox.classList.remove('show'); });
+$('sclear').onclick=()=>{$('sinput').value='';$('sclear').classList.remove('show');sugBox.classList.remove('show');sugBox.innerHTML='';pages.home=pages.fav=pages.hist=1;renderHome();if($('sec-fav').classList.contains('act'))renderFav();if($('sec-hist').classList.contains('act'))renderHist();$('sinput').focus();};
+document.addEventListener('click',e=>{if(!e.target.closest('.sw'))sugBox.classList.remove('show');});
 
-// ========== FILTER PILLS ==========
-const FLAB={ all:'Semua Drama', });
-
-// ========== FILTER PILLS ==========
-const FLAB={ all:'Semua Drama', });
-
-// ========== FILTER PILLS ==========
-const FLAB={ all:'Semua Drama', prem:'Drama Premium', free:'Drama prem:'Drama Premium', free:' prem:'Drama Premium', free:'Drama Gratis', fav:'Koleksi Saya', watchedDrama Gratis', fav:'Koleksi Saya', watched Gratis', fav:'Koleksi Saya', watched:'Sudah Ditonton:'Sudah Ditonton:'Sudah Ditonton', unwatched:'Belum Ditonton' };
-document', unwatched:'Belum Ditonton' };
-document.querySelectorAll('.pill', unwatched:'Belum Ditonton' };
-document.querySelectorAll.querySelectorAll('.pill').forEach(btn=>{
-  btn.addEventListener('click',').forEach(btn=>{
-  btn.addEventListener('click',()=>{ haptic('l');('.pill').forEach(btn=>{
-  btn.addEventListener('click',()=>{ haptic('l');()=>{ haptic('l'); document.querySelectorAll('.pill').forEach(b document.querySelectorAll('.pill').forEach(b=>b document.querySelectorAll('.pill').forEach(b=>b.classList.remove('on')); btn.classList.add('on');=>b.classList.remove('on')); btn.classList.classList.remove('on')); btn.classList.add('on'); curFilter=btn.dataset.f; pages.home=1; $('#divL curFilter=btn.dataset.f; pages.home=1; $('#divL.add('on'); curFilter=btn.dataset.f; pages.home=1; $('#divLbl').bl').textContent=FLAB[curFilter]||'Drama'; renderHome();bl').textContent=FLAB[curFilter]||'Drama';textContent=FLAB[curFilter]||'Drama'; renderHome });
+/* FILTER PILLS */
+const FLAB={all:'Semua Drama',prem:'Drama Premium',free:'Drama Gratis',fav:'Koleksi Saya',watched:'Sudah Ditonton',unwatched:'Belum Ditonton'};
+document.querySelectorAll('.pill').forEach(btn=>{
+  btn.addEventListener('click',()=>{haptic('l');document.querySelectorAll('.pill').forEach(b=>b.classList.remove('on'));btn.classList.add('on');curFilter=btn.dataset.f;pages.home=1;$('divLbl').textContent=FLAB[curFilter]||'Drama';renderHome();});
 });
 
-// ========== QUICK ACTIONS renderHome(); });
-});
-
-// ========== QUICK(); });
-});
-
-// ========== QUICK ACTIONS ==========
-$('#btn ACTIONS ==========
-$('#btn ==========
-$('#btnRand').onclick=()=>{ if(!catalog.length)return; haptic('Rand').onclick=()=>{ if(!catalog.length)return; haptic('Rand').onclick=()=>{ if(!catalog.length)return; haptic('l'); openModal(catalog[l'); openModal(catalog[Math.floor(Math.random()l'); openModal(catalog[Math.floor(Math.random()Math.floor(Math.random()*catalog.length*catalog.length)]);*catalog.length)]);)]); };
-$('#btn };
-$('#btnNew').onclick=() };
-$('#btnNew').onclickNew').onclick=()=>{
-  haptic('l=>{
+/* QUICK ACTIONS */
+$('btnRand').addEventListener('click',()=>{if(!catalog.length)return;haptic('l');openModal(catalog[Math.floor(Math.random()*catalog.length)]);});
+$('btnNew').addEventListener('click',()=>{
   haptic('l');
-  const baru=()=>{
-  haptic('l');
-  const baru');
-  const baru = catalog.filter(i=>i = catalog.filter(i=>i = catalog.filter(i=>i.is_new===1);
-  const src = baru.length ? baru : [...c.is_new===1);
-  const src = baru.length ? baru : [...catalog]..is_new===1);
-  const src = baru.length ? baru : [...catalog].slice(-Math.min(8,catalogslice(-Math.min(8,catalog.lengthatalog].slice(-Math.min(8,catalog.length)).reverse();
-  if(!src.length){.length)).reverse();
-  if(!src)).reverse();
-  if(!src.length){ toast('Tidak ada data','info'); return; }
+  const ni=catalog.filter(i=>!!(i.is_new||i.isNew||i.new||i.isnew));
+  const src=ni.length?ni:[...catalog].slice(-Math.min(8,catalog.length)).reverse();
+  if(!src.length){toast('Tidak ada data','info');return;}
   openModal(src[0]);
-};
-$ toast('Tidak ada data','info'); return; }
-  openModal(src[0]);
-};
-$('#.length){ toast('Tidak ada data','info'); return; }
-  openModal(src[0]);
-};
-$('#('#btnPop').onbtnPop').onbtnPop').onclick=()=>{
+});
+$('btnPop').addEventListener('click',()=>{
   haptic('l');
-  const sorted = [...click=()=>{
-  haptic('l');
-  const sorted = [...catalog].sort((a,b)=>(clickclick=()=>{
-  haptic('l');
-  const sorted = [...catalog].sort((a,b)=>(clickcatalog].sort((a,b)=>(clickCounts[b.id]||0)-(clickCounts[a.id]||0));
- Counts[b.id]||0)-(clickCounts[a.id]||0));
-  if(!Counts[b.id]||0)-(clickCounts[a.id]||0));
-  if(!sorted.length){ toast('Belum ada data','info');sorted.length){ toast('Belum ada data','info'); return; if(!sorted.length){ toast('Belum ada data','info'); return; return; }
-  document.querySelectorAll('.pill'). }
+  const sorted=[...catalog].sort((a,b)=>(clickCounts[b.id]||0)-(clickCounts[a.id]||0));
+  if(!sorted.length){toast('Belum ada data','info');return;}
   document.querySelectorAll('.pill').forEach(b=>b.classList.remove('on'));
-  document.querySelector }
-  document.querySelectorAll('.pill').forEach(b=>b.classList.remove('on'));
-  document.querySelector('.pillforEach(b=>b.classList.remove('on'));
- ('.pill[data-f="all"]').classList.add('on');
-  curFilter[data-f="all"]').classList.add('on');
-  curFilter document.querySelector('.pill[data-f="all"]').classList.add('on');
-  curFilter='all'; curSort='def';
-  document.querySelectorAll('.si='all'; curSort='def';
-  document.querySelectorAll('.si='all'; curSort='def';
-  document.querySelectorAll('.si').forEach(i=>i.classList.toggle('on',i.dataset').forEach(i=>i.classList.toggle('on',i.dataset.s==='def'));
-  $('#sort').forEach(i=>i.classList.toggle('on',i.dataset.s==='def'));
-  $('#sort.s==='def'));
-  $('#sortChip').classList.remove('show'); $('#divLbl').textContent='DChip').classList.remove('show'); $('#divLbl').textContent='DramaChip').classList.remove('show'); $('#divLbl').textContent='Drama Terpopuler';
-  $('#homeGrid').innerHTML=''; Terpopuler';
-  $('#homeGrid').innerHTMLrama Terpopuler';
-  $('#homeGrid').innerHTML $('#homeEmpty').classList.remove('=''; $('#homeEmpty').classList.remove('=''; $('#homeEmpty').classList.remove('show'); $('#homePager').classList.remove('show');
- show'); $('#homePager').classList.remove('showshow'); $('#homePager').classList.remove('show');
-  $('#rbar').classList.add('show'); $('#rcount'). $('#rbar').classList.add('show'); $('#rcount').');
-  $('#rbar').classList.add('show'); $('#rcount').textContent=sorted.length; $('#rtextContent=sorted.length; $('#rkw').style.display='none';
-  sorted.slicetextContent=sorted.length; $('#rkw').style.display='none';
-  sorted.slicekw').style.display='none';
-  sorted.slice(0,PER).forEach(item=>(0,PER).forEach(item=>(0,PER).forEach(item=>mkCard(item,'mkCard(item,'homeGrid'));
-};
+  document.querySelector('.pill[data-f="all"]').classList.add('on');
+  curFilter='all';curSort='def';
+  document.querySelectorAll('.si').forEach(i=>i.classList.toggle('on',i.dataset.s==='def'));
+  $('sortChip').classList.remove('show');$('divLbl').textContent='Drama Terpopuler';
+  $('homeGrid').innerHTML='';$('homeEmpty').classList.remove('show');$('homePager').classList.remove('show');
+  $('rbar').classList.add('show');$('rcount').textContent=sorted.length;$('rkw').style.display='none';
+  sorted.slice(0,PER).forEach((item,i)=>{mkCard(item,'homeGrid');});
+});
 
-// ==========mkCard(item,'homeGrid'));
-};
-
-// =homeGrid'));
-};
-
-// ========== RESULT BAR ==========
+/* RESULT BAR */
 function updateRbar(count,q,filter){
-  const hasQ=q.length> RESULT BAR ==========
-function updateRbar(count,q,filter){
-  const hasQ=q========= RESULT BAR ==========
-function updateRbar(count,q,filter){
-  const hasQ=q0, hasF=filter!=='.length>0, hasF=filter!=='.length>0, hasF=filter!=='all'&&filter!=='prem'&&filter!=='free';
- all'&&filter!=='prem'&&filter!=='free';
-  const showall'&&filter!=='prem'&&filter!=='free';
-  const show = hasQ || (filter!==' const show = hasQ || (filter!==' = hasQ || (filter!=='all' && filter!=='prem' && filter!=='free');
-  const rbar=$('#all' && filter!=='prem' && filter!=='free');
-  const rbar=$('#all' && filter!=='prem' && filter!=='free');
-  const rbar=$('#rbarrbar'), rkw=$('#rkw');
- rbar'), rkw=$('#rkw'), rkw=$('#rkw rbar.classList.toggle('show',');
-  rbar.classList.toggle('show',');
-  rbar.classList.toggle('show', show);
-  if(show){
-    $('#rcount').textContent=count show);
-  if(show){
-    $('#rcount').textContent=count show);
-  if(show){
-    $('#rcount').textContent=count;
-    if(hasQ){ rkw.style.display='inline-flex'; rkw.text;
-    if(hasQ){ rkw.style.display='inline-flex'; rkw.textContent=`;
-    if(hasQ){ rkw.style.display='inline-flex'; rkw.textContent=`Content=`"${q}"`; } else rkw.style.display"${q}"`; } else rkw.style.display"${q}"`; } else rkw='none';
- ='none';
-  }
+  const rbar=$('rbar'),rkw=$('rkw'),hasQ=q.length>0,hasF=filter!=='all'&&filter!=='prem'&&filter!=='free';
+  const show=hasQ||curFilter!=='all';
+  rbar.classList.toggle('show',show);
+  if(show){$('rcount').textContent=count;if(hasQ){rkw.style.display='inline-flex';rkw.textContent=`"${q}"`;}else rkw.style.display='none';}
 }
 
-// ==========.style.display='none';
-  }
+/* PAGINATION */
+function renderPager(pid,cid,tid,did,pvid,nxid,page,total,onPrev,onNext){
+  const tp=Math.ceil(total/PER)||1,pager=$(pid);
+  if(total<=PER){pager.classList.remove('show');return;}
+  pager.classList.add('show');$(cid).textContent=page;$(tid).textContent=tp;
+  $(pvid).disabled=page===1;$(nxid).disabled=page===tp;
+  const dc=$(did);dc.innerHTML='';
+  const st=Math.max(1,page-2),en=Math.min(tp,st+4);
+  for(let i=st;i<=en;i++){const d=document.createElement('div');d.className='dot'+(i===page?' on':'');dc.appendChild(d);}
+  $(pvid).onclick=()=>{haptic('l');onPrev();window.scrollTo({top:0,behavior:'smooth'});};
+  $(nxid).onclick=()=>{haptic('l');onNext();window.scrollTo({top:0,behavior:'smooth'});};
 }
 
-// ========== PAG }
-}
-
-// ========== PAGINATION ==========
-function renderPager(pid,cid PAGINATION ==========
-function renderINATION =========,tid,did,pvidPager(pid,cid,tid,did,pvid,nxid,page,total,onPrev,on=
-function renderPager(pid,cid,tid,did,pvid,nxid,page,total,onPrev,on,nxid,page,total,onPrev,onNext){
-  const tp=Math.ceil(totalNext){
-  const tp=Math.ceil(total/PER)||1, pager=$(pid);
-  if(total<=Next){
-  const tp=Math.ceil(total/PER)||1, pager=$(pid);
-  if(total/PER)||1, pager=$(pid);
-  ifPER){ pager.classList.remove('show'); return; }
-  p<=PER){ pager.classList.remove('show'); return; }
-  p(total<=PER){ pager.classList.remove('show'); return; }
-  pager.classList.add('show');
-  $(cid).ager.classList.add('show');
-  $(cid).ager.classList.add('show');
-  $(cid).textContent=page; $(tid).textContent=tp;
-  $(pvid).disabled=page===1;textContent=page; $(tid).textContent=tp;
-  $(pvid).disabled=page===1;textContent=page; $(tid).textContent=tp;
-  $(pvid).disabled=page===1; $(nxid). $(nxid). $(nxid).disabled=page===tp;
-  const dc=$(disabled=page===tp;
-  constdisabled=page===tp;
-  const dc=$(did); dc.innerHTML='';
-  constdid); dc.innerHTML='';
-  const dc=$(did); dc.innerHTML='';
-  const st=Math.max(1,page-2), en=Math.min(t st=Math.max(1,page-2), en=Math.min(t st=Math.max(1,page-2), en=Math.min(tp,st+4);
-  for(let ip,st+4);
-  for(let i=st;i<=en;i++){ const dp,st+4);
-  for(let i=st;i<=en;i++){ const d=st;i<=en;i++){ const d=document.createElement('=document.createElement('div'); d.className='dot'=document.createElement('div'); d.className='dot'div'); d.className='dot'+(i===page?'+(i===page?' on':''); dc.appendChild(d); }
-  $(pvid).onclick=()+(i===page?' on':''); dc.appendChild(d); }
-  $(pvid).onclick=() on':''); dc.appendChild(d); }
-  $(pvid).onclick=()=>{ haptic('l'); onPrev(); window.sc=>{ haptic('l'); onPrev(); window.scroll=>{ haptic('l'); onPrev(); window.scrollTo({top:0,behaviorTo({top:0,behaviorrollTo({top:0,behavior:'smooth'}); };
-  $(nxid).onclick=()=>{ haptic('l'); onNext(); window:'smooth'}); };
-  $(nxid).onclick=()=>{ haptic('l'); onNext(); window:'smooth'}); };
-  $(nxid).onclick=()=>{ haptic('l'); onNext(); window.scroll.scrollTo({top:.scrollTo({top:To({top:0,0,behavior:'smooth'}); };
-0,behavior:'smooth'}); };
-behavior:'smooth'}); };
-}
-
-// =}
-
-// ========== CARD BUILDER ==========
-function}
-
-// ========== CARD BUILDER ================== CARD BUILDER ==========
-function mkCard(item, gid){
-  const isFav mkCard(item, gid){
-  const isFav=
-function mkCard(item, gid){
-  const isFav=favorites.includes(item.id), isPrem=item.is_pre=favorites.includes(item.id), isPrem=item.is_pre=favorites.includes(item.id), isPrem=item.is_prem===1, isNew=item.is_new===1m===1, isNew=item.is_new===1, isWatched=watchHist.includesm===1, isNew=item.is_new===1, isWatched=watchHist.includes, isWatched=watchHist.includes(item.id);
-  const w=document(item.id);
-  const w=document(item.id);
+/* MAKE CARD */
+function mkCard(item,gid){
+  const isFav=favorites.includes(item.id),isPrem=item.is_prem===1,isNew=!!(item.is_new||item.isNew||item.new||item.isnew),isWatched=watchHist.includes(item.id);
   const w=document.createElement('div');
   w.className='card'+(isWatched?' watched':'');
-  w.innerHTML=.createElement('div');
-  w.className='card'+(isWatched?' watched':'');
   w.innerHTML=`
-    ${.createElement('div');
-  w.className='card'+(isWatched?' watched':'');
-  w.innerHTML=`
-`
-    ${isNew?`isNew?`    ${isNew?`<div<div class="<div class="new-rib">Baru</div class="new-rib">Baru</divnew-rib">Baru</div>`:>`:''}
-    <div class="poster shimmer>`:''}
-    <div class="poster shimmer''}
-    <div class="poster shimmer" id="ps${gid}${item.id}" id="ps${gid}${item.id}" id="ps${gid}${item.id}">
-      <img id="pi${">
+    ${isNew?`<div class="new-rib">Baru</div>`:''}
+    <div class="poster shimmer" id="ps${gid}${item.id}">
       <img id="pi${gid}${item.id}" src="" alt="">
-      <div">
-      <img id="pi${gid}${item.id}" src="" alt="">
-      <divgid}${item.id}" src="" alt="">
-      <div class="pbad class="pbad class="pbadge ${isPremge ${isPremge ${isPrem?'prem':'free'}">${isPrem?`<svg viewBox="0 0 24 24?'prem':'free'}">${isPrem?`<svg viewBox="0 0 24 24?'prem':'free'}">${isPrem?`<svg viewBox="0 0 24 24"><path d="M12 2L2"><path d="M12 2L2 9"><path d="M12  9l3 13h14l3 13h142L2 9l3 13h14l3-13-10-7z"/l3-13-10-7z"/l3-13-10-7z"/></svg>Premium`:`<svg viewBox="0 0 24 24"><path></svg>Premium`:`<svg viewBox="0 0 24 24"><path d></svg>Premium`:`<svg viewBox="0 0 24 24"><path d=" d="M12="M12 2M12 2 2C6.48 2 2C6.48 2 2 6.48 2 12s4.48C6.48 2 2 6.48 2 12s4.48 6.48 2 12s4.48 10 10 10 10-4 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2  10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14..48 10-10S17.52 2 12 2zm-2 14.14.5v-9l6 4.55v-9l6 45v-9l6 4-6 4.5z"/.5-6 4.5z"/></svg.5-6 4.5z"/></svg>Gratis`}</div>
-     ></svg>Gratis`}</div>Gratis`}</div>
-      <div class="watched-ov"><svg viewBox="0 0 24 24 <div class="watched-ov"><svg viewBox="0 0 24 24>
-      <div class="watched-ov"><svg viewBox="0 0 24 "><path d="M9 16.17L4.83 "><path d="M9 16.17L4.83 24"><path d="M9 16.17L4.83 1212l-1.42 1.41L912l-1.42 1.41L9l-1.42 1.41 19 21 7l-1.41-1.41z"/></svg><span>Ditont 19 21 7l-1.41-1.41z"/></svg><span>DitL9 19 21 7l-1.41-1.41z"/></svg><span>Ditonton</span></onton</span></divon</span></div>
-div>
+      <div class="pbadge ${isPrem?'prem':'free'}">${isPrem?`<svg viewBox="0 0 24 24"><path d="M12 2L2 9l3 13h14l3-13-10-7z"/></svg>Premium`:`<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>Gratis`}</div>
+      <div class="watched-ov"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg><span>Ditonton</span></div>
     </div>
-    <div class="c>
-    </div>
-    <div class="c    </div>
     <div class="cbody">
-      <div class="ctitle">${itembody">
-      <div class="ctitle">${itembody">
       <div class="ctitle">${item.t}</div>
       <div class="cfoot">
-        <div class="fav-btn ${isF.t}</div>
-      <div class="cfoot">
-        <div class="fav-btn ${isF.t}</div>
-      <div class="cfoot">
-        <div class="fav-btn ${av?'on':av?'on':isFav?'on':''}" id="fb${gid}${item.id''}" id="fb${gid}${item.id''}" id="fb${gid}${item.id}"><svg viewBox="0 }"><svg viewBox="0 0 }"><svg viewBox="0 0 24 24"><path d="${isFav?HON:HOFF}"/></svg24 24"><path d="${isFav?HON:HOFF}"/></svg></div0 24 24"><path d="${isFav?HON:HOFF}"/></svg></div>
-        <button class="play-btn"><svg>
-        <button class="play-btn"><svg viewBox></div>
-        <button class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5="0 0 24 24"><path d="M8 viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Tonton</v14l11-7z"/></svg>Tonton</ 5v14l11-7z"/></svgbutton>
+        <div class="fav-btn ${isFav?'on':''}" id="fb${gid}${item.id}"><svg viewBox="0 0 24 24"><path d="${isFav?HON:HOFF}"/></svg></div>
+        <button class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Tonton</button>
       </div>
     </div>`;
- button>
-      </div>
-    </div>`;
- >Tonton</button>
-      </div>
-    </div>`;
-  w.querySelector('.poster').addEventListener('click',() w.querySelector('.poster').addEventListener('click',() w.querySelector('.poster').addEventListener('click',()=>openModal(item));
-  w.querySelector('.play-btn').=>openModal(item));
-  w.querySelector('.play-btn').=>openModal(item));
-  w.querySelector('.play-btn').addEventListener('click',e=>{ e.stopPropagation(); playItem(item); });
-  const fb=w.querySelectoraddEventListener('click',e=>{ e.stopPropagation(); playItem(item); });
-  const fb=w.querySelectoraddEventListener('click',e=>{ e.stopPropagation(); playItem(item); });
+  w.querySelector('.poster').addEventListener('click',()=>openModal(item));
+  w.querySelector('.play-btn').addEventListener('click',e=>{e.stopPropagation();playItem(item);});
   const fb=w.querySelector('.fav-btn');
-  fb.addEventListener('click',e=>('.fav-btn');
-  fb.addEventListener('click',e=>('.fav-btn');
   fb.addEventListener('click',e=>{
-    e.stopPropagation();
-    const nf=toggleF{
-    e.stopPropagation();
-    const nf=toggleF{
-    e.stopPropagation();
-    const nf=toggleFav(item);
-    fb.classList.toggle('on',nf);
-   av(item);
-    fb.classList.toggle('on',nf);
-   av(item);
-    fb.classList.toggle('on',nf);
-    fb.querySelector('path').setAttribute('d', nf?H fb.querySelector('path').setAttribute('d', nf?HON:HOFF);
-    if($('#sec fb.querySelector('path').setAttribute('d', nf?HON:HOFF);
-    if($('#secON:HOFF);
-    if($('#sec-fav').classList.contains('act-fav').classList.contains('act')) render-fav').classList.contains('act')) renderFav();
+    e.stopPropagation();const nf=toggleFav(item);
+    fb.classList.toggle('on',nf);fb.querySelector('path').setAttribute('d',nf?HON:HOFF);
+    if($('sec-fav').classList.contains('act'))renderFav();
   });
-  $(gid).appendChild(w);
-  const img=')) renderFav();
-  });
-  $(gid).appendChild(w);
-  const img=Fav();
-  });
-  $(gid).appendChild(w);
-  const img=document.getElementById(`pi${gid}${item.id}`), ps=documentdocument.getElementById(`pi${gid}${item.id}`), ps=documentdocument.getElementById(`pi${gid}${item.id}`), ps=document.getElementById(`ps${gid}${.getElementById(`ps${gid}${.getElementById(`ps${gid}${item.id}`);
-  if(item.p) loadImg(item.p, img, ps); else if(ps) ps.classList.remove('shimmer');
-item.id}`);
-  if(item.p) loadImg(item.p, img, ps); else if(ps) ps.classList.remove('shimmer');
-item.id}`);
-  if(item.p) loadImg(item.p, img, ps); else if(ps) ps.classList.remove('shimmer');
+  document.getElementById(gid).appendChild(w);
+  const img=document.getElementById(`pi${gid}${item.id}`),ps=document.getElementById(`ps${gid}${item.id}`);
+  if(item.p)loadImg(item.p,img,ps);else if(ps)ps.classList.remove('shimmer');
+  return w;
 }
 
+/* MAKE HIST ITEM */
 function mkHistItem(item){
- }
-
-function mkHistItem(item){
- }
-
-function mkHistItem(item){
-  const isPrem=item.is_prem const isPrem=item.is_prem const isPrem=item.is_prem===1, el=document.createElement('div');
-  el===1, el=document.createElement('div');
-  el===1, el=document.createElement('div');
+  const isPrem=item.is_prem===1,el=document.createElement('div');
   el.className='hitem';
   el.innerHTML=`
-    <div class.className='hitem';
-  el.innerHTML=`
-    <div.className='hitem';
-  el.innerHTML=`
-    <div class="="hthumb shimmer" id="ht${item.id}"><img id class="hthumb shimmer" id="ht${item.id}"><img idhthumb shimmer" id="ht${item.id}"><img id="hi${item.id}" src="" alt="="hi${item.id}" src="" alt="="hi${item.id}" src="" alt=""></div>
-    <div class=""></div>
-    <div class=""></div>
+    <div class="hthumb shimmer" id="ht${item.id}"><img id="hi${item.id}" src="" alt=""></div>
     <div class="hinfo">
       <div class="hinfo-title">${item.t}</div>
-      <div class="hbadgehinfo">
-      <div class="hinfo-title">${item.t}</div>
-      <div class="hhinfo">
-      <div class="hinfo-title">${item.t}</div>
-      <div class="hbadge ${isPrem?'prem':'free'}">${isbadge ${isPrem?'prem':'free'}"> ${isPrem?'prem':'free'}">${isPrem?'⭐ Premium':'▶ Gratis'}</div>
+      <div class="hbadge ${isPrem?'prem':'free'}">${isPrem?'⭐ Premium':'▶ Gratis'}</div>
     </div>
-   ${isPrem?'⭐ Premium':'▶ Gratis'}</div>
-    </divPrem?'⭐ Premium':'▶ Gratis'}</div>
-    </div>
-    <button class="hplay"><svg viewBox="0 0 24 24"><path d="M>
-    <button class="hplay"><svg viewBox="0  <button class="hplay"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-0 24 24"><path d="M8 5v14l11-7z"/></svg></button>8 5v14l11-7z"/></svg></button>7z"/></svg></button>`;
-  el.addEventListener('click',()=>open`;
-  el.addEventListener('click',()=>openModal(item`;
+    <button class="hplay"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>`;
   el.addEventListener('click',()=>openModal(item));
-  el.querySelector('.hplay').addEventListener('click',e=>{ e.stopPropagation(); playItem(item);Modal(item));
-  el.querySelector('.hplay').addEventListener('click',e=>{ e.stopPropagation(); playItem(item); });
- ));
-  el.querySelector('.hplay').addEventListener('click',e=>{ e.stopPropagation(); playItem(item); });
-  $('#histList').append $('#histList').append });
-  $('#histList').appendChild(el);
-  const img=documentChild(el);
-  const img=documentChild(el);
-  const img=document.getElementById('hi'+item.id), ht=document.getElementById('hi'+item.id), ht=document.getElementById('hi'+item.id), ht=document.getElementById('ht'+item.id);
-  if(item.p) loadImg(item.p, img, ht); else if(ht) ht.classList.getElementById('ht'+item.id);
-  if(item.p) loadImg(item.p, img, ht); else if(ht) ht.classList.getElementById('ht'+item.id);
-  if(item.p) loadImg(item.p, img, ht); else if(ht) ht.classList.remove('shimmer.remove('shimmer');
+  el.querySelector('.hplay').addEventListener('click',e=>{e.stopPropagation();playItem(item);});
+  $('histList').appendChild(el);
+  const img=document.getElementById('hi'+item.id),ht=document.getElementById('ht'+item.id);
+  if(item.p)loadImg(item.p,img,ht);else if(ht)ht.classList.remove('shimmer');
 }
 
-// ==========.remove('shimmer');
-}
-
-// =');
-}
-
-// ========== RENDERS ==========
-function render RENDERS ==========
-function render========= RENDERS ==========
+/* RENDER HOME */
 function renderHome(){
-  const grid=$('#homeGrid'),Home(){
-  const grid=$('#homeGrid'),Home(){
-  const grid=$('#homeGrid'), empty=$('#homeEmpty');
-  grid.innerHTML=''; empty.classList.remove('show'); $('#homePager').classList.remove(' empty=$('#homeEmpty');
-  grid.innerHTML=''; empty.classList.remove('show'); $('#homePager').classList.remove('show empty=$('#homeEmpty');
-  grid.innerHTML=''; empty.classList.remove('show'); $('#homePager').classList.remove('show');
+  const grid=$('homeGrid'),empty=$('homeEmpty');
+  grid.innerHTML='';empty.classList.remove('show');$('homePager').classList.remove('show');
   sugBox.classList.remove('show');
-  constshow');
-  sugBox.classList.remove('show');
-  const data =');
-  sugBox.classList.remove('show');
-  const data = filtered(applySort(catalog));
-  filtered(applySort(catalog));
-  const q = $('#sinput data = filtered(applySort(catalog));
-  const q = $('#sinput const q = $('#sinput').value.trim();
-  updateRbar(data.length, q, curFilter);
-  if(!data.length){
-    empty.classList.add').value.trim();
-  updateRbar(data.length, q, curFilter);
-  if(!data.length){
-    empty.classList.add').value.trim();
-  updateRbar(data.length, q, curFilter);
+  const data=filtered(applySort(catalog));
+  const q=$('sinput').value.trim();
+  updateRbar(data.length,q,curFilter);
   if(!data.length){
     empty.classList.add('show');
-    const btn('show');
-    const btn('show');
-    const btn=$('#homeEmptyBtn=$('#homeEmptyBtn=$('#homeEmptyBtn');
-    if(q.length>0 || curFilter!=='all'){
-      $('#home');
-    if(q.length>0 || curFilter!=='all'){
-      $('#homeEmptyMsg').textContent='Tidak ada hasil untuk filter ini.';
-      btn.style.display='');
-    if(q.length>0 || curFilter!=='all'){
-      $('#homeEmptyMsg').textContent='Tidak ada hasil untuk filter ini.';
-      btn.style.display='EmptyMsg').textContent='Tidak ada hasil untuk filter ini.';
-      btn.style.display='flex';
-      btn.onclick=()flex';
-      btn.onclick=()=>{
-        $('#sinputflex';
-      btn.onclick=()=>{
-        $('#sinput').value=>{
-        $('#sinput').value=''; $('#sclear').classList.remove('').value=''; $('#sclear').classList.remove('=''; $('#sclear').classList.remove('show');
-        document.querySelectorAll('.pill').forEach(b=>b.classList.remove('on'));
-        document.querySelector('.pillshow');
-        document.querySelectorAll('.pill').forEach(b=>b.classList.remove('on'));
-        document.querySelector('.show');
-        document.querySelectorAll('.pill').forEach(b=>b.classList.remove('on'));
-        document.querySelector('.pill[data-f="all"]').classList.add('on');
-        curFilter='pill[data-f="all"]').classList.add('on');
-        curFilter='[data-f="all"]').classList.add('on');
-        curFilter='all'; pages.home=1; $('#divLbl').textContentall'; pages.home=1; $('#divLbl').all'; pages.home=1; $('#divLbl').textContent='Semua Drama'; renderHome();
-      };
-    } else { $('#='Semua Drama'; renderHome();
-      };
-    } else { $('#homeEmptytextContent='Semua Drama'; renderHome();
-      };
-    } else { $('#homeEmptyhomeEmptyMsg').textContent='Drama yang dicariMsg').textContent='Drama yang dicariMsg').textContent='Drama yang dicari tidak ada.'; btn.style.display='none'; }
-    return;
-  tidak ada.'; btn.style.display='none'; }
-    return;
-  }
-  tidak ada.'; btn.style.display='none'; }
+    const btn=$('homeEmptyBtn');
+    if(q.length>0||curFilter!=='all'){$('homeEmptyMsg').textContent='Tidak ada hasil untuk filter ini.';btn.style.display='flex';btn.onclick=()=>{$('sinput').value='';$('sclear').classList.remove('show');document.querySelectorAll('.pill').forEach(b=>b.classList.remove('on'));document.querySelector('.pill[data-f="all"]').classList.add('on');curFilter='all';pages.home=1;$('divLbl').textContent='Semua Drama';renderHome();};}
+    else{$('homeEmptyMsg').textContent='Drama yang dicari tidak ada.';btn.style.display='none';}
     return;
   }
   const page=pages.home;
-  data.slice((page-1)*PER, page*PER).forEach(i=> }
-  const page=pages.home;
-  data.slice((page-1)*PER, page*PER).forEach(i=> const page=pages.home;
-  data.slice((page-1)*PER, page*PER).forEach(i=>mkCardmkCard(i,'homeGrid'));
- mkCard(i,'homeGrid'));
-  renderPager('homePager','hCur(i,'homeGrid'));
-  renderPager('homePager','hCur renderPager('homePager','hCur','hTot','hDots','hPrev','hNext',','hTot','hDots','hPrev','hNext',','hTot','hDots','hPrev','hNext',page,data.length,()=>{ pages.home--; renderHome(); },()=>{ pages.home++;page,data.length,()=>{ pages.home--; renderHome(); },()=>{ pages.home++;page,data.length,()=>{ pages.home--; renderHome(); },()=>{ pages.home++; renderHome(); });
+  data.slice((page-1)*PER,page*PER).forEach(i=>mkCard(i,'homeGrid'));
+  renderPager('homePager','hCur','hTot','hDots','hPrev','hNext',page,data.length,()=>{pages.home--;renderHome();},()=>{pages.home++;renderHome();});
 }
-function renderFav renderHome(); });
-}
+
+/* RENDER FAV */
 function renderFav(){
-  const grid=$('# renderHome(); });
-}
-function renderFav(){
-  const grid=$('#(){
-  const grid=$('#favGrid'), empty=$('#favEmpty');
- favGrid'), empty=$('#favEmpty');
- favGrid'), empty=$('#favEmpty');
-  grid.innerHTML=''; empty.classList.remove('show'); $('#favPager').classList.remove('show');
-  const raw = catalog grid.innerHTML=''; empty.classList.remove('show'); $('#favPager').classList.remove('show');
-  const raw = catalog grid.innerHTML=''; empty.classList.remove('show'); $('#favPager').classList.remove('show');
-  const raw = catalog.filter(i=>favorites.includes(i.id)).sort((a,b)=>.filter(i=>favorites.includes(i.id)).sort((a,b)=>f.filter(i=>favorites.includes(i.id)).sort((a,b)=>favoritesfavorites.indexOf(a.id)-favorites.indexOf(b.id));
-  const data = filtered(rawavorites.indexOf(a.id)-favorites.indexOf(b.id));
-  const data = filtered(raw.indexOf(a.id)-favorites.indexOf(b.id));
-  const data =);
-  if(!data.length){ empty.classList.add('show'); return);
-  if(!data.length){ empty.classList.add('show'); return filtered(raw);
-  if(!data.length){ empty.classList.add('show'); return; }
-  const page = Math.min(pages.fav, Math; }
-  const page = Math.min(pages.fav, Math; }
-  const page = Math.min(pages.fav, Math.ceil(data.length/PER)||1); pages.fav=.ceil(data.length/PER.ceil(data.length/PER)||1); pages.fpage;
-  data.slice((page-)||1); pages.fav=page;
-  data.slice((page-1)*PER, page*PER).forEach(i=>mkCard(i,'favGrid'));
-  renderPager('favPager','fav=page;
-  data.slice((page-1)*PER, page*PER).forEach(i=>mkCard(i,'favGrid'));
-  renderPager('favPager1)*PER, page*PER).forEach(i=>mkCard(i,'favGrid'));
-  renderPager('favPager','fCurCur','fTot','fDots','fPrev','','fCur','fTot','fDots','fPrev','','fTot','fDots','fPrev','fNext',page,data.length,()=>{ pagesfNext',page,data.length,()=>{ pagesfNext',page,data.length,()=>{ pages.fav--; renderFav(); },().fav--; renderFav(); },()=>{ pages.fav++; renderFav(); });
-}
-function renderHist(){
- .fav--; renderFav(); },()=>{ pages.fav++; renderFav(); });
-}
-function renderHist(){
- =>{ pages.fav++; renderFav(); });
-}
-function renderHist(){
-  const list=$('#hist const list=$('#hist const list=$('#histList'), empty=$('#histEmpty');
-  listList'), empty=$('#histEmptyList'), empty=$('#histEmpty');
-  list.innerHTML=''; empty.classList.remove('show'); $('#histP.innerHTML=''; empty.classList.remove('show'); $('#histPager').');
-  list.innerHTML=''; empty.classList.remove('show'); $('#histPager').ager').classList.remove('show');
-  const raw = catalog.filter(i=>watchHist.includes(i.id)).sort((a,bclassList.remove('show');
-  const raw = catalog.filter(i=>watchHist.includes(i.id)).sort((classList.remove('show');
-  const raw = catalog.filter(i=>watchHist.includes(i.id)).sort((a,b)=>watchHist.indexOf(a.ida,b)=>watchHist.indexOf(a.id)-watchHist.indexOf(b.id));
- )=>watchHist.indexOf(a.id)-watchHist.indexOf(b.id));
-  const data)-watchHist.indexOf(b.id));
-  const data const data = filtered(raw);
-  if(!data.length){ = filtered(raw);
-  if(!data.length){ = filtered(raw);
-  if(!data.length){ empty.classList.add('show'); return; }
-  const page = Math.min(pages.hist, Math.ceil(data empty.classList.add('show'); return; }
-  const page = Math.min(pages.hist, Math.ceil(data empty.classList.add('show'); return; }
-  const page = Math.min(pages.hist, Math.ceil(data.length/PER)||1); pages.hist=page;
-  data.slice((page.length/PER)||1); pages.hist=page;
-  data.slice((page.length/PER)||1); pages.hist=page;
-  data.slice-1)*PER, page*PER).forEach(i=>mkHist-1)*PER, page*PER).forEach(i=>mkHist((page-1)*PER, page*PER).forEach(i=>mkHistItem(i));
-  renderPager('histPager','hiCur','hiTot','hiDots','hiPrevItem(i));
-  renderPager('histPager','hiCur','hiTot','hiDots','hiPrevItem(i));
-  renderPager('histPager','hiCur','hiTot','hiDots','hiPrev','hiNext',page,','hiNext',page,data.length,','hiNext',page,data.lengthdata.length,()=>{ pages.hist--; renderHist(); },()=>{()=>{ pages.hist--; renderHist(); },()=>{,()=>{ pages.hist--; renderHist(); },()=>{ pages.hist++; renderHist(); });
+  const grid=$('favGrid'),empty=$('favEmpty');
+  grid.innerHTML='';empty.classList.remove('show');$('favPager').classList.remove('show');
+  const raw=catalog.filter(i=>favorites.includes(i.id)).sort((a,b)=>favorites.indexOf(a.id)-favorites.indexOf(b.id));
+  const data=filtered(raw);
+  if(!data.length){empty.classList.add('show');return;}
+  const page=Math.min(pages.fav,Math.ceil(data.length/PER)||1);pages.fav=page;
+  data.slice((page-1)*PER,page*PER).forEach(i=>mkCard(i,'favGrid'));
+  renderPager('favPager','fCur','fTot','fDots','fPrev','fNext',page,data.length,()=>{pages.fav--;renderFav();},()=>{pages.fav++;renderFav();});
 }
 
-function updateStats(){
-  const total=catalog.length, prem=catalog.filter pages.hist++; renderHist(); });
+/* RENDER HIST */
+function renderHist(){
+  const list=$('histList'),empty=$('histEmpty');
+  list.innerHTML='';empty.classList.remove('show');$('histPager').classList.remove('show');
+  const raw=catalog.filter(i=>watchHist.includes(i.id)).sort((a,b)=>watchHist.indexOf(a.id)-watchHist.indexOf(b.id));
+  const data=filtered(raw);
+  if(!data.length){empty.classList.add('show');return;}
+  const page=Math.min(pages.hist,Math.ceil(data.length/PER)||1);pages.hist=page;
+  data.slice((page-1)*PER,page*PER).forEach(i=>mkHistItem(i));
+  renderPager('histPager','hiCur','hiTot','hiDots','hiPrev','hiNext',page,data.length,()=>{pages.hist--;renderHist();},()=>{pages.hist++;renderHist();});
 }
 
+/* STATS & BADGES */
 function updateStats(){
-  const total=catalog.length, prem=catalog.filter pages.hist++; renderHist(); });
-}
-
-function updateStats(){
-  const total=catalog.length, prem=catalog.filter(i=>i.is_prem===1).length, free=total-prem(i=>i.is_prem===1).length, free=total-prem(i=>i.is_prem===1).length, free=total;
-  $('#iTotal').textContent=total||'—;
-  $('#iTotal').textContent=total||'—'; $('#iPrem').textContent=prem||'—'; $('#iFree').textContent=free||'—-prem;
-  $('#iTotal').textContent=total||'—'; $('#iPrem').textContent=prem||'—'; $('#iFree').textContent=free||'—'; $('#iPrem').textContent=prem||'—'; $('#iFree').textContent=free||'—';
-  if(total>0){
-    const pp=Math.round';
-  if(total>0){
-    const pp=Math.round(prem';
-  if(total>0){
-    const pp=Math.round(prem/total*100), fp=Math.round(free/total*/total*100), fp=Math.round(free/total*100);
-    $('#iPremPct').text(prem/total*100), fp=Math.round(free/total*100);
-    $('#iPremPct100);
-    $('#iPremPct').textContent=pp+'%'; $('#iFreePct').textContent=fpContent=pp+'%'; $('#iFreePct').textContent=fp').textContent=pp+'%'; $('#iFreePct').textContent=fp+'%';
-    setTimeout(()=>{ $('#pbPrem').style.width+'%';
-    setTimeout(()=>{ $('#pbPrem').style.width+'%';
-    setTimeout(()=>{ $('#pbPrem').style.width=pp+'%'; $('#pbFree').style.width=fp+'%'; },300);
-  }
-}
-function update=pp+'%'; $('#pbFree').style.width=fp+'%'; },300);
-  }
-}
-function update=pp+'%'; $('#pbFree').style.width=fp+'%'; },300);
-  }
+  const total=catalog.length,prem=catalog.filter(i=>i.is_prem===1).length,free=total-prem;
+  // hero+stats removed
+  $('iTotal').textContent=total||'—';$('iPrem').textContent=prem||'—';$('iFree').textContent=free||'—';
+  if(total>0){const pp=Math.round(prem/total*100),fp=Math.round(free/total*100);$('iPremPct').textContent=pp+'%';$('iFreePct').textContent=fp+'%';setTimeout(()=>{$('pbPrem').style.width=pp+'%';$('pbFree').style.width=fp+'%';},300);}
 }
 function updateBadges(){
- Badges(){
- Badges(){
-  $('#favBad $('#favBadge $('#favBadge').textContent=favorites.length+' judul'; $('#histge').textContent=favorites.length+' judul'; $('#hist').textContent=favorites.length+' judul'; $('#histBadge').textContent=watchHistBadge').textContent=watchHist.length+' judul';
-  $('#clrFav').style.display=favorites.length?'flex':'none'; $('#clrHistBadge').textContent=watchHist.length+' judul';
-  $('#clrFav').style.display=favorites.length?'flex':'none'; $('#clrHist.length+' judul';
-  $('#clrFav').style.display=favorites.length?'flex':'none'; $('#clrHist').style.display=watchHist').style.display=watchHist').style.display=watchHist.length?'flex':'none';
-  const nf.length?'flex':'none';
-  const nf.length?'flex':'none';
-  const nf=$('#nbFav'), nh=$('#nbHist');
- =$('#nbFav'), nh=$('#nbHist=$('#nbFav'), nh=$('#nbHist');
-  nf.textContent=favorites.length>9?'9+':favorites.length; nf.classList.toggle('show', nf.textContent=favorites.length>9?'9+':favorites.length; nf.classList.toggle('show');
-  nf.textContent=favorites.length>9?'9+':favorites.length; nf.classList.toggle('show',favorites.length>0);
-  nh.textContent=watch',favorites.length>0);
-  nh.textContent=watchfavorites.length>0);
-  nh.textContent=watchHist.length>9?'9+':watchHist.length; nh.classList.toggleHist.length>9?'9+':watchHist.length; nh.classList.toggleHist.length>9?'9+':watchHist.length; nh.classList.toggle('show',watchHist.length>0);
- ('show',watchHist.length>0);
-  const total=catalog('show',watchHist.length>0);
-  const total=catalog.length||1, const total=catalog.length||1, fc=favorites.length, hc=watchHist.length||1, fc=favorites.length, hc=watchHist.length;
-  $('#iFavC').textContent= fc=favorites.length, hc=watchHist.length;
-  $('#iFavC').textContent=.length;
-  $('#iFavC').textfc+' judulfc+' judulContent=fc+' judul'; $('#iHistC').textContent=hc'; $('#iHistC').textContent=hc+' judul';
-  const fp=Math.min(100'; $('#iHistC').textContent=hc+' judul';
-  const fp=Math.min(100+' judul';
-  const fp=Math.min(100,Math.round(fc/t,Math.round(fc/total*,Math.round(fc/total*otal*100)), hp=Math.min(100,Math100)), hp=Math.min(100,Math.round(h100)), hp=Math.min(100,Math.round(hc/total*100));
-  $('#iFavP.round(hc/total*100));
-  $('#iFc/total*100));
-  $('#iFavPct').textContent=fp+'%'; $('#iHistPavPct').textContent=fp+'%'; $('#iHistPct').ct').textContent=fp+'%'; $('#iHistPct').textContent=hp+'%';
-  setTimeout(()=>{ $('#pbtextContent=hp+'%';
-  setTimeout(()=>{ $('#pbct').textContent=hp+'%';
-  setTimeout(()=>{ $('#pbFav').style.width=fp+'%';Fav').style.width=fp+'%';Fav').style.width=fp+'%'; $('#pbHist').style.width=hp+'% $('#pbHist').style.width=hp+'%'; }, $('#pbHist').style.width=hp+'%'; },300);
+  $('favBadge').textContent=favorites.length+' judul';$('histBadge').textContent=watchHist.length+' judul';
+  $('clrFav').style.display=favorites.length?'flex':'none';$('clrHist').style.display=watchHist.length?'flex':'none';
+  const nf=$('nbFav'),nh=$('nbHist');
+  nf.textContent=favorites.length>9?'9+':favorites.length;nf.classList.toggle('show',favorites.length>0);
+  nh.textContent=watchHist.length>9?'9+':watchHist.length;nh.classList.toggle('show',watchHist.length>0);
+  const total=catalog.length||1,fc=favorites.length,hc=watchHist.length;
+  $('iFavC').textContent=fc+' judul';$('iHistC').textContent=hc+' judul';
+  const fp=Math.min(100,Math.round(fc/total*100)),hp=Math.min(100,Math.round(hc/total*100));
+  $('iFavPct').textContent=fp+'%';$('iHistPct').textContent=hp+'%';
+  setTimeout(()=>{$('pbFav').style.width=fp+'%';$('pbHist').style.width=hp+'%';},300);
 }
-$('#clrFav').onclick=()=>{ haptic('h'); favorites=[]'; },300);
-}
-$('#clrFav').onclick=()=>{ haptic('h'); favorites=[]300);
-}
-$('#clrFav').onclick=()=>{ haptic('h'); favorites=[]; save(); updateBadges(); renderFav(); render; save(); updateBadges(); renderFav(); render; save(); updateBadges(); renderFav(); renderHome(); toast('Semua koleksi dihapus','info'); };
-$Home(); toast('Semua koleksi dihapus','info');Home(); toast('Semua koleksi dihapus','info'); };
-$('#clrHist').onclick=()=>{ haptic('h'); watchHist=[]('#clrHist').onclick=()=>{ haptic('h'); watchHist=[] };
-$('#clrHist').onclick=()=>{ haptic('h'); watchHist=[]; save(); updateBadges; save(); updateBadges(); renderHist(); toast('Riwayat di; save(); updateBadges(); renderHist(); toast('Riway(); renderHist(); toast('Riwayat dihapus','info'); };
 
-const TAB={ home:renderhapus','info'); };
+/* CLEAR */
+$('clrFav').onclick=()=>{haptic('h');favorites=[];save();updateBadges();renderFav();renderHome();toast('Semua koleksi dihapus','info');};
+$('clrHist').onclick=()=>{haptic('h');watchHist=[];save();updateBadges();renderHist();toast('Riwayat dihapus','info');};
 
-const TAB={ home:renderat dihapus','info'); };
-
-const TAB={ home:renderHome, fav:renderFav, hist:renderHist, info:()=>updateBadges() };
-document.querySelectorHome, fav:renderFav, hist:renderHist, info:()=>updateBadges() };
-document.querySelectorHome, fav:renderFav, hist:renderHist, info:()=>updateBadges() };
-document.querySelectorAll('.nitem').forEachAll('.nitem').forEach(n=>{
-  n.addEventListener('click',()All('.nitem').forEach(n=>{
-  n.addEventListener('click(n=>{
+/* BOTTOM NAV */
+const TAB={home:renderHome,fav:renderFav,hist:renderHist,info:()=>updateBadges()};
+document.querySelectorAll('.nitem').forEach(n=>{
   n.addEventListener('click',()=>{
-    haptic('l'); closeDD=>{
-    haptic('l'); closeDD',()=>{
-    haptic('l'); closeDD(); closeModal();
-    document.querySelectorAll('.nitem').forEach(i=>i.classList.remove('on(); closeModal();
-    document.querySelectorAll('.nitem').forEach(i=>i.classList.remove('on(); closeModal();
-    document.querySelectorAll('.nitem').forEach(i=>i.classList.remove('on')); n.classList.add('on');
+    haptic('l');closeDD();closeModal();
+    document.querySelectorAll('.nitem').forEach(i=>i.classList.remove('on'));n.classList.add('on');
     const tab=n.dataset.tab;
-   ')); n.classList.add('on');
-    const tab=n.dataset.tab;
-    document.querySelector')); n.classList.add('on');
-    const tab=n.dataset.tab;
-    document.querySelector document.querySelectorAll('.sec').forEach(s=>s.classList.remove('act'));All('.sec').forEach(s=>s.classList.remove('act'));All('.sec').forEach(s=>s.classList.remove('act')); $('#sec-'+tab).classList.add('act');
-    TAB[tab]&&TAB[tab $('#sec-'+tab).classList.add('act');
-    TAB[tab]&&TAB[tab $('#sec-'+tab).classList.add('act');
-    TAB[tab]&&TAB[tab](); window.scrollTo({top:0,behavior:'smooth'](); window.scrollTo({top:0,behavior:'smooth'](); window.scrollTo({top:0,behavior:'smooth'});
+    document.querySelectorAll('.sec').forEach(s=>s.classList.remove('act'));$('sec-'+tab).classList.add('act');
+    TAB[tab]&&TAB[tab]();window.scrollTo({top:0,behavior:'smooth'});
   });
 });
 
-const stbtn=$});
-  });
-});
-
-const stbtn=$('#stbtn');
-window.addEventListener});
-  });
-});
-
-const stbtn=$('#stbtn');
-window.addEventListener('#stbtn');
+/* SCROLL TOP */
+const stbtn=$('stbtn');
 window.addEventListener('scroll',()=>stbtn.classList.toggle('show',scrollY>300),{passive:true});
-stbtn.onclick('scroll',()=>stbtn.classList.toggle('show',scrollY>300),{passive:true('scroll',()=>stbtn.classList.toggle('show',scrollY>300),{passive:true=()=>{ haptic});
-stbtn.onclick=()=>{ haptic});
-stbtn.onclick=()=>{ haptic('l'); window.scrollTo({top:0,behavior:'smooth'}); };
+stbtn.onclick=()=>{haptic('l');window.scrollTo({top:0,behavior:'smooth'});};
 
-// =========('l'); window.scrollTo({top:0,behavior:'smooth'}); };
-
-// =========('l'); window.scrollTo({top:0,behavior:'smooth'}); };
-
-// ========== BO= BOOT ==========
-async function boot(){
-  lb= BOOT ==========
-async function boot(){
-  lbOT ==========
+/* BOOT */
 async function boot(){
   lbStart();
   const user=tg.initDataUnsafe?.user;
-  if(userStart();
-  const user=tg.initDataUnsafe?.user;
   if(user){
-    const fn=user.first_name+(user.lastStart();
-  const user=tg.initDataUnsafe?.user;
-  if(user){
-    const fn=user.first_name+(user.last){
     const fn=user.first_name+(user.last_name?' '+user.last_name:'');
-    $('#uname_name?' '+user.last_name:'');
-    $('#uname_name?' '+user.last_name:'');
-    $('#uname').textContent=fn; $('#uid-el').textContent='ID: '+user.id;
-    $('#uavatar').src=user.').textContent=fn; $('#uid-el').textContent='ID: '+user.id;
-    $('#uavatar').src=user.').textContent=fn; $('#uid-el').textContent='ID: '+user.id;
-    $('#uavatar').src=user.photo_url||`https://ui-avatphoto_url||`https://ui-avatars.comphoto_url||`https://ui-avatars.comars.com/api/?name=${encodeURIComponent(user.first_name)}&background=7c/api/?name=${encodeURIComponent(user.first_name)}&background=7c/api/?name=${encodeURIComponent(user.first_name)}&background=7c3aed&color=fff&bold=true`;
+    $('uname').textContent=fn;$('uid-el').textContent='ID: '+user.id;
+    $('uavatar').src=user.photo_url||`https://ui-avatars.com/api/?name=${encodeURIComponent(user.first_name)}&background=7c3aed&color=fff&bold=true`;
   }
-  const params=new URLSearchParams(location3aed&color=fff&bold=true`;
-  }
-  const params=new URLSearchParams(location3aed&color=fff&bold=true`;
-  }
-  const params=new URLSearchParams(location.search), raw=params.get('token');
-  if(!raw){ lbDone(); show.search), raw=params.get('token');
-  if(!raw){ lbDone(); show.search), raw=params.get('token');
-  if(!raw){ lbDone(); showFatal('Parameter tidak lengkap.','Buka melaluiFatal('Parameter tidak lengkap.','Buka melaluiFatal('Parameter tidak lengkap.','Buka melalui bot Telegram.'); return; }
+  const params=new URLSearchParams(location.search),raw=params.get('token');
+  if(!raw){lbDone();showFatal('Parameter tidak lengkap.','Buka melalui bot Telegram.');return;}
   try{
-    const decoded=atob(raw.replace(/-/g,'+').replace(/_ bot Telegram.'); return; }
-  try{
-    const decoded=atob(raw.replace(/-/g,'+').replace(/_ bot Telegram.'); return; }
-  try{
-    const decoded=atob(raw.replace(/-/g,'+').replace(/_/g,'//g,'/'));
-   /g,'/'));
-   '));
-    const parts=decoded.split('|'); bot const parts=decoded.split('|'); botToken= const parts=decoded.split('|'); botToken=parts[0]; const tgPath=parts[1]||'';
+    const decoded=atob(raw.replace(/-/g,'+').replace(/_/g,'/'));
+    const parts=decoded.split('|');botToken=parts[0];const tgPath=parts[1]||'';
     if(tgPath){
-      if(tgPathToken=parts[0]; const tgPath=parts[1]||'';
-    if(tgPath){
-      if(tparts[0]; const tgPath=parts[1]||'';
-    if(tgPath){
-      if(tgPath.startsWith('BgPath.startsWith('B.startsWith('B64_')){
-        const b64=tgPath.replace('B64_','').replace(/-/g64_')){
-        const b64=tgPath.replace('B64_','').replace(/-/g,'+').replace64_')){
-        const b64=tgPath.replace('B64_','').replace(/-/g,'+').replace(/_/g,'/');
-        catalog=JSON.parse(/_/g,'/');
-        catalog=JSON.parse(atob(b64));
-      } else {
-        const r=await fetch(`,'+').replace(/_/g,'/');
-        catalog=(atob(b64));
-      } else {
-        const r=await fetch(`https://https://api.telegra.ph/getPage/${tgPathJSON.parse(atob(b64));
-      } else {
-        const r=await fetch(`https://api.telegra.ph/getPage/${tgPath}?api.telegra.ph/getPage/${tgPath}?return_content=true`);
-        const j=}?return_content=true`);
-        const j=return_content=true`);
-        const j=await r.json();
-        if(j.ok){
-          let s='';
-          j.result.content.forEach(n=>{ if(n.children) s+=n.childrenawait r.json();
-        if(j.ok){
-          let s='';
-          j.result.content.forEach(n=>{ if(n.children) s+=await r.json();
-        if(j.ok){
-          let s='';
-          j.result.content.forEach(n=>{ if(n.children) s+=n.children[0]; });
-          catalog=JSON.parse(s);
-        }
-     n.children[0]; });
-          catalog=JSON.parse(s);
-       [0]; });
-          catalog=JSON.parse(s);
-        }
+      if(tgPath.startsWith('B64_')){const b64=tgPath.replace('B64_','').replace(/-/g,'+').replace(/_/g,'/');catalog=JSON.parse(decodeURIComponent(escape(atob(b64))));}
+      else{const r=await fetch(`https://api.telegra.ph/getPage/${tgPath}?return_content=true`);const j=await r.json();if(j.ok){let s='';j.result.content.forEach(n=>{if(n.children)s+=n.children[0];});catalog=JSON.parse(s);}}
+    }
+    fetch(`https://api.telegram.org/bot${botToken}/getMe`).then(r=>r.json()).then(j=>{if(j.ok){botUsername=j.result.username;const bn=j.result.first_name;$('appName').textContent=bn;$('infoName').textContent=bn;$('iBotName').textContent=bn;$('iBotUser').textContent='@'+j.result.username;}}).catch(()=>{});
+if(catalog.length){
+  // Normalisasi field is_new dari berbagai kemungkinan nama
+  catalog.forEach(i=>{
+    if(!i.is_new&&(i.isNew||i['new']||i.isnew||i.NEW||i.Is_New)){i.is_new=1;}
+  });
+  // Deteksi item baru berdasarkan localStorage
+  // Simpan ID semua item yang pernah dilihat user
+  const SEEN_KEY='xr_seen_ids';
+  let seenIds=[];
+  try{seenIds=JSON.parse(localStorage.getItem(SEEN_KEY)||'[]');}catch(e){seenIds=[];}
+  if(seenIds.length===0){
+    // Kunjungan pertama: semua item dianggap sudah dikenal, tidak ada yang "baru"
+    const allIds=catalog.map(i=>String(i.id));
+    try{localStorage.setItem(SEEN_KEY,JSON.stringify(allIds));}catch(e){}
+  } else {
+    // Kunjungan berikutnya: item yang ID-nya belum ada di seenIds = item baru
+    let hasNewItem=false;
+    catalog.forEach(i=>{
+      if(!seenIds.includes(String(i.id))){
+        i.is_new=1;
+        hasNewItem=true;
       }
-    }
-    fetch(`https://api.telegram.org/bot${ }
-      }
-    }
-    fetch(`https://api.telegram.org/bot }
-    }
-    fetch(`https://api.telegram.org/bot${botToken}/getMe`).then(r=>r.json()).then(j=>{
-      if(j.ok){botToken}/getMe`).then(r=>r.json()).then(j=>{
-      if(j.ok){ botUsername${botToken}/getMe`).then(r=>r.json()).then(j=>{
-      if(j.ok){ botUsername=j.result botUsername=j.result=j.result.username; const bn=j.result.first_name; $('#appName')..username; const bn=j.result.first_name; $('#appName').textContent=bn.username; const bn=j.result.first_name; $('#appName').textContenttextContent=bn; $('#infoName').textContent=bn;; $('#infoName').textContent=bn;=bn; $('#infoName').textContent=bn; $('#iBotName').textContent=bn; $('#iBotUser').textContent='@'+j $('#iBotName').textContent=bn; $('#iBotUser').textContent='@'+j.result.username; }
-    }).catch(()=> $('#iBotName').textContent=bn; $('#iBotUser').textContent='@'+j.result.username; }
-    }).catch(()=>.result.username; }
-    }).catch(()=>{});
-    // ===== NORMALISASI is{});
-    // ===== NORMALISASI is_new ={});
-    // ===== NORMALISASI is_new ===== (akurat 100%)
-    catalog.forEach(item=>{
-      let val = item.is_new;
-      if==== (akurat 100%)
-    catalog.forEach(item=>{
-      let val = item.is_new;
-      if(val ===_new ===== (akurat 100%)
-    catalog.forEach(item=>{
-      let val = item.is_new;
-      if(val === undefined) val = item.isNew;
-      if(val === undefined) undefined) val = item.isNew;
-      if(val === undefined) val = item.new;
-      if(val === undefined) val(val === undefined) val = item.isNew;
-      if(val === undefined) val = item.new;
-      if(val === undefined val = item.new;
-      if(val === undefined = item.isnew;
-      if(val === undefined) val = item.NEW;
-      if(val === undefined) val = item) val = item.isnew;
-      if(val === undefined) val = item.NEW;
-      if(val === undefined) val = item) val = item.isnew;
-      if(val === undefined) val = item.NEW;
-      if(val === undefined) val = item.Is_New;
-      // ubah jadi angka 1.Is_New;
-      // ubah jadi angka 1.Is_New;
-      // ubah jadi angka 1 jika truthy, selain itu 0
-      jika truthy, selain itu 0 jika truthy, selain itu 0
-      if(val === true || val === "true" || val === 1 || val === "1" || val === "yes if(val === true || val === "true" || val === 1 || val === "1" || val === "yes
-      if(val === true || val === "true" || val === 1 || val === "1" || val ===") item.is_new = ") item.is_new = 1;
-      else item.is_new = 0 "yes") item.is_new = 1;
-      else item.is_new =1;
-      else item.is_new = 0;
     });
-    if(catalog.length){
-      catalog.sort((a;
-    });
-    if(catalog.length){
-      catalog.sort((a 0;
-    });
-    if(catalog.length){
-      catalog.sort((a,b)=> (b.is_new||0) - (a.is_new||0) ); // baru di atas,b)=> (b.is_new||0) - (a.is_new||0) ); // baru di atas,b)=> (b.is_new||0) - (a.is_new||0) ); // baru di atas
+    if(hasNewItem){
+      // Simpan semua ID saat ini ke localStorage
+      const allIds=catalog.map(i=>String(i.id));
+      try{localStorage.setItem(SEEN_KEY,JSON.stringify(allIds));}catch(e){}
     }
-    renderHome(); updateStats();
-    }
-    renderHome(); updateStats(); updateBadges(); lbDone();
-   
-    }
-    renderHome(); updateStats(); updateBadges(); lbDone();
-    // Auto updateBadges(); lbDone();
-    // Auto hapus label baru setelah 5 menit // Auto hapus label baru setelah 5 menit hapus label baru setelah 5 menit tanpa refresh
-    setTimeout(()=>{
-      let changed=false;
-      catalog.forEach(i=>{ if(i.is_new tanpa refresh
-    setTimeout(()=>{
-      let changed=false;
-      catalog.forEach(i=>{ if(i.is_new tanpa refresh
-    setTimeout(()=>{
-      let changed=false;
-      catalog.forEach(i=>{ if(i.is_new===1){ i.is_new=0; changed=true; }===1){ i.is_new=0; changed=true;===1){ i.is_new=0; changed=true; } });
-      if(changed){ renderHome(); console.log('[INFO] Label });
-      if(changed){ renderHome(); console.log('[INFO] Label BARU dihapus otomatis setelah 5 menit'); } });
-      if(changed){ renderHome(); console.log('[INFO] Label BARU dihapus otomatis setelah 5 menit'); }
-    }, 5*60* BARU dihapus otomatis setelah 5 menit'); }
-    }, 5*60* }
-    }, 5*60*1000);
- 1000);
-  }1000);
-  } catch(e){ lbDone } catch(e){ lbDone(); showFatal('Gagal memuat katalog.', e.message||'Coba lagi.'); }
+  }
+  // Auto-hapus label BARU setelah 5 menit
+  setTimeout(()=>{
+    let changed=false;
+    catalog.forEach(i=>{if(i.is_new){i.is_new=0;changed=true;}});
+    if(changed){renderHome();}
+  },5*60*1000);
 }
-function showFatal(t,s){ $('#homeGrid').innerHTML=''; $('#homeEmpty').classList.add('show catch(e){ lbDone(); showFatal('Gagal memuat katalog.', e.message||'Coba lagi.'); }
+renderHome();updateStats();updateBadges();lbDone();
+  }catch(e){lbDone();showFatal('Gagal memuat katalog.',e.message||'Coba lagi.');}
 }
-function showFatal(t,s){ $('#homeGrid').innerHTML='(); showFatal('Gagal memuat katalog.', e.message||'Coba lagi.'); }
-}
-function showFatal(t,s){ $('#homeGrid'); $('#homeEmpty').querySelector('h3').textContent=t'; $('#homeEmpty').classList.add('show'); $('#homeEmpty').querySelector('h3').textContent=t; $('#homeEmptyMsg').').innerHTML=''; $('#homeEmpty').classList.add('show'); $('#homeEmpty').querySelector('h3').textContent=t; $('#homeEmptyMsg').; $('#homeEmptyMsg').textContent=s; $('#homeEmptyBtn').style.display='none';textContent=s; $('#homeEmptyBtn').style.display='none';textContent=s; $('#homeEmptyBtn').style.display='none'; }
-boot();
-</script>
-</body>
-</html>
-``` }
-boot();
-</script>
-</body>
-</html>
-``` }
+function showFatal(t,s){$('homeGrid').innerHTML='';$('homeEmpty').classList.add('show');$('homeEmpty').querySelector('h3').textContent=t;$('homeEmptyMsg').textContent=s;$('homeEmptyBtn').style.display='none';}
 boot();
 </script>
 </body>
