@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Drama China</title>
+<title>Katalog Drama</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 :root{
@@ -35,7 +35,19 @@ body.light{
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px;background:var(--bg);color:var(--t);overflow-x:hidden;padding-bottom:calc(var(--nav) + env(safe-area-inset-bottom));min-height:100dvh;transition:background .25s,color .25s}
 img{display:block;max-width:100%}
 button,input{font-family:inherit}
-#lbar{position:fixed;top:0;left:0;height:2px;width:0;z-index:9999;background:var(--p);transition:width .35s ease,opacity .3s}
+/* LOADING SPLASH */
+#lsplash{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;transition:opacity .35s,visibility .35s}
+#lsplash.hide{opacity:0;visibility:hidden;pointer-events:none}
+.ls-wrap{position:relative;width:100px;height:100px;display:flex;align-items:center;justify-content:center;margin-bottom:28px}
+.ls-arc{position:absolute;inset:0;border-radius:50%;border:2.5px solid transparent;border-top-color:var(--p2);animation:lsArc .9s cubic-bezier(.6,.2,.4,.8) infinite}
+.ls-arc2{position:absolute;inset:8px;border-radius:50%;border:2.5px solid transparent;border-top-color:var(--a);opacity:.7;animation:lsArc 1.3s cubic-bezier(.6,.2,.4,.8) infinite reverse}
+@keyframes lsArc{to{transform:rotate(360deg)}}
+.ls-logo{width:52px;height:52px;border-radius:15px;background:var(--p);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 0 rgba(124,58,237,.5);animation:lsPop 1.8s ease-in-out infinite}
+.ls-logo svg{width:22px;height:22px;fill:#fff}
+@keyframes lsPop{0%,100%{box-shadow:0 0 0 0 rgba(124,58,237,.4)}60%{box-shadow:0 0 0 10px rgba(124,58,237,0)}}
+.ls-name{font-size:15px;font-weight:700;color:var(--t);letter-spacing:-.2px;margin-bottom:6px}
+.ls-sub{font-size:11px;color:var(--t3);font-weight:500}
+#lbar{display:none}
 #toast{position:fixed;bottom:calc(var(--nav) + env(safe-area-inset-bottom) + 12px);left:50%;transform:translateX(-50%) translateY(16px);background:var(--card2);border:1px solid var(--border2);border-radius:8px;padding:8px 14px 8px 10px;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--t);white-space:nowrap;max-width:calc(100vw - 28px);box-shadow:0 4px 16px rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:9998}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .tico{width:18px;height:18px;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
@@ -290,6 +302,15 @@ button,input{font-family:inherit}
 <body>
 
 <div id="lbar"></div>
+<div id="lsplash">
+  <div class="ls-wrap">
+    <div class="ls-arc"></div>
+    <div class="ls-arc2"></div>
+    <div class="ls-logo"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+  </div>
+  <div class="ls-name" id="lsName">Katalog Drama</div>
+  <div class="ls-sub">Menyiapkan konten…</div>
+</div>
 <div id="toast"><div class="tico" id="tico"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div><span id="ttxt">—</span></div>
 
 <!-- DETAIL MODAL -->
@@ -322,7 +343,7 @@ button,input{font-family:inherit}
 <header class="hdr">
   <div class="hdr-l">
     <div class="logo"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-    <span class="app-name" id="appName">Cari Drama</span>
+    <span class="app-name" id="appName">Katalog Drama</span>
   </div>
   <div class="hdr-r">
     <div class="ico-btn" id="sortBtn"><svg viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z" fill="currentColor"/></svg></div>
@@ -492,9 +513,14 @@ applyTheme();
 const haptic=t=>{try{tg.HapticFeedback&&tg.HapticFeedback.impactOccurred(t==='h'?'heavy':'light');}catch(e){}};
 
 /* LOADING BAR */
-const lb=$('lbar');let _iv;
-function lbStart(){lb.style.width='0';lb.style.opacity='1';let w=0;_iv=setInterval(()=>{w=Math.min(w+Math.random()*13,84);lb.style.width=w+'%';},180);}
-function lbDone(){clearInterval(_iv);lb.style.width='100%';setTimeout(()=>{lb.style.opacity='0';lb.style.width='0';},380);}
+function lbStart(){
+  const s=$('lsplash');
+  if(s)s.classList.remove('hide');
+}
+function lbDone(){
+  const s=$('lsplash');
+  if(s){s.classList.add('hide');}
+}
 
 /* TOAST */
 let _tt;
@@ -853,33 +879,60 @@ async function boot(){
     }
     fetch(`https://api.telegram.org/bot${botToken}/getMe`).then(r=>r.json()).then(j=>{if(j.ok){botUsername=j.result.username;const bn=j.result.first_name;$('appName').textContent=bn;$('infoName').textContent=bn;$('iBotName').textContent=bn;$('iBotUser').textContent='@'+j.result.username;}}).catch(()=>{});
 if(catalog.length){
-  // Deteksi item baru via localStorage
-  // Simpan semua ID yang pernah dilihat user
-  const SEEN='xr_seen_ids';
-  let seen=[];
-  try{seen=JSON.parse(localStorage.getItem(SEEN)||'[]');}catch(e){seen=[];}
-  if(seen.length===0){
-    // Kunjungan pertama: simpan semua ID, tidak ada yang baru
-    try{localStorage.setItem(SEEN,JSON.stringify(catalog.map(i=>String(i.id))));}catch(e){}
-  }else{
-    // Kunjungan berikutnya: item yang belum ada di seen = BARU
-    let hasNew=false;
-    catalog.forEach(i=>{
-      if(!seen.includes(String(i.id))){i.is_new=1;hasNew=true;}
-      else{i.is_new=0;}
-    });
-    if(hasNew){
-      // Update seen dengan semua ID terbaru
-      try{localStorage.setItem(SEEN,JSON.stringify(catalog.map(i=>String(i.id))));}catch(e){}
-      // Auto-hapus label BARU setelah 5 menit
-      setTimeout(()=>{
-        catalog.forEach(i=>{i.is_new=0;});
-        renderHome();
-      },5*60*1000);
+  // Deteksi item baru per-akun via Telegram CloudStorage
+  // Fallback ke localStorage jika CloudStorage tidak tersedia
+  const SEEN_KEY='xr_seen_ids';
+  const allIds=catalog.map(i=>String(i.id));
+  const allIdsStr=allIds.join(',');
+
+  function applyNewLabels(seenStr){
+    // seenStr = string ID dipisah koma yang pernah dilihat user ini
+    if(!seenStr){
+      // Kunjungan pertama akun ini: simpan semua ID, tidak ada yang baru
+      saveSeenIds(allIdsStr);
+      catalog.forEach(i=>{i.is_new=0;});
+    }else{
+      const seen=seenStr.split(',');
+      let hasNew=false;
+      catalog.forEach(i=>{
+        if(!seen.includes(String(i.id))){i.is_new=1;hasNew=true;}
+        else{i.is_new=0;}
+      });
+      if(hasNew){
+        // Simpan ID terbaru
+        saveSeenIds(allIdsStr);
+        // Auto-hapus label BARU setelah 5 menit
+        setTimeout(()=>{
+          catalog.forEach(i=>{i.is_new=0;});
+          renderHome();
+        },5*60*1000);
+      }
     }
   }
+
+  function saveSeenIds(val){
+    // Simpan ke CloudStorage (per-akun) DAN localStorage (fallback)
+    try{
+      if(tg.CloudStorage&&tg.CloudStorage.setItem){
+        tg.CloudStorage.setItem(SEEN_KEY,val,()=>{});
+      }
+    }catch(e){}
+    try{localStorage.setItem(SEEN_KEY,val);}catch(e){}
+  }
+
+  // Baca dari CloudStorage (per-akun) — fallback localStorage
+  if(tg.CloudStorage&&tg.CloudStorage.getItem){
+    tg.CloudStorage.getItem(SEEN_KEY,(err,val)=>{
+      applyNewLabels((!err&&val)||localStorage.getItem(SEEN_KEY)||'');
+      renderHome();updateStats();updateBadges();lbDone();
+    });
+  }else{
+    applyNewLabels(localStorage.getItem(SEEN_KEY)||'');
+    renderHome();updateStats();updateBadges();lbDone();
+  }
+}else{
+  renderHome();updateStats();updateBadges();lbDone();
 }
-renderHome();updateStats();updateBadges();lbDone();
   }catch(e){lbDone();showFatal('Gagal memuat katalog.',e.message||'Coba lagi.');}
 }
 function showFatal(t,s){$('homeGrid').innerHTML='';$('homeEmpty').classList.add('show');$('homeEmpty').querySelector('h3').textContent=t;$('homeEmptyMsg').textContent=s;$('homeEmptyBtn').style.display='none';}
