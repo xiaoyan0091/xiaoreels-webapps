@@ -599,6 +599,18 @@ const HOFF="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.
 function save(){localStorage.setItem('fav4',JSON.stringify(favorites));localStorage.setItem('hist4',JSON.stringify(watchHist));localStorage.setItem('clicks4',JSON.stringify(clickCounts));}
 
 /* PLAY */
+function clearNewLabel(item){
+  if(!item.is_new)return;
+  item.is_new=0;
+  // Hapus semua .new-rib yang terkait item ini di DOM langsung
+  document.querySelectorAll('.new-rib').forEach(el=>{
+    if(el.closest('.card')&&el.closest('.card').querySelector('.ctitle')&&
+       el.closest('.card').querySelector('.ctitle').textContent===item.t){
+      el.remove();
+    }
+  });
+}
+
 function playItem(item){
   haptic('h');
   clickCounts[item.id]=(clickCounts[item.id]||0)+1;
@@ -620,6 +632,7 @@ function toggleFav(item){
 /* MODAL */
 function openModal(item){
   haptic('l');modalItem=item;
+  clearNewLabel(item);
   const isPrem=item.is_prem===1,isNew=item.is_new===1,isWatched=watchHist.includes(item.id),isFav=favorites.includes(item.id);
   $('mTitle').textContent=item.t;
   const b=$('mBadges');b.innerHTML='';
@@ -901,11 +914,7 @@ if(catalog.length){
       if(hasNew){
         // Simpan ID terbaru
         saveSeenIds(allIdsStr);
-        // Auto-hapus label BARU setelah 5 menit
-        setTimeout(()=>{
-          catalog.forEach(i=>{i.is_new=0;});
-          renderHome();
-        },5*60*1000);
+
       }
     }
   }
